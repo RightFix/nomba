@@ -1,6 +1,6 @@
 [project]
 name = "nomba-python"
-version = "0.1.0"
+version = "0.1.1"
 description = "Unofficial Python SDK for the Nomba payments API"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -20,6 +20,7 @@ classifiers = [
 dependencies = [
     "httpx>=0.28.1",
     "pytest>=8.4.2",
+    "twine>=6.2.0",
 ]
 
 [project.urls]
