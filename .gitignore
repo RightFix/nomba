@@ -12,3 +12,5 @@ wheels/
 
 # PyPI credentials
 .pypirc
+.gitignore
+.publish.sh.swp

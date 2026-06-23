@@ -1,5 +1,5 @@
 [project]
-name = "nomba"
+name = "nomba-python"
 version = "0.1.0"
 description = "Unofficial Python SDK for the Nomba payments API"
 readme = "README.md"
