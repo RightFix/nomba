@@ -7,9 +7,9 @@ Covers **every endpoint** in Nomba's official [OpenAPI spec](https://github.com/
 ## Install
 
 ```bash
-uv add nomba
+uv add nomba-python
 # or
-pip install nomba
+pip install nomba-python
 ```
 
 ## Usage
