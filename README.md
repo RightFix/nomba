@@ -2,7 +2,7 @@
 
 Unofficial Python SDK for the [Nomba](https://developer.nomba.com) payments API, built with [`uv`](https://docs.astral.sh/uv/) and [`httpx`](https://www.python-httpx.org/).
 
-Covers **every endpoint** in Nomba's official [OpenAPI spec](https://github.com/kudi-inc/vendor-openapi-spec) — 64 methods across 10 resource groups, generated directly from the spec so field names and required/optional parameters match Nomba's docs exactly.
+Covers **every endpoint** in Nomba's official [OpenAPI spec](https://developer.nomba.com/nomba-api-reference/openapi.json) — 86 methods across 14 resource groups, generated directly from the spec so field names and required/optional parameters match Nomba's docs exactly.
 
 ## Install
 
@@ -86,6 +86,10 @@ Each group is available on both `Nomba` and `AsyncNomba` (async methods are awai
 | `airtime_data`       | `make_airtime_purchases_via_parent_account`, `vend_data_bundles_via_parent_account`, `fetch_data_plans_available_on_a_telco_network_provider` |
 | `cabletv`            | `cabletv_lookup`, `cable_tv_subscription_via_parent_account` |
 | `electricity`        | `fetch_electricity_providers`, `electricity_customer_lookup`, `vend_electricity_via_parent_account` |
+| `betting`            | `fetch_betting_providers`, `name_lookup_for_betting`, `pay_for_betting_via_parent_account` |
+| `direct_debits`      | `create_direct_debit_mandate`, `debit_a_mandate`, `check_direct_debit_status`, `list_direct_debit_mandates` |
+| `global_collections` | `fetch_drc_inflow_providers`, `initiate_mobile_money_inflow`, `fetch_mobile_money_transaction` |
+| `global_payout`      | `fetch_exchange_rates`, `convert_money`, `authorize_transfer`, `authorize_exchange`, `fetch_transaction` |
 
 Every method's docstring lists its required and optional body fields straight from Nomba's schema — check `help(nomba.transfers.perform_bank_account_transfer_the_parent_account)` or your editor's signature hints.
 
@@ -269,7 +273,7 @@ for runtime nested-body validation). To pick up upstream API changes:
 
 ```bash
 curl -sL -o src/nomba/data/nomba_openapi.json \
-  "https://github.com/kudi-inc/vendor-openapi-spec/raw/refs/heads/main/openapi3_0_v_1_0_0.json"
+  "https://developer.nomba.com/nomba-api-reference/openapi.json"
 uv run python scripts/generate_resources.py
 ```
 
@@ -282,9 +286,10 @@ uv run python -m pytest   # once tests are added
 
 ## Status
 
-Generated from Nomba's official OpenAPI spec (v1.0.0) — all 64 documented
+Generated from Nomba's official OpenAPI spec (v1.0.0) — all 86 documented
 endpoints across Accounts, Virtual Accounts, Online Checkout, Charge,
-Transfers, Terminals, Transactions, Airtime/Data, CableTV, and Electricity.
+Transfers, Terminals, Transactions, Airtime/Data, CableTV, Electricity,
+Betting, Direct Debits, Global Collections, and Global Payout.
 
 Also includes: typed responses, cursor pagination helpers, a guided
 card-payment flow, locked/retrying HTTP clients, local nested-body

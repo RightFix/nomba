@@ -6,18 +6,26 @@ from .resources import (
     AirtimeData,
     AsyncAccounts,
     AsyncAirtimeData,
+    AsyncBetting,
     AsyncCableTv,
     AsyncCharge,
     AsyncCheckout,
+    AsyncDirectDebits,
     AsyncElectricity,
+    AsyncGlobalCollections,
+    AsyncGlobalPayout,
     AsyncTerminals,
     AsyncTransactions,
     AsyncTransfers,
     AsyncVirtualAccounts,
+    Betting,
     CableTv,
     Charge,
     Checkout,
+    DirectDebits,
     Electricity,
+    GlobalCollections,
+    GlobalPayout,
     Terminals,
     Transactions,
     Transfers,
@@ -48,7 +56,8 @@ class Nomba:
 
     Resource groups:
         accounts, virtual_accounts, checkout, charge, transfers,
-        terminals, transactions, airtime_data, cabletv, electricity
+        terminals, transactions, airtime_data, cabletv, electricity,
+        betting, direct_debits, global_collections, global_payout
     """
 
     def __init__(
@@ -77,6 +86,10 @@ class Nomba:
         self.airtime_data = AirtimeData(self.client)
         self.cabletv = CableTv(self.client)
         self.electricity = Electricity(self.client)
+        self.betting = Betting(self.client)
+        self.direct_debits = DirectDebits(self.client)
+        self.global_collections = GlobalCollections(self.client)
+        self.global_payout = GlobalPayout(self.client)
 
     def close(self) -> None:
         self.client.close()
@@ -143,6 +156,10 @@ class AsyncNomba:
         self.airtime_data = AsyncAirtimeData(self.client)
         self.cabletv = AsyncCableTv(self.client)
         self.electricity = AsyncElectricity(self.client)
+        self.betting = AsyncBetting(self.client)
+        self.direct_debits = AsyncDirectDebits(self.client)
+        self.global_collections = AsyncGlobalCollections(self.client)
+        self.global_payout = AsyncGlobalPayout(self.client)
 
     async def close(self) -> None:
         await self.client.close()

@@ -2,6 +2,7 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
+from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -37,7 +38,7 @@ class Charge:
             saveCard: if true, this this user cardn will be saved for the user's future use. Note the process is not complete until the user-card verification endpoints are called to authenticate the user's phone number.
             deviceInformation: 
         """
-        path = "/v1/checkout/checkout-card-detail"
+        path = f"/v1/checkout/checkout-card-detail"
         params = None
         body: dict[str, object] = {}
         if card_details is not None:
@@ -65,7 +66,7 @@ class Charge:
             orderReference (required): order reference
             transactionId (required): transaction id returend when the card details were submitted
         """
-        path = "/v1/checkout/checkout-card-otp"
+        path = f"/v1/checkout/checkout-card-otp"
         params = None
         body: dict[str, object] = {}
         body["otp"] = otp
@@ -84,7 +85,7 @@ class Charge:
         Body fields:
             orderReference (required): order reference
         """
-        path = "/v1/checkout/resend-otp"
+        path = f"/v1/checkout/resend-otp"
         params = None
         body: dict[str, object] = {}
         body["orderReference"] = order_reference
@@ -101,7 +102,7 @@ class Charge:
         Body fields:
             orderReference (required): order reference
         """
-        path = "/v1/checkout/confirm-transaction-receipt"
+        path = f"/v1/checkout/confirm-transaction-receipt"
         params = None
         body: dict[str, object] = {}
         body["orderReference"] = order_reference
@@ -113,7 +114,7 @@ class Charge:
         """
         Fetch checkout Flash account number for transfer payment
 
-        Use this endpoint to Get a flash account number which the customer cna use to make a transfer payment.
+        Use this endpoint to Get a flash account number which the customer can use to make a transfer payment.
         """
         path = f"/v1/checkout/get-checkout-kta/{order_reference}"
         params = None
@@ -129,7 +130,7 @@ class Charge:
             orderReference (required): order reference
             phoneNumber (required): customer's phone number
         """
-        path = "/v1/checkout/user-card/auth"
+        path = f"/v1/checkout/user-card/auth"
         params = None
         body: dict[str, object] = {}
         body["orderReference"] = order_reference
@@ -147,7 +148,7 @@ class Charge:
         Body fields:
             orderReference (required): order reference
         """
-        path = "/v1/checkout/user-card/saved-card/auth"
+        path = f"/v1/checkout/user-card/saved-card/auth"
         params = None
         body: dict[str, object] = {}
         body["orderReference"] = order_reference
@@ -166,7 +167,7 @@ class Charge:
             phoneNumber (required): customer's phone number
             otp (required): otp send to the customer's mobile phone
         """
-        path = "/v1/checkout/user-card"
+        path = f"/v1/checkout/user-card"
         params = None
         body: dict[str, object] = {}
         body["orderReference"] = order_reference
@@ -198,7 +199,7 @@ class Charge:
             transactionId (required): the transaction Id returned when the card details were submitted
             forceCancel (required): Force the cancelation of the transaction
         """
-        path = "/v1/checkout/transaction/cancel"
+        path = f"/v1/checkout/transaction/cancel"
         params = None
         body: dict[str, object] = {}
         body["transactionId"] = transaction_id
@@ -238,7 +239,7 @@ class AsyncCharge:
             saveCard: if true, this this user cardn will be saved for the user's future use. Note the process is not complete until the user-card verification endpoints are called to authenticate the user's phone number.
             deviceInformation: 
         """
-        path = "/v1/checkout/checkout-card-detail"
+        path = f"/v1/checkout/checkout-card-detail"
         params = None
         body: dict[str, object] = {}
         if card_details is not None:
@@ -266,7 +267,7 @@ class AsyncCharge:
             orderReference (required): order reference
             transactionId (required): transaction id returend when the card details were submitted
         """
-        path = "/v1/checkout/checkout-card-otp"
+        path = f"/v1/checkout/checkout-card-otp"
         params = None
         body: dict[str, object] = {}
         body["otp"] = otp
@@ -285,7 +286,7 @@ class AsyncCharge:
         Body fields:
             orderReference (required): order reference
         """
-        path = "/v1/checkout/resend-otp"
+        path = f"/v1/checkout/resend-otp"
         params = None
         body: dict[str, object] = {}
         body["orderReference"] = order_reference
@@ -302,7 +303,7 @@ class AsyncCharge:
         Body fields:
             orderReference (required): order reference
         """
-        path = "/v1/checkout/confirm-transaction-receipt"
+        path = f"/v1/checkout/confirm-transaction-receipt"
         params = None
         body: dict[str, object] = {}
         body["orderReference"] = order_reference
@@ -314,7 +315,7 @@ class AsyncCharge:
         """
         Fetch checkout Flash account number for transfer payment
 
-        Use this endpoint to Get a flash account number which the customer cna use to make a transfer payment.
+        Use this endpoint to Get a flash account number which the customer can use to make a transfer payment.
         """
         path = f"/v1/checkout/get-checkout-kta/{order_reference}"
         params = None
@@ -330,7 +331,7 @@ class AsyncCharge:
             orderReference (required): order reference
             phoneNumber (required): customer's phone number
         """
-        path = "/v1/checkout/user-card/auth"
+        path = f"/v1/checkout/user-card/auth"
         params = None
         body: dict[str, object] = {}
         body["orderReference"] = order_reference
@@ -348,7 +349,7 @@ class AsyncCharge:
         Body fields:
             orderReference (required): order reference
         """
-        path = "/v1/checkout/user-card/saved-card/auth"
+        path = f"/v1/checkout/user-card/saved-card/auth"
         params = None
         body: dict[str, object] = {}
         body["orderReference"] = order_reference
@@ -367,7 +368,7 @@ class AsyncCharge:
             phoneNumber (required): customer's phone number
             otp (required): otp send to the customer's mobile phone
         """
-        path = "/v1/checkout/user-card"
+        path = f"/v1/checkout/user-card"
         params = None
         body: dict[str, object] = {}
         body["orderReference"] = order_reference
@@ -399,7 +400,7 @@ class AsyncCharge:
             transactionId (required): the transaction Id returned when the card details were submitted
             forceCancel (required): Force the cancelation of the transaction
         """
-        path = "/v1/checkout/transaction/cancel"
+        path = f"/v1/checkout/transaction/cancel"
         params = None
         body: dict[str, object] = {}
         body["transactionId"] = transaction_id

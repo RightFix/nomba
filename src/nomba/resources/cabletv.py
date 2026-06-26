@@ -37,7 +37,7 @@ class CableTv:
 
         Body fields:
             cableTvType: 
-            merchantTxRef: 
+            merchantTxRef: This is an idempotency key and must be unique per transaction.
             payerName: 
             amount: 
             customerId: 
@@ -67,7 +67,7 @@ class CableTv:
 
         Body fields:
             cableTvType: 
-            merchantTxRef: 
+            merchantTxRef: This is an idempotency key and must be unique per transaction.
             payerName: 
             amount: 
             customerId: 
@@ -119,7 +119,7 @@ class AsyncCableTv:
 
         Body fields:
             cableTvType: 
-            merchantTxRef: 
+            merchantTxRef: This is an idempotency key and must be unique per transaction.
             payerName: 
             amount: 
             customerId: 
@@ -149,7 +149,7 @@ class AsyncCableTv:
 
         Body fields:
             cableTvType: 
-            merchantTxRef: 
+            merchantTxRef: This is an idempotency key and must be unique per transaction.
             payerName: 
             amount: 
             customerId: 

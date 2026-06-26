@@ -2,6 +2,7 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
+from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -14,7 +15,7 @@ class VirtualAccounts:
     def __init__(self, client: NombaClient) -> None:
         self._client = client
 
-    def create_virtual_account(self, account_ref, account_name, **extra: object) -> _models.CreateVirtualAccountResponse:
+    def create_virtual_account(self, account_ref, account_name, *, bvn: object | None = None, expiry_date: object | None = None, expected_amount: object | None = None, **extra: object) -> _models.CreateVirtualAccountResponse:
         """
         Create virtual account
 
@@ -23,14 +24,51 @@ class VirtualAccounts:
         Body fields:
             accountRef (required): Account reference
             accountName (required): Account holder's name
+            bvn: Account holder's BVN. Optional.
+            expiryDate: Account expiry date. Optional. ⚠️Be careful with this.
+            expectedAmount: Amount the account can receive. Optional.
         """
-        path = "/v1/accounts/virtual"
+        path = f"/v1/accounts/virtual"
         params = None
         body: dict[str, object] = {}
         body["accountRef"] = account_ref
         body["accountName"] = account_name
+        if bvn is not None:
+            body["bvn"] = bvn
+        if expiry_date is not None:
+            body["expiryDate"] = expiry_date
+        if expected_amount is not None:
+            body["expectedAmount"] = expected_amount
         body.update(extra)
         validate_body("post", "/v1/accounts/virtual", body)
+        return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
+
+    def create_virtual_account_for_a_sub_account(self, sub_account_id: str, account_ref, account_name, *, bvn: object | None = None, expiry_date: object | None = None, expected_amount: object | None = None, **extra: object) -> _models.CreateVirtualAccountForASubAccountResponse:
+        """
+        Create virtual account for a sub account
+
+        You can use this endpoint to create a virtual account to receive payments for a sub account. Funds sent to the virtual account is collected in the sub account specified
+
+        Body fields:
+            accountRef (required): Account reference
+            accountName (required): Account holder's name
+            bvn: Account holder's BVN. Optional.
+            expiryDate: Account expiry date. Optional. ⚠️Be careful with this.
+            expectedAmount: Amount the account can receive. Optional.
+        """
+        path = f"/v1/accounts/virtual/{sub_account_id}"
+        params = None
+        body: dict[str, object] = {}
+        body["accountRef"] = account_ref
+        body["accountName"] = account_name
+        if bvn is not None:
+            body["bvn"] = bvn
+        if expiry_date is not None:
+            body["expiryDate"] = expiry_date
+        if expected_amount is not None:
+            body["expectedAmount"] = expected_amount
+        body.update(extra)
+        validate_body("post", "/v1/accounts/virtual/{subAccountId}", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
     def filter_virtual_accounts(self, *, limit: str | None = None, cursor: str | None = None, account_name: object | None = None, account_ref: object | None = None, bvn: object | None = None, bank_account_number: object | None = None, date_created_from: object | None = None, date_created_to: object | None = None, expired: object | None = None, resource_acquired: object | None = None, **extra: object) -> _models.FilterVirtualAccountsResponse:
@@ -49,7 +87,7 @@ class VirtualAccounts:
             expired: Whether the virtual account is expired or not
             resourceAcquired: Whether the virtual account is in use or not
         """
-        path = "/v1/accounts/virtual/list"
+        path = f"/v1/accounts/virtual/list"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -76,44 +114,50 @@ class VirtualAccounts:
         validate_body("post", "/v1/accounts/virtual/list", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    def update_a_virtual_account(self, account_ref: str, *, account_name: object | None = None, callback_url: object | None = None, **extra: object) -> _models.UpdateAVirtualAccountResponse:
+    def update_a_virtual_account(self, identifier: str, *, new_account_ref: object | None = None, account_name: object | None = None, callback_url: object | None = None, expected_amount: object | None = None, **extra: object) -> _models.UpdateAVirtualAccountResponse:
         """
         Update a virtual account
 
         You can use this endpoint to update a virtual account.
 
         Body fields:
-            accountName: Account holder's name
-            callbackUrl: Callback url
+            newAccountRef: The new accountReference you want to issue to the Virtual account. This will be the value advised in webhook post update
+            accountName: Account holder's name you want to update to
+            callbackUrl: Callback url you want to update to
+            expectedAmount: If passed, the virtual account will only accept payments for this amount. Be careful as once being set this Virtual account can never take any amount again, thou you can always update the expected amount
         """
-        path = f"/v1/accounts/virtual/{account_ref}"
+        path = f"/v1/accounts/virtual/{identifier}"
         params = None
         body: dict[str, object] = {}
+        if new_account_ref is not None:
+            body["newAccountRef"] = new_account_ref
         if account_name is not None:
             body["accountName"] = account_name
         if callback_url is not None:
             body["callbackUrl"] = callback_url
+        if expected_amount is not None:
+            body["expectedAmount"] = expected_amount
         body.update(extra)
-        validate_body("put", "/v1/accounts/virtual/{accountRef}", body)
+        validate_body("put", "/v1/accounts/virtual/{identifier}", body)
         return self._client.put(path, json=body, params=params)  # type: ignore[return-value]
 
-    def fetch_a_virtual_account(self, account_ref: str, **extra: object) -> _models.FetchAVirtualAccountResponse:
+    def fetch_a_virtual_account(self, identifier: str, **extra: object) -> _models.FetchAVirtualAccountResponse:
         """
         Fetch a virtual account
 
         You can use this endpoint to fetch a virtual account.
         """
-        path = f"/v1/accounts/virtual/{account_ref}"
+        path = f"/v1/accounts/virtual/{identifier}"
         params = None
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
-    def expire_a_virtual_account(self, account_ref: str, **extra: object) -> _models.ExpireAVirtualAccountResponse:
+    def expire_a_virtual_account(self, identifier: str, **extra: object) -> _models.ExpireAVirtualAccountResponse:
         """
         Expire a virtual account
 
         You can use this endpoint to expire a virtual account.
         """
-        path = f"/v1/accounts/virtual/{account_ref}"
+        path = f"/v1/accounts/virtual/{identifier}"
         params = None
         return self._client.delete(path, params=params)  # type: ignore[return-value]
 
@@ -125,7 +169,7 @@ class AsyncVirtualAccounts:
     def __init__(self, client: AsyncNombaClient) -> None:
         self._client = client
 
-    async def create_virtual_account(self, account_ref, account_name, **extra: object) -> _models.CreateVirtualAccountResponse:
+    async def create_virtual_account(self, account_ref, account_name, *, bvn: object | None = None, expiry_date: object | None = None, expected_amount: object | None = None, **extra: object) -> _models.CreateVirtualAccountResponse:
         """
         Create virtual account
 
@@ -134,14 +178,51 @@ class AsyncVirtualAccounts:
         Body fields:
             accountRef (required): Account reference
             accountName (required): Account holder's name
+            bvn: Account holder's BVN. Optional.
+            expiryDate: Account expiry date. Optional. ⚠️Be careful with this.
+            expectedAmount: Amount the account can receive. Optional.
         """
-        path = "/v1/accounts/virtual"
+        path = f"/v1/accounts/virtual"
         params = None
         body: dict[str, object] = {}
         body["accountRef"] = account_ref
         body["accountName"] = account_name
+        if bvn is not None:
+            body["bvn"] = bvn
+        if expiry_date is not None:
+            body["expiryDate"] = expiry_date
+        if expected_amount is not None:
+            body["expectedAmount"] = expected_amount
         body.update(extra)
         validate_body("post", "/v1/accounts/virtual", body)
+        return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
+
+    async def create_virtual_account_for_a_sub_account(self, sub_account_id: str, account_ref, account_name, *, bvn: object | None = None, expiry_date: object | None = None, expected_amount: object | None = None, **extra: object) -> _models.CreateVirtualAccountForASubAccountResponse:
+        """
+        Create virtual account for a sub account
+
+        You can use this endpoint to create a virtual account to receive payments for a sub account. Funds sent to the virtual account is collected in the sub account specified
+
+        Body fields:
+            accountRef (required): Account reference
+            accountName (required): Account holder's name
+            bvn: Account holder's BVN. Optional.
+            expiryDate: Account expiry date. Optional. ⚠️Be careful with this.
+            expectedAmount: Amount the account can receive. Optional.
+        """
+        path = f"/v1/accounts/virtual/{sub_account_id}"
+        params = None
+        body: dict[str, object] = {}
+        body["accountRef"] = account_ref
+        body["accountName"] = account_name
+        if bvn is not None:
+            body["bvn"] = bvn
+        if expiry_date is not None:
+            body["expiryDate"] = expiry_date
+        if expected_amount is not None:
+            body["expectedAmount"] = expected_amount
+        body.update(extra)
+        validate_body("post", "/v1/accounts/virtual/{subAccountId}", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
     async def filter_virtual_accounts(self, *, limit: str | None = None, cursor: str | None = None, account_name: object | None = None, account_ref: object | None = None, bvn: object | None = None, bank_account_number: object | None = None, date_created_from: object | None = None, date_created_to: object | None = None, expired: object | None = None, resource_acquired: object | None = None, **extra: object) -> _models.FilterVirtualAccountsResponse:
@@ -160,7 +241,7 @@ class AsyncVirtualAccounts:
             expired: Whether the virtual account is expired or not
             resourceAcquired: Whether the virtual account is in use or not
         """
-        path = "/v1/accounts/virtual/list"
+        path = f"/v1/accounts/virtual/list"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -187,44 +268,50 @@ class AsyncVirtualAccounts:
         validate_body("post", "/v1/accounts/virtual/list", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    async def update_a_virtual_account(self, account_ref: str, *, account_name: object | None = None, callback_url: object | None = None, **extra: object) -> _models.UpdateAVirtualAccountResponse:
+    async def update_a_virtual_account(self, identifier: str, *, new_account_ref: object | None = None, account_name: object | None = None, callback_url: object | None = None, expected_amount: object | None = None, **extra: object) -> _models.UpdateAVirtualAccountResponse:
         """
         Update a virtual account
 
         You can use this endpoint to update a virtual account.
 
         Body fields:
-            accountName: Account holder's name
-            callbackUrl: Callback url
+            newAccountRef: The new accountReference you want to issue to the Virtual account. This will be the value advised in webhook post update
+            accountName: Account holder's name you want to update to
+            callbackUrl: Callback url you want to update to
+            expectedAmount: If passed, the virtual account will only accept payments for this amount. Be careful as once being set this Virtual account can never take any amount again, thou you can always update the expected amount
         """
-        path = f"/v1/accounts/virtual/{account_ref}"
+        path = f"/v1/accounts/virtual/{identifier}"
         params = None
         body: dict[str, object] = {}
+        if new_account_ref is not None:
+            body["newAccountRef"] = new_account_ref
         if account_name is not None:
             body["accountName"] = account_name
         if callback_url is not None:
             body["callbackUrl"] = callback_url
+        if expected_amount is not None:
+            body["expectedAmount"] = expected_amount
         body.update(extra)
-        validate_body("put", "/v1/accounts/virtual/{accountRef}", body)
+        validate_body("put", "/v1/accounts/virtual/{identifier}", body)
         return await self._client.put(path, json=body, params=params)  # type: ignore[return-value]
 
-    async def fetch_a_virtual_account(self, account_ref: str, **extra: object) -> _models.FetchAVirtualAccountResponse:
+    async def fetch_a_virtual_account(self, identifier: str, **extra: object) -> _models.FetchAVirtualAccountResponse:
         """
         Fetch a virtual account
 
         You can use this endpoint to fetch a virtual account.
         """
-        path = f"/v1/accounts/virtual/{account_ref}"
+        path = f"/v1/accounts/virtual/{identifier}"
         params = None
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
-    async def expire_a_virtual_account(self, account_ref: str, **extra: object) -> _models.ExpireAVirtualAccountResponse:
+    async def expire_a_virtual_account(self, identifier: str, **extra: object) -> _models.ExpireAVirtualAccountResponse:
         """
         Expire a virtual account
 
         You can use this endpoint to expire a virtual account.
         """
-        path = f"/v1/accounts/virtual/{account_ref}"
+        path = f"/v1/accounts/virtual/{identifier}"
         params = None
         return await self._client.delete(path, params=params)  # type: ignore[return-value]
 

@@ -115,6 +115,15 @@ class FetchTerminalsAssignedToTheParentAccountResponse(TypedDict, total=False):
     description: str
     data: FetchTerminalsAssignedToTheParentAccountData
 
+class FetchTerminalsAssignedToASubAccountData(TypedDict, total=False):
+    results: list[dict[str, Any]]
+    cursor: str
+
+class FetchTerminalsAssignedToASubAccountResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: FetchTerminalsAssignedToASubAccountData
+
 class UpdateAccessToAccountData(TypedDict, total=False):
     message: str
     data: dict[str, Any]
@@ -141,6 +150,24 @@ class CreateVirtualAccountResponse(TypedDict, total=False):
     code: str
     description: str
     data: CreateVirtualAccountData
+
+class CreateVirtualAccountForASubAccountData(TypedDict, total=False):
+    createdAt: str
+    accountHolderId: str
+    accountRef: str
+    bvn: str
+    accountName: str
+    bankName: str
+    bankAccountNumber: str
+    bankAccountName: str
+    currency: str
+    callbackUrl: str
+    expired: bool
+
+class CreateVirtualAccountForASubAccountResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: CreateVirtualAccountForASubAccountData
 
 class FilterVirtualAccountsData(TypedDict, total=False):
     results: list[dict[str, Any]]
@@ -243,6 +270,15 @@ class FetchACheckoutTransactionResponse(TypedDict, total=False):
     code: str
     description: str
     data: FetchACheckoutTransactionData
+
+class RefundCheckoutTransactionData(TypedDict, total=False):
+    success: bool
+    message: str
+
+class RefundCheckoutTransactionResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: RefundCheckoutTransactionData
 
 class FetchCheckoutOrderDetailsData(TypedDict, total=False):
     order: dict[str, Any]
@@ -365,8 +401,12 @@ class PerformBankAccountLookupResponse(TypedDict, total=False):
     description: str
     data: PerformBankAccountLookupData
 
-class PerformBankAccountTransferTheParentAccountData(TypedDict, total=False):
-    amount: float
+class PerformBankAccountTransferFromTheParentAccountData(TypedDict, total=False):
+    amount: str
+    source: str
+    sourceUserId: str
+    customerBillerId: str
+    productId: str
     meta: dict[str, Any]
     fee: float
     timeCreated: str
@@ -374,13 +414,17 @@ class PerformBankAccountTransferTheParentAccountData(TypedDict, total=False):
     type: str
     status: str
 
-class PerformBankAccountTransferTheParentAccountResponse(TypedDict, total=False):
+class PerformBankAccountTransferFromTheParentAccountResponse(TypedDict, total=False):
     code: str
     description: str
-    data: PerformBankAccountTransferTheParentAccountData
+    data: PerformBankAccountTransferFromTheParentAccountData
 
 class PerformBankAccountTransferFromAccountData(TypedDict, total=False):
-    amount: float
+    amount: str
+    source: str
+    sourceUserId: str
+    customerBillerId: str
+    productId: str
     meta: dict[str, Any]
     fee: float
     timeCreated: str
@@ -481,6 +525,18 @@ class UnAssignATerminalFromTheParentAccountResponse(TypedDict, total=False):
     description: str
     data: UnAssignATerminalFromTheParentAccountData
 
+class SendPaymentRequestToTerminalData(TypedDict, total=False):
+    paymentId: str
+    status: str
+    amount: float
+    currency: str
+    createdAt: str
+
+class SendPaymentRequestToTerminalResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: SendPaymentRequestToTerminalData
+
 class FetchCreditDebitTransactionsOnASubAccountData(TypedDict, total=False):
     results: list[dict[str, Any]]
     cursor: str
@@ -508,14 +564,14 @@ class FetchTransactionsOnASubAccountResponse(TypedDict, total=False):
     description: str
     data: FetchTransactionsOnASubAccountData
 
-class FilterAccountTransactionsData(TypedDict, total=False):
+class FilterSubAccountTransactionsData(TypedDict, total=False):
     results: list[dict[str, Any]]
     cursor: str
 
-class FilterAccountTransactionsResponse(TypedDict, total=False):
+class FilterSubAccountTransactionsResponse(TypedDict, total=False):
     code: str
     description: str
-    data: FilterAccountTransactionsData
+    data: FilterSubAccountTransactionsData
 
 class FetchTransactionsOnTheParentAccountData(TypedDict, total=False):
     results: list[dict[str, Any]]
@@ -747,3 +803,232 @@ class VendElectricityViaASubAccountResponse(TypedDict, total=False):
     code: str
     description: str
     data: VendElectricityViaASubAccountData
+
+class FetchBettingProvidersResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: dict[str, Any]
+
+class BettingCustomerLookupResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: dict[str, Any]
+
+class VendBettingViaParentAccountData(TypedDict, total=False):
+    amount: float
+    timeCreated: str
+    type: str
+    meta: dict[str, Any]
+    status: str
+    id: str
+    fee: str
+
+class VendBettingViaParentAccountResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: VendBettingViaParentAccountData
+
+class VendBettingViaASubAccountData(TypedDict, total=False):
+    amount: float
+    timeCreated: str
+    type: str
+    meta: dict[str, Any]
+    status: str
+    id: str
+    fee: str
+
+class VendBettingViaASubAccountResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: VendBettingViaASubAccountData
+
+class GetMandatesByFiltersData(TypedDict, total=False):
+    items: dict[str, Any]
+    page: int
+    pageSize: int
+    totalItems: int
+    totalPages: int
+    hasMore: bool
+
+class GetMandatesByFiltersResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: GetMandatesByFiltersData
+
+class UpdateMandateStatusData(TypedDict, total=False):
+    mandateId: str
+    mandateStatus: str
+
+class UpdateMandateStatusResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: UpdateMandateStatusData
+
+class DebitAMandateData(TypedDict, total=False):
+    mandateId: str
+    status: str
+    amount: str
+    message: str
+
+class DebitAMandateResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: DebitAMandateData
+
+class GetMandateStatusData(TypedDict, total=False):
+    customerAccountName: str
+    mandateId: str
+    customerAccountNumber: str
+    mandateStatus: str
+    rejectionComment: str
+    mandateAdviceStatus: str
+
+class GetMandateStatusResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: GetMandateStatusData
+
+class GetMandateByIdData(TypedDict, total=False):
+    status: str
+    customerAccountNumber: str
+    customerAccountName: str
+    bankCode: str
+    amount: float
+    customerName: str
+    customerAddress: str
+    customerEmail: str
+    customerPhoneNumber: str
+    merchantReference: str
+    frequency: str
+    startDate: list[int]
+    endDate: list[int]
+    mandateAdviceStatus: str
+    mandateId: str
+
+class GetMandateByIdResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: GetMandateByIdData
+
+class CreateADirectDebitMandateResponse(TypedDict, total=False):
+    responseMessage: str
+    responseCode: str
+    data: dict[str, Any]
+
+class AuthorizeTransferData(TypedDict, total=False):
+    wtTransactionId: str
+    coreTransactionId: str
+    status: str
+    coreStatus: str
+    type: str
+    prettyStatus: str
+    meta: dict[str, Any]
+
+class AuthorizeTransferResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: AuthorizeTransferData
+
+class AuthorizeExchangeData(TypedDict, total=False):
+    wtTransactionId: str
+    coreTransactionId: str
+    status: str
+    coreStatus: str
+    type: str
+
+class AuthorizeExchangeResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: AuthorizeExchangeData
+
+class ConvertMoneyData(TypedDict, total=False):
+    fromAmount: float
+    fromCurrency: str
+    fromFormatted: str
+    toAmount: float
+    toCurrency: str
+    toFormatted: str
+    spreadAmount: float
+    spreadCurrency: str
+    exchangeRateId: str
+    currencyPairName: str
+    feeAmount: float
+    feeCurrency: str
+
+class ConvertMoneyResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: ConvertMoneyData
+
+class FetchExchangeRatesData(TypedDict, total=False):
+    rates: list[dict[str, Any]]
+
+class FetchExchangeRatesResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: FetchExchangeRatesData
+
+class FetchGlobalPayoutTransactionData(TypedDict, total=False):
+    transactionId: str
+    status: str
+    coreStatus: str
+    type: str
+    createdAt: str
+
+class FetchGlobalPayoutTransactionResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: FetchGlobalPayoutTransactionData
+
+class FetchPaymentMethodsResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: dict[str, Any]
+
+class ListInstitutionProvidersResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: dict[str, Any]
+
+class InitiateMobileMoneyInflowData(TypedDict, total=False):
+    transactionReference: str
+    status: str
+    message: str
+    idempotencyKey: str
+
+class InitiateMobileMoneyInflowResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: InitiateMobileMoneyInflowData
+
+class FetchCollectionTransactionData(TypedDict, total=False):
+    transactionId: str
+    coreUserId: str
+    account: str
+    status: str
+    amount: float
+    currency: str
+
+class FetchCollectionTransactionResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: FetchCollectionTransactionData
+
+class CancelCheckoutOrderData(TypedDict, total=False):
+    success: bool
+    message: str
+
+class CancelCheckoutOrderResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: CancelCheckoutOrderData
+
+class FetchDrcInflowProvidersResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: dict[str, Any]
+
+class FetchDrcInflowProvidersSandboxResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: dict[str, Any]

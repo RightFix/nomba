@@ -2,6 +2,7 @@
 Generates nomba/resources/*.py (sync + async) for every endpoint in the
 official Nomba OpenAPI spec. Run once at dev time; output is committed.
 """
+
 from __future__ import annotations
 
 import json
@@ -20,6 +21,10 @@ TAG_TO_MODULE = {
     "Airtime and Data Vending": "airtime_data",
     "CableTV Subscription": "cabletv",
     "Electricity Vending": "electricity",
+    "Direct Debits": "direct_debits",
+    "Global Collections": "global_collections",
+    "Global Payout": "global_payout",
+    "Betting Vending": "betting",
 }
 TAG_TO_CLASS = {
     "Accounts": "Accounts",
@@ -32,6 +37,10 @@ TAG_TO_CLASS = {
     "Airtime and Data Vending": "AirtimeData",
     "CableTV Subscription": "CableTv",
     "Electricity Vending": "Electricity",
+    "Direct Debits": "DirectDebits",
+    "Global Collections": "GlobalCollections",
+    "Global Payout": "GlobalPayout",
+    "Betting Vending": "Betting",
 }
 
 PY_KEYWORDS = {"in", "type", "from", "import", "class", "return", "global", "is"}
@@ -66,8 +75,22 @@ def safe_param_name(name: str) -> str:
     return s
 
 
+def infer_tag_from_path(path: str) -> str | None:
+    if "/global-payout" in path:
+        return "Global Payout"
+    if "/global-collection" in path:
+        return "Global Collections"
+    if "/direct-debit" in path:
+        return "Direct Debits"
+    if "/betting" in path:
+        return "Betting Vending"
+    return None
+
+
 def build_operation(spec, path, verb, op):
     tag = op.get("tags", [None])[0]
+    if tag is None:
+        tag = infer_tag_from_path(path)
     module = TAG_TO_MODULE.get(tag)
     if module is None:
         return None
@@ -97,7 +120,8 @@ def build_operation(spec, path, verb, op):
     request_body = op.get("requestBody")
     if request_body:
         schema = resolve_schema(
-            spec, request_body.get("content", {}).get("application/json", {}).get("schema")
+            spec,
+            request_body.get("content", {}).get("application/json", {}).get("schema"),
         )
         if schema and schema.get("type") == "object":
             props = schema.get("properties", {})
@@ -146,7 +170,9 @@ def render_signature(op, is_async: bool) -> str:
     kw_only = []
     for p in op["query_params"]:
         default = "" if p["required"] else " = None"
-        kw_only.append(f"{p['py_name']}: str{' | None' if not p['required'] else ''}{default}")
+        kw_only.append(
+            f"{p['py_name']}: str{' | None' if not p['required'] else ''}{default}"
+        )
     for name in op["body_optional"]:
         kw_only.append(f"{safe_param_name(name)}: object | None = None")
     if kw_only:
@@ -161,7 +187,9 @@ def render_method(op, is_async: bool) -> str:
     sig = render_signature(op, is_async)
     async_kw = "async " if is_async else ""
     await_kw = "await " if is_async else ""
-    return_type = f"_models.{op['model_class']}" if op["model_class"] else "dict[str, Any]"
+    return_type = (
+        f"_models.{op['model_class']}" if op["model_class"] else "dict[str, Any]"
+    )
     lines.append(f"    {async_kw}def {op['method_name']}({sig}) -> {return_type}:")
 
     doc_lines = []
@@ -207,11 +235,11 @@ def render_method(op, is_async: bool) -> str:
         lines.append("        body.update(extra)")
         lines.append(f'        validate_body("{op["verb"]}", "{op["path"]}", body)')
         lines.append(
-            f'        return {await_kw}self._client.{op["verb"]}(path, json=body, params=params)  # type: ignore[return-value]'
+            f"        return {await_kw}self._client.{op['verb']}(path, json=body, params=params)  # type: ignore[return-value]"
         )
     else:
         lines.append(
-            f'        return {await_kw}self._client.{op["verb"]}(path, params=params)  # type: ignore[return-value]'
+            f"        return {await_kw}self._client.{op['verb']}(path, params=params)  # type: ignore[return-value]"
         )
 
     return "\n".join(lines)
@@ -281,7 +309,9 @@ def build_response_model(spec, op_id, path, verb, op):
         data_props = (data_schema or {}).get("properties", {})
         if data_props:
             data_class = f"{base_name}Data"
-            data_lines = [f"class {data_class}(TypedDict, total=False):"] + field_lines(data_props)
+            data_lines = [f"class {data_class}(TypedDict, total=False):"] + field_lines(
+                data_props
+            )
             data_block = "\n".join(data_lines)
             lines = [data_block, "", f"class {class_name}(TypedDict, total=False):"]
             lines.append("    code: str")

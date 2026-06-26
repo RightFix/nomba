@@ -2,6 +2,7 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
+from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -38,7 +39,7 @@ class Transactions:
 
         You can use this endpoint to fetch credit/debit transactions on the parent account.
         """
-        path = "/v1/transactions/bank"
+        path = f"/v1/transactions/bank"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -68,11 +69,11 @@ class Transactions:
             params["dateTo"] = date_to
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
-    def filter_account_transactions(self, account_id: str, *, limit: str | None = None, cursor: str | None = None, date_from: str | None = None, date_to: str | None = None, transaction_ref: object | None = None, status: object | None = None, source: object | None = None, type_: object | None = None, terminal_id: object | None = None, rrn: object | None = None, merchant_tx_ref: object | None = None, order_reference: object | None = None, order_id: object | None = None, **extra: object) -> _models.FilterAccountTransactionsResponse:
+    def filter_sub_account_transactions(self, sub_account_id: str, *, limit: str | None = None, cursor: str | None = None, date_from: str | None = None, date_to: str | None = None, transaction_ref: object | None = None, status: object | None = None, source: object | None = None, type_: object | None = None, terminal_id: object | None = None, rrn: object | None = None, merchant_tx_ref: object | None = None, order_reference: object | None = None, order_id: object | None = None, **extra: object) -> _models.FilterSubAccountTransactionsResponse:
         """
-        Filter account transactions
+        Filter sub account transactions
 
-        You can use this endpoint to filter transactions on an account.
+        You can use this endpoint to filter transactions on a sub account.
 
         Body fields:
             transactionRef: Transaction ID/Reference
@@ -85,7 +86,7 @@ class Transactions:
             orderReference: Online checkout order reference
             orderId: Online checkout order id
         """
-        path = f"/v1/transactions/accounts/{account_id}"
+        path = f"/v1/transactions/accounts/{sub_account_id}"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -124,7 +125,7 @@ class Transactions:
 
         You can use this endpoint to fetch transactions on the parent account.
         """
-        path = "/v1/transactions/accounts"
+        path = f"/v1/transactions/accounts"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -153,7 +154,7 @@ class Transactions:
             orderReference: Online checkout order reference
             orderId: Online checkout order id
         """
-        path = "/v1/transactions/accounts"
+        path = f"/v1/transactions/accounts"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -210,7 +211,7 @@ class Transactions:
 
         You can use this endpoint to fetch a single transaction on the parent account.
         """
-        path = "/v1/transactions/accounts/single"
+        path = f"/v1/transactions/accounts/single"
         params: dict[str, object] = {}
         if transaction_ref is not None:
             params["transactionRef"] = transaction_ref
@@ -224,7 +225,7 @@ class Transactions:
 
     def confirm_a_transaction_s_status_by_session_id(self, session_id: str, **extra: object) -> _models.ConfirmATransactionSStatusBySessionIdResponse:
         """
-        Fetch a single transaction on the parent account
+        Confirm a transaction's status by sessionId
 
         This endpoint is for fetching (requerying) a transaction status.
         """
@@ -264,7 +265,7 @@ class AsyncTransactions:
 
         You can use this endpoint to fetch credit/debit transactions on the parent account.
         """
-        path = "/v1/transactions/bank"
+        path = f"/v1/transactions/bank"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -294,11 +295,11 @@ class AsyncTransactions:
             params["dateTo"] = date_to
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
-    async def filter_account_transactions(self, account_id: str, *, limit: str | None = None, cursor: str | None = None, date_from: str | None = None, date_to: str | None = None, transaction_ref: object | None = None, status: object | None = None, source: object | None = None, type_: object | None = None, terminal_id: object | None = None, rrn: object | None = None, merchant_tx_ref: object | None = None, order_reference: object | None = None, order_id: object | None = None, **extra: object) -> _models.FilterAccountTransactionsResponse:
+    async def filter_sub_account_transactions(self, sub_account_id: str, *, limit: str | None = None, cursor: str | None = None, date_from: str | None = None, date_to: str | None = None, transaction_ref: object | None = None, status: object | None = None, source: object | None = None, type_: object | None = None, terminal_id: object | None = None, rrn: object | None = None, merchant_tx_ref: object | None = None, order_reference: object | None = None, order_id: object | None = None, **extra: object) -> _models.FilterSubAccountTransactionsResponse:
         """
-        Filter account transactions
+        Filter sub account transactions
 
-        You can use this endpoint to filter transactions on an account.
+        You can use this endpoint to filter transactions on a sub account.
 
         Body fields:
             transactionRef: Transaction ID/Reference
@@ -311,7 +312,7 @@ class AsyncTransactions:
             orderReference: Online checkout order reference
             orderId: Online checkout order id
         """
-        path = f"/v1/transactions/accounts/{account_id}"
+        path = f"/v1/transactions/accounts/{sub_account_id}"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -350,7 +351,7 @@ class AsyncTransactions:
 
         You can use this endpoint to fetch transactions on the parent account.
         """
-        path = "/v1/transactions/accounts"
+        path = f"/v1/transactions/accounts"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -379,7 +380,7 @@ class AsyncTransactions:
             orderReference: Online checkout order reference
             orderId: Online checkout order id
         """
-        path = "/v1/transactions/accounts"
+        path = f"/v1/transactions/accounts"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -436,7 +437,7 @@ class AsyncTransactions:
 
         You can use this endpoint to fetch a single transaction on the parent account.
         """
-        path = "/v1/transactions/accounts/single"
+        path = f"/v1/transactions/accounts/single"
         params: dict[str, object] = {}
         if transaction_ref is not None:
             params["transactionRef"] = transaction_ref
@@ -450,7 +451,7 @@ class AsyncTransactions:
 
     async def confirm_a_transaction_s_status_by_session_id(self, session_id: str, **extra: object) -> _models.ConfirmATransactionSStatusBySessionIdResponse:
         """
-        Fetch a single transaction on the parent account
+        Confirm a transaction's status by sessionId
 
         This endpoint is for fetching (requerying) a transaction status.
         """

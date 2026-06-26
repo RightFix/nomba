@@ -2,6 +2,7 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
+from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -34,10 +35,12 @@ class AirtimeData:
             amount (required): The airtime amount to be purchased
             phoneNumber (required): Recipient phone number
             network (required): Recipient network (telco). It can also come as lowercased values e.g. glo, mtn etc.
-            merchantTxRef (required): Merchant Transaction Identifier reference (Unique to merchant)
+            merchantTxRef (required): Merchant Transaction Identifier reference (Unique to merchant) 
+ 
+ This is an idempotency key and must be unique per transaction.
             senderName: A name to describe the sender of the airtime
         """
-        path = "/v1/bill/topup"
+        path = f"/v1/bill/topup"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -60,7 +63,9 @@ class AirtimeData:
             amount (required): The airtime amount to be purchased
             phoneNumber (required): Recipient phone number
             network (required): Recipient network (telco). It can also come as lowercased values e.g. glo, mtn etc.
-            merchantTxRef (required): Merchant Transaction Identifier reference (Unique to merchant)
+            merchantTxRef (required): Merchant Transaction Identifier reference (Unique to merchant) 
+ 
+ This is an idempotency key and must be unique per transaction.
             senderName: A name to describe the sender of the airtime
         """
         path = f"/v1/bill/topup/{sub_account_id}"
@@ -89,7 +94,7 @@ class AirtimeData:
             merchantTxRef (required): Merchant Transaction Identifier reference (Unique to merchant)
             senderName: A name to describe the sender of the data
         """
-        path = "/v1/bill/data"
+        path = f"/v1/bill/data"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -156,10 +161,12 @@ class AsyncAirtimeData:
             amount (required): The airtime amount to be purchased
             phoneNumber (required): Recipient phone number
             network (required): Recipient network (telco). It can also come as lowercased values e.g. glo, mtn etc.
-            merchantTxRef (required): Merchant Transaction Identifier reference (Unique to merchant)
+            merchantTxRef (required): Merchant Transaction Identifier reference (Unique to merchant) 
+ 
+ This is an idempotency key and must be unique per transaction.
             senderName: A name to describe the sender of the airtime
         """
-        path = "/v1/bill/topup"
+        path = f"/v1/bill/topup"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -182,7 +189,9 @@ class AsyncAirtimeData:
             amount (required): The airtime amount to be purchased
             phoneNumber (required): Recipient phone number
             network (required): Recipient network (telco). It can also come as lowercased values e.g. glo, mtn etc.
-            merchantTxRef (required): Merchant Transaction Identifier reference (Unique to merchant)
+            merchantTxRef (required): Merchant Transaction Identifier reference (Unique to merchant) 
+ 
+ This is an idempotency key and must be unique per transaction.
             senderName: A name to describe the sender of the airtime
         """
         path = f"/v1/bill/topup/{sub_account_id}"
@@ -211,7 +220,7 @@ class AsyncAirtimeData:
             merchantTxRef (required): Merchant Transaction Identifier reference (Unique to merchant)
             senderName: A name to describe the sender of the data
         """
-        path = "/v1/bill/data"
+        path = f"/v1/bill/data"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
