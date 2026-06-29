@@ -2,8 +2,6 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
-from typing import Any
-
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
 from .. import models as _models
@@ -45,7 +43,7 @@ class Terminals:
             serialNumber (required): Serial number
             terminalLabel: Terminal label
         """
-        path = f"/v1/terminals/assign"
+        path = "/v1/terminals/assign"
         params = None
         body: dict[str, object] = {}
         body["serialNumber"] = serial_number
@@ -85,7 +83,7 @@ class Terminals:
             serialNumber (required): Serial number
             terminalLabel: Terminal label
         """
-        path = f"/v1/terminals/unassign"
+        path = "/v1/terminals/unassign"
         params = None
         body: dict[str, object] = {}
         body["serialNumber"] = serial_number
@@ -95,7 +93,7 @@ class Terminals:
         validate_body("post", "/v1/terminals/unassign", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    def send_payment_request_to_terminal(self, merchant_tx_ref, amount, currency, **extra: object) -> _models.SendPaymentRequestToTerminalResponse:
+    def send_payment_request_to_terminal(self, merchant_tx_ref, amount, currency,terminalId, **extra: object) -> _models.SendPaymentRequestToTerminalResponse:
         """
         Send payment request to terminal
 
@@ -154,7 +152,7 @@ class AsyncTerminals:
             serialNumber (required): Serial number
             terminalLabel: Terminal label
         """
-        path = f"/v1/terminals/assign"
+        path = "/v1/terminals/assign"
         params = None
         body: dict[str, object] = {}
         body["serialNumber"] = serial_number
@@ -194,7 +192,7 @@ class AsyncTerminals:
             serialNumber (required): Serial number
             terminalLabel: Terminal label
         """
-        path = f"/v1/terminals/unassign"
+        path = "/v1/terminals/unassign"
         params = None
         body: dict[str, object] = {}
         body["serialNumber"] = serial_number
@@ -204,7 +202,7 @@ class AsyncTerminals:
         validate_body("post", "/v1/terminals/unassign", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    async def send_payment_request_to_terminal(self, merchant_tx_ref, amount, currency, **extra: object) -> _models.SendPaymentRequestToTerminalResponse:
+    async def send_payment_request_to_terminal(self, merchant_tx_ref, amount, currency,terminalId, **extra: object) -> _models.SendPaymentRequestToTerminalResponse:
         """
         Send payment request to terminal
 

@@ -2,7 +2,6 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
-from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -21,7 +20,7 @@ class Electricity:
 
         You can use this endpoint to fetch electricity providers/discos
         """
-        path = f"/v1/bill/electricity/discos"
+        path = "/v1/bill/electricity/discos"
         params = None
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
@@ -31,7 +30,7 @@ class Electricity:
 
         This endpoint is for fetching customer information data from an electricity vending provider
         """
-        path = f"/v1/bill/electricity/lookup"
+        path = "/v1/bill/electricity/lookup"
         params: dict[str, object] = {}
         if disco is not None:
             params["disco"] = disco
@@ -53,7 +52,7 @@ class Electricity:
             customerId: 
             meterType: 
         """
-        path = f"/v1/bill/electricity"
+        path = "/v1/bill/electricity"
         params = None
         body: dict[str, object] = {}
         if disco is not None:
@@ -119,7 +118,7 @@ class AsyncElectricity:
 
         You can use this endpoint to fetch electricity providers/discos
         """
-        path = f"/v1/bill/electricity/discos"
+        path = "/v1/bill/electricity/discos"
         params = None
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
@@ -129,7 +128,7 @@ class AsyncElectricity:
 
         This endpoint is for fetching customer information data from an electricity vending provider
         """
-        path = f"/v1/bill/electricity/lookup"
+        path = "/v1/bill/electricity/lookup"
         params: dict[str, object] = {}
         if disco is not None:
             params["disco"] = disco
@@ -151,7 +150,7 @@ class AsyncElectricity:
             customerId: 
             meterType: 
         """
-        path = f"/v1/bill/electricity"
+        path = "/v1/bill/electricity"
         params = None
         body: dict[str, object] = {}
         if disco is not None:

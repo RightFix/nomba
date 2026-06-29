@@ -2,7 +2,6 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
-from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -39,7 +38,7 @@ class Transactions:
 
         You can use this endpoint to fetch credit/debit transactions on the parent account.
         """
-        path = f"/v1/transactions/bank"
+        path = "/v1/transactions/bank"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -125,7 +124,7 @@ class Transactions:
 
         You can use this endpoint to fetch transactions on the parent account.
         """
-        path = f"/v1/transactions/accounts"
+        path = "/v1/transactions/accounts"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -154,7 +153,7 @@ class Transactions:
             orderReference: Online checkout order reference
             orderId: Online checkout order id
         """
-        path = f"/v1/transactions/accounts"
+        path = "/v1/transactions/accounts"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -211,7 +210,7 @@ class Transactions:
 
         You can use this endpoint to fetch a single transaction on the parent account.
         """
-        path = f"/v1/transactions/accounts/single"
+        path = "/v1/transactions/accounts/single"
         params: dict[str, object] = {}
         if transaction_ref is not None:
             params["transactionRef"] = transaction_ref
@@ -265,7 +264,7 @@ class AsyncTransactions:
 
         You can use this endpoint to fetch credit/debit transactions on the parent account.
         """
-        path = f"/v1/transactions/bank"
+        path = "/v1/transactions/bank"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -351,7 +350,7 @@ class AsyncTransactions:
 
         You can use this endpoint to fetch transactions on the parent account.
         """
-        path = f"/v1/transactions/accounts"
+        path = "/v1/transactions/accounts"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -380,7 +379,7 @@ class AsyncTransactions:
             orderReference: Online checkout order reference
             orderId: Online checkout order id
         """
-        path = f"/v1/transactions/accounts"
+        path = "/v1/transactions/accounts"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -437,7 +436,7 @@ class AsyncTransactions:
 
         You can use this endpoint to fetch a single transaction on the parent account.
         """
-        path = f"/v1/transactions/accounts/single"
+        path = "/v1/transactions/accounts/single"
         params: dict[str, object] = {}
         if transaction_ref is not None:
             params["transactionRef"] = transaction_ref

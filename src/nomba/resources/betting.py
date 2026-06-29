@@ -2,7 +2,6 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
-from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -21,7 +20,7 @@ class Betting:
 
         You can use this endpoint to fetch betting providers
         """
-        path = f"/v1/bill/betting/providers"
+        path = "/v1/bill/betting/providers"
         params = None
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
@@ -31,7 +30,7 @@ class Betting:
 
         This endpoint is for fetching customer information data from a bet vending provider
         """
-        path = f"/v1/bill/betting/lookup"
+        path = "/v1/bill/betting/lookup"
         params: dict[str, object] = {}
         if provider_id is not None:
             params["providerId"] = provider_id
@@ -53,7 +52,7 @@ class Betting:
             amount: 
             customerId: 
         """
-        path = f"/v1/bill/betting"
+        path = "/v1/bill/betting"
         params = None
         body: dict[str, object] = {}
         if betting_provider is not None:
@@ -119,7 +118,7 @@ class AsyncBetting:
 
         You can use this endpoint to fetch betting providers
         """
-        path = f"/v1/bill/betting/providers"
+        path = "/v1/bill/betting/providers"
         params = None
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
@@ -129,7 +128,7 @@ class AsyncBetting:
 
         This endpoint is for fetching customer information data from a bet vending provider
         """
-        path = f"/v1/bill/betting/lookup"
+        path = "/v1/bill/betting/lookup"
         params: dict[str, object] = {}
         if provider_id is not None:
             params["providerId"] = provider_id
@@ -151,7 +150,7 @@ class AsyncBetting:
             amount: 
             customerId: 
         """
-        path = f"/v1/bill/betting"
+        path = "/v1/bill/betting"
         params = None
         body: dict[str, object] = {}
         if betting_provider is not None:

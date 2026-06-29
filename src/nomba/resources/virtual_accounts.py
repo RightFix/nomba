@@ -2,7 +2,6 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
-from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -28,7 +27,7 @@ class VirtualAccounts:
             expiryDate: Account expiry date. Optional. ⚠️Be careful with this.
             expectedAmount: Amount the account can receive. Optional.
         """
-        path = f"/v1/accounts/virtual"
+        path = "/v1/accounts/virtual"
         params = None
         body: dict[str, object] = {}
         body["accountRef"] = account_ref
@@ -87,7 +86,7 @@ class VirtualAccounts:
             expired: Whether the virtual account is expired or not
             resourceAcquired: Whether the virtual account is in use or not
         """
-        path = f"/v1/accounts/virtual/list"
+        path = "/v1/accounts/virtual/list"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -182,7 +181,7 @@ class AsyncVirtualAccounts:
             expiryDate: Account expiry date. Optional. ⚠️Be careful with this.
             expectedAmount: Amount the account can receive. Optional.
         """
-        path = f"/v1/accounts/virtual"
+        path = "/v1/accounts/virtual"
         params = None
         body: dict[str, object] = {}
         body["accountRef"] = account_ref
@@ -241,7 +240,7 @@ class AsyncVirtualAccounts:
             expired: Whether the virtual account is expired or not
             resourceAcquired: Whether the virtual account is in use or not
         """
-        path = f"/v1/accounts/virtual/list"
+        path = "/v1/accounts/virtual/list"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit

@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.1] - 2026-06-29
+
+### Added
+- Added warning when sandbox mode is enabled to inform users about disabled SSL verification
+
+### Changed
+- Updated token refresh timing (refresh 50 seconds before expiry instead of 60)
+- Cleaned up literal strings in resource modules (removed unnecessary f-string prefixes)
+
 ## [0.2.0] - 2026-06-26
 
 ### Added

@@ -2,7 +2,6 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
-from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -23,7 +22,7 @@ class Accounts:
 
         You can use this endpoints to fetch all the accounts tied to a business. Accounts are sorted by date, with the most recently-created account appearing first.
         """
-        path = f"/v1/accounts"
+        path = "/v1/accounts"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -61,7 +60,7 @@ class Accounts:
             callbackUrl: Callback url
             expiryDate: Expiry date
         """
-        path = f"/v1/accounts"
+        path = "/v1/accounts"
         params = None
         body: dict[str, object] = {}
         body["accountRef"] = account_ref
@@ -91,7 +90,7 @@ class Accounts:
 
         You can use this endpoint to get details of a sub account.
         """
-        path = f"/v1/accounts/sub-account-details"
+        path = "/v1/accounts/sub-account-details"
         params: dict[str, object] = {}
         if account_id is not None:
             params["accountId"] = account_id
@@ -107,7 +106,7 @@ class Accounts:
 
         You can use this endpoint to get details of the parent account.
         """
-        path = f"/v1/accounts/parent"
+        path = "/v1/accounts/parent"
         params = None
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
@@ -131,7 +130,7 @@ class Accounts:
 
         You can use this endpoint to get the balance of the parent account.
         """
-        path = f"/v1/accounts/balance"
+        path = "/v1/accounts/balance"
         params = None
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
@@ -208,7 +207,7 @@ class Accounts:
 
         You can use this endpoint to fetch terminals linked to the parent account.
         """
-        path = f"/v1/accounts/terminals"
+        path = "/v1/accounts/terminals"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -295,7 +294,7 @@ class AsyncAccounts:
 
         You can use this endpoints to fetch all the accounts tied to a business. Accounts are sorted by date, with the most recently-created account appearing first.
         """
-        path = f"/v1/accounts"
+        path = "/v1/accounts"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -333,7 +332,7 @@ class AsyncAccounts:
             callbackUrl: Callback url
             expiryDate: Expiry date
         """
-        path = f"/v1/accounts"
+        path = "/v1/accounts"
         params = None
         body: dict[str, object] = {}
         body["accountRef"] = account_ref
@@ -363,7 +362,7 @@ class AsyncAccounts:
 
         You can use this endpoint to get details of a sub account.
         """
-        path = f"/v1/accounts/sub-account-details"
+        path = "/v1/accounts/sub-account-details"
         params: dict[str, object] = {}
         if account_id is not None:
             params["accountId"] = account_id
@@ -379,7 +378,7 @@ class AsyncAccounts:
 
         You can use this endpoint to get details of the parent account.
         """
-        path = f"/v1/accounts/parent"
+        path = "/v1/accounts/parent"
         params = None
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
@@ -403,7 +402,7 @@ class AsyncAccounts:
 
         You can use this endpoint to get the balance of the parent account.
         """
-        path = f"/v1/accounts/balance"
+        path = "/v1/accounts/balance"
         params = None
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
@@ -480,7 +479,7 @@ class AsyncAccounts:
 
         You can use this endpoint to fetch terminals linked to the parent account.
         """
-        path = f"/v1/accounts/terminals"
+        path = "/v1/accounts/terminals"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit

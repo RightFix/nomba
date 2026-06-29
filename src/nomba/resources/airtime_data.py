@@ -2,7 +2,6 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
-from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -40,7 +39,7 @@ class AirtimeData:
  This is an idempotency key and must be unique per transaction.
             senderName: A name to describe the sender of the airtime
         """
-        path = f"/v1/bill/topup"
+        path = "/v1/bill/topup"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -94,7 +93,7 @@ class AirtimeData:
             merchantTxRef (required): Merchant Transaction Identifier reference (Unique to merchant)
             senderName: A name to describe the sender of the data
         """
-        path = f"/v1/bill/data"
+        path = "/v1/bill/data"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -166,7 +165,7 @@ class AsyncAirtimeData:
  This is an idempotency key and must be unique per transaction.
             senderName: A name to describe the sender of the airtime
         """
-        path = f"/v1/bill/topup"
+        path = "/v1/bill/topup"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -220,7 +219,7 @@ class AsyncAirtimeData:
             merchantTxRef (required): Merchant Transaction Identifier reference (Unique to merchant)
             senderName: A name to describe the sender of the data
         """
-        path = f"/v1/bill/data"
+        path = "/v1/bill/data"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount

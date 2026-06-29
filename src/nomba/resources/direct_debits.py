@@ -2,7 +2,6 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
-from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -28,7 +27,7 @@ class DirectDebits:
         """
         Get mandates by filters
         """
-        path = f"/v1/direct-debits/mandates"
+        path = "/v1/direct-debits/mandates"
         params: dict[str, object] = {}
         if page is not None:
             params["page"] = page
@@ -54,7 +53,7 @@ class DirectDebits:
             mandateId (required): Unique identifier of the mandate
             status (required): New status of the mandate
         """
-        path = f"/v1/direct-debits/update-status"
+        path = "/v1/direct-debits/update-status"
         params = None
         body: dict[str, object] = {}
         body["mandateId"] = mandate_id
@@ -75,7 +74,7 @@ class DirectDebits:
             mandateId (required): Unique identifier of the mandate to debit
             amount (required): Amount to be debited
         """
-        path = f"/v1/direct-debits/debit-mandate"
+        path = "/v1/direct-debits/debit-mandate"
         params = None
         body: dict[str, object] = {}
         body["mandateId"] = mandate_id
@@ -150,7 +149,7 @@ class DirectDebits:
             customerPhoneNumber:
             startImmediately:
         """
-        path = f"/v1/direct-debits"
+        path = "/v1/direct-debits"
         params = None
         body: dict[str, object] = {}
         body["customerAccountNumber"] = customer_account_number
@@ -195,7 +194,7 @@ class AsyncDirectDebits:
         """
         Get mandates by filters
         """
-        path = f"/v1/direct-debits/mandates"
+        path = "/v1/direct-debits/mandates"
         params: dict[str, object] = {}
         if page is not None:
             params["page"] = page
@@ -221,7 +220,7 @@ class AsyncDirectDebits:
             mandateId (required): Unique identifier of the mandate
             status (required): New status of the mandate
         """
-        path = f"/v1/direct-debits/update-status"
+        path = "/v1/direct-debits/update-status"
         params = None
         body: dict[str, object] = {}
         body["mandateId"] = mandate_id
@@ -242,7 +241,7 @@ class AsyncDirectDebits:
             mandateId (required): Unique identifier of the mandate to debit
             amount (required): Amount to be debited
         """
-        path = f"/v1/direct-debits/debit-mandate"
+        path = "/v1/direct-debits/debit-mandate"
         params = None
         body: dict[str, object] = {}
         body["mandateId"] = mandate_id
@@ -317,7 +316,7 @@ class AsyncDirectDebits:
             customerPhoneNumber:
             startImmediately:
         """
-        path = f"/v1/direct-debits"
+        path = "/v1/direct-debits"
         params = None
         body: dict[str, object] = {}
         body["customerAccountNumber"] = customer_account_number

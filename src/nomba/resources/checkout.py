@@ -2,7 +2,6 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
-from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -25,7 +24,7 @@ class Checkout:
             order (required): 
             tokenizeCard: Determines if the card used for payment is to be tokenized
         """
-        path = f"/v1/checkout/order"
+        path = "/v1/checkout/order"
         params = None
         body: dict[str, object] = {}
         body["order"] = order
@@ -45,7 +44,7 @@ class Checkout:
             tokenKey (required): the token key returned in the webhook
             order: 
         """
-        path = f"/v1/checkout/tokenized-card-payment"
+        path = "/v1/checkout/tokenized-card-payment"
         params = None
         body: dict[str, object] = {}
         body["tokenKey"] = token_key
@@ -61,7 +60,7 @@ class Checkout:
 
         Fetch list of merchant's tokenized cards
         """
-        path = f"/v1/checkout/tokenized-card-data"
+        path = "/v1/checkout/tokenized-card-data"
         params: dict[str, object] = {}
         if customer_email is not None:
             params["customerEmail"] = customer_email
@@ -84,7 +83,7 @@ class Checkout:
             currentEmailAddress (required): customer email currently associated with the key
             newEmailAddress (required): new email to replace the old one
         """
-        path = f"/v1/checkout/tokenized-card-data"
+        path = "/v1/checkout/tokenized-card-data"
         params = None
         body: dict[str, object] = {}
         body["tokenKey"] = token_key
@@ -103,7 +102,7 @@ class Checkout:
         Body fields:
             tokenKey (required): token key
         """
-        path = f"/v1/checkout/tokenized-card-data"
+        path = "/v1/checkout/tokenized-card-data"
         params = None
         body: dict[str, object] = {}
         body["tokenKey"] = token_key
@@ -115,7 +114,7 @@ class Checkout:
         """
         Fetch checkout transaction
         """
-        path = f"/v1/checkout/transaction"
+        path = "/v1/checkout/transaction"
         params: dict[str, object] = {}
         if id_type is not None:
             params["idType"] = id_type
@@ -135,7 +134,7 @@ class Checkout:
             accountNumber: The account number for the refund
             bankCode: The bank code for the refund
         """
-        path = f"/v1/checkout/refund"
+        path = "/v1/checkout/refund"
         params = None
         body: dict[str, object] = {}
         body["transactionId"] = transaction_id
@@ -158,7 +157,7 @@ class Checkout:
         Body fields:
             orderReference (required): The unique reference of the checkout order to cancel
         """
-        path = f"/v1/checkout/order/cancel"
+        path = "/v1/checkout/order/cancel"
         params = None
         body: dict[str, object] = {}
         body["orderReference"] = order_reference
@@ -184,7 +183,7 @@ class AsyncCheckout:
             order (required): 
             tokenizeCard: Determines if the card used for payment is to be tokenized
         """
-        path = f"/v1/checkout/order"
+        path = "/v1/checkout/order"
         params = None
         body: dict[str, object] = {}
         body["order"] = order
@@ -204,7 +203,7 @@ class AsyncCheckout:
             tokenKey (required): the token key returned in the webhook
             order: 
         """
-        path = f"/v1/checkout/tokenized-card-payment"
+        path = "/v1/checkout/tokenized-card-payment"
         params = None
         body: dict[str, object] = {}
         body["tokenKey"] = token_key
@@ -220,7 +219,7 @@ class AsyncCheckout:
 
         Fetch list of merchant's tokenized cards
         """
-        path = f"/v1/checkout/tokenized-card-data"
+        path = "/v1/checkout/tokenized-card-data"
         params: dict[str, object] = {}
         if customer_email is not None:
             params["customerEmail"] = customer_email
@@ -243,7 +242,7 @@ class AsyncCheckout:
             currentEmailAddress (required): customer email currently associated with the key
             newEmailAddress (required): new email to replace the old one
         """
-        path = f"/v1/checkout/tokenized-card-data"
+        path = "/v1/checkout/tokenized-card-data"
         params = None
         body: dict[str, object] = {}
         body["tokenKey"] = token_key
@@ -262,7 +261,7 @@ class AsyncCheckout:
         Body fields:
             tokenKey (required): token key
         """
-        path = f"/v1/checkout/tokenized-card-data"
+        path = "/v1/checkout/tokenized-card-data"
         params = None
         body: dict[str, object] = {}
         body["tokenKey"] = token_key
@@ -274,7 +273,7 @@ class AsyncCheckout:
         """
         Fetch checkout transaction
         """
-        path = f"/v1/checkout/transaction"
+        path = "/v1/checkout/transaction"
         params: dict[str, object] = {}
         if id_type is not None:
             params["idType"] = id_type
@@ -294,7 +293,7 @@ class AsyncCheckout:
             accountNumber: The account number for the refund
             bankCode: The bank code for the refund
         """
-        path = f"/v1/checkout/refund"
+        path = "/v1/checkout/refund"
         params = None
         body: dict[str, object] = {}
         body["transactionId"] = transaction_id
@@ -317,7 +316,7 @@ class AsyncCheckout:
         Body fields:
             orderReference (required): The unique reference of the checkout order to cancel
         """
-        path = f"/v1/checkout/order/cancel"
+        path = "/v1/checkout/order/cancel"
         params = None
         body: dict[str, object] = {}
         body["orderReference"] = order_reference

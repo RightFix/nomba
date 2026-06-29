@@ -69,7 +69,14 @@ class NombaClient:
         self._token_expires_at: float = 0.0
         self._token_lock = threading.Lock()
 
-        self._http = httpx.Client(base_url=self.base_url, timeout=timeout)
+        self._http = httpx.Client(base_url=self.base_url, timeout=timeout, verify= not sandbox)
+
+        if sandbox:
+            import warnings
+            warnings.warn(
+                "Sandbox mode enabled: SSL verification disabled. Do not use in production.",
+                UserWarning
+            )
 
     # -- auth -----------------------------------------------------------
 
@@ -89,7 +96,7 @@ class NombaClient:
             )
         except httpx.HTTPError as exc:
             raise NombaAuthError(f"Failed to reach Nomba auth endpoint: {exc}") from exc
-
+        
         if response.status_code >= 400:
             raise NombaAuthError(
                 "Failed to obtain access token",
@@ -106,10 +113,10 @@ class NombaClient:
                 response_body=body,
             )
 
-        expires_in = data.get("expires_in", 3600)
+        expires_in = data.get("expires_in", 3000)
         self._access_token = token
         # refresh a little early to avoid edge-of-expiry failures
-        self._token_expires_at = time.monotonic() + max(int(expires_in) - 60, 0)
+        self._token_expires_at = time.monotonic() + max(int(expires_in) - 50, 0)
 
     def _ensure_token(self) -> str:
         # fast path: token already valid, no lock needed
@@ -269,7 +276,14 @@ class AsyncNombaClient:
         self._token_expires_at: float = 0.0
         self._token_lock = asyncio.Lock()
 
-        self._http = httpx.AsyncClient(base_url=self.base_url, timeout=timeout)
+        self._http = httpx.AsyncClient(base_url=self.base_url, timeout=timeout, verify= not sandbox )
+
+        if sandbox:
+            import warnings
+            warnings.warn(
+                "Sandbox mode enabled: SSL verification disabled. Do not use in production.",
+                UserWarning
+            )
 
     # -- auth -----------------------------------------------------------
 
@@ -306,9 +320,9 @@ class AsyncNombaClient:
                 response_body=body,
             )
 
-        expires_in = data.get("expires_in", 3600)
+        expires_in = data.get("expires_in", 3000)
         self._access_token = token
-        self._token_expires_at = time.monotonic() + max(int(expires_in) - 60, 0)
+        self._token_expires_at = time.monotonic() + max(int(expires_in) - 50, 0)
 
     async def _ensure_token(self) -> str:
         if self._access_token is not None and time.monotonic() < self._token_expires_at:

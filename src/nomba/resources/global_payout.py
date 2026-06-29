@@ -2,7 +2,6 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
-from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -43,7 +42,7 @@ class GlobalPayout:
             bankZipCode: Bank ZIP code. Required for United States WIRE.
             beneficiary: Required for INTERAC; partially required for BANK (Canada).
         """
-        path = f"/v1/global-payout/transfer/authorize"
+        path = "/v1/global-payout/transfer/authorize"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -100,7 +99,7 @@ class GlobalPayout:
             narration: 
             lockedExchangeRateId: The exchangeRateId from a prior Fetch Exchange Rates call. When provided, the exchange is fulfilled at that exact rate.
         """
-        path = f"/v1/global-payout/exchange/authorize"
+        path = "/v1/global-payout/exchange/authorize"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -131,7 +130,7 @@ class GlobalPayout:
             transactionType (required): 
             sourceCountryIsoCode (required): 
         """
-        path = f"/v1/global-payout/money/convert"
+        path = "/v1/global-payout/money/convert"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -148,7 +147,7 @@ class GlobalPayout:
 
         Retrieve the latest exchange rates for a currency pair before initiating a transfer.
         """
-        path = f"/v1/global-payout/exchange-rates"
+        path = "/v1/global-payout/exchange-rates"
         params: dict[str, object] = {}
         if from_ is not None:
             params["from"] = from_
@@ -172,7 +171,7 @@ class GlobalPayout:
 
         Returns all supported payment methods and their method-specific requirements. Filter by code or name to retrieve a specific method.
         """
-        path = f"/v1/global-payout/payment-methods"
+        path = "/v1/global-payout/payment-methods"
         params: dict[str, object] = {}
         if code is not None:
             params["code"] = code
@@ -185,7 +184,7 @@ class GlobalPayout:
 
         Returns available bank, institution, or mobile money providers. Use isMobileMoney=false for bank/institution providers and isMobileMoney=true for mobile money providers. Use code as institutionCode and displayName as institutionName in Authorize Transfer.
         """
-        path = f"/v1/global-payout/bank/providers"
+        path = "/v1/global-payout/bank/providers"
         params: dict[str, object] = {}
         if is_mobile_money is not None:
             params["isMobileMoney"] = is_mobile_money
@@ -229,7 +228,7 @@ class AsyncGlobalPayout:
             bankZipCode: Bank ZIP code. Required for United States WIRE.
             beneficiary: Required for INTERAC; partially required for BANK (Canada).
         """
-        path = f"/v1/global-payout/transfer/authorize"
+        path = "/v1/global-payout/transfer/authorize"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -286,7 +285,7 @@ class AsyncGlobalPayout:
             narration: 
             lockedExchangeRateId: The exchangeRateId from a prior Fetch Exchange Rates call. When provided, the exchange is fulfilled at that exact rate.
         """
-        path = f"/v1/global-payout/exchange/authorize"
+        path = "/v1/global-payout/exchange/authorize"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -317,7 +316,7 @@ class AsyncGlobalPayout:
             transactionType (required): 
             sourceCountryIsoCode (required): 
         """
-        path = f"/v1/global-payout/money/convert"
+        path = "/v1/global-payout/money/convert"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -334,7 +333,7 @@ class AsyncGlobalPayout:
 
         Retrieve the latest exchange rates for a currency pair before initiating a transfer.
         """
-        path = f"/v1/global-payout/exchange-rates"
+        path = "/v1/global-payout/exchange-rates"
         params: dict[str, object] = {}
         if from_ is not None:
             params["from"] = from_
@@ -358,7 +357,7 @@ class AsyncGlobalPayout:
 
         Returns all supported payment methods and their method-specific requirements. Filter by code or name to retrieve a specific method.
         """
-        path = f"/v1/global-payout/payment-methods"
+        path = "/v1/global-payout/payment-methods"
         params: dict[str, object] = {}
         if code is not None:
             params["code"] = code
@@ -371,7 +370,7 @@ class AsyncGlobalPayout:
 
         Returns available bank, institution, or mobile money providers. Use isMobileMoney=false for bank/institution providers and isMobileMoney=true for mobile money providers. Use code as institutionCode and displayName as institutionName in Authorize Transfer.
         """
-        path = f"/v1/global-payout/bank/providers"
+        path = "/v1/global-payout/bank/providers"
         params: dict[str, object] = {}
         if is_mobile_money is not None:
             params["isMobileMoney"] = is_mobile_money
