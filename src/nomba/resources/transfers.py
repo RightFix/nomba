@@ -2,6 +2,7 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
+from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -20,7 +21,7 @@ class Transfers:
 
         You can use this endpoint to fetch all banks, their names and codes.
         """
-        path = "/v1/transfers/banks"
+        path = f"/v1/transfers/banks"
         params = None
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
@@ -34,7 +35,7 @@ class Transfers:
             accountNumber (required): The account number to be looked up.
             bankCode (required): The bankCode of the bank the account number belongs to. This can be obtained from a call to `/v1/transfers/banks` 
         """
-        path = "/v1/transfers/bank/lookup"
+        path = f"/v1/transfers/bank/lookup"
         params = None
         body: dict[str, object] = {}
         body["accountNumber"] = account_number
@@ -60,7 +61,7 @@ This is an idempotency key and must be unique per transaction.
             senderName: Sender name
             narration: The payment narration
         """
-        path = "/v2/transfers/bank"
+        path = f"/v2/transfers/bank"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -124,7 +125,7 @@ This is an idempotency key and must be unique per transaction.
 This is an idempotency key and must be unique per transaction.
             narration: The payment narration
         """
-        path = "/v2/transfers/wallet"
+        path = f"/v2/transfers/wallet"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -176,7 +177,7 @@ class AsyncTransfers:
 
         You can use this endpoint to fetch all banks, their names and codes.
         """
-        path = "/v1/transfers/banks"
+        path = f"/v1/transfers/banks"
         params = None
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
@@ -190,7 +191,7 @@ class AsyncTransfers:
             accountNumber (required): The account number to be looked up.
             bankCode (required): The bankCode of the bank the account number belongs to. This can be obtained from a call to `/v1/transfers/banks` 
         """
-        path = "/v1/transfers/bank/lookup"
+        path = f"/v1/transfers/bank/lookup"
         params = None
         body: dict[str, object] = {}
         body["accountNumber"] = account_number
@@ -216,7 +217,7 @@ This is an idempotency key and must be unique per transaction.
             senderName: Sender name
             narration: The payment narration
         """
-        path = "/v2/transfers/bank"
+        path = f"/v2/transfers/bank"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -280,7 +281,7 @@ This is an idempotency key and must be unique per transaction.
 This is an idempotency key and must be unique per transaction.
             narration: The payment narration
         """
-        path = "/v2/transfers/wallet"
+        path = f"/v2/transfers/wallet"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount

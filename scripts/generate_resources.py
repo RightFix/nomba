@@ -155,7 +155,11 @@ def build_operation(spec, path, verb, op):
 
 
 def py_path_expr(path, path_params):
-    expr = path
+    # Nomba's spec occasionally inlines query parameters into the path template
+    # (e.g. "/v1/direct-debits/status?mandateId={mandateId}"). Those belong in
+    # `params`, not the URL, so drop any `?...` suffix and only substitute real
+    # path parameters.
+    expr = path.split("?", 1)[0]
     for p in path_params:
         expr = expr.replace("{" + p["name"] + "}", "{" + p["py_name"] + "}")
     return expr

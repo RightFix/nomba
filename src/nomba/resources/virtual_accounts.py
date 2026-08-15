@@ -2,6 +2,7 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
+from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -27,7 +28,7 @@ class VirtualAccounts:
             expiryDate: Account expiry date. Optional. ⚠️Be careful with this.
             expectedAmount: Amount the account can receive. Optional.
         """
-        path = "/v1/accounts/virtual"
+        path = f"/v1/accounts/virtual"
         params = None
         body: dict[str, object] = {}
         body["accountRef"] = account_ref
@@ -86,7 +87,7 @@ class VirtualAccounts:
             expired: Whether the virtual account is expired or not
             resourceAcquired: Whether the virtual account is in use or not
         """
-        path = "/v1/accounts/virtual/list"
+        path = f"/v1/accounts/virtual/list"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -113,7 +114,7 @@ class VirtualAccounts:
         validate_body("post", "/v1/accounts/virtual/list", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    def update_a_virtual_account(self, identifier: str, *, new_account_ref: object | None = None, account_name: object | None = None, callback_url: object | None = None, expected_amount: object | None = None, **extra: object) -> _models.UpdateAVirtualAccountResponse:
+    def update_a_virtual_account(self, identifier: str, *, new_account_ref: object | None = None, account_name: object | None = None, expected_amount: object | None = None, **extra: object) -> _models.UpdateAVirtualAccountResponse:
         """
         Update a virtual account
 
@@ -122,8 +123,10 @@ class VirtualAccounts:
         Body fields:
             newAccountRef: The new accountReference you want to issue to the Virtual account. This will be the value advised in webhook post update
             accountName: Account holder's name you want to update to
-            callbackUrl: Callback url you want to update to
-            expectedAmount: If passed, the virtual account will only accept payments for this amount. Be careful as once being set this Virtual account can never take any amount again, thou you can always update the expected amount
+            expectedAmount: If provided, the virtual account will only accept payments that exactly match the specified amount.
+
+Once expectedAmount is set, the virtual account will no longer accept arbitrary payment amounts.
+You can, however, update the expectedAmount value at any time to change the accepted amount.
         """
         path = f"/v1/accounts/virtual/{identifier}"
         params = None
@@ -132,8 +135,6 @@ class VirtualAccounts:
             body["newAccountRef"] = new_account_ref
         if account_name is not None:
             body["accountName"] = account_name
-        if callback_url is not None:
-            body["callbackUrl"] = callback_url
         if expected_amount is not None:
             body["expectedAmount"] = expected_amount
         body.update(extra)
@@ -181,7 +182,7 @@ class AsyncVirtualAccounts:
             expiryDate: Account expiry date. Optional. ⚠️Be careful with this.
             expectedAmount: Amount the account can receive. Optional.
         """
-        path = "/v1/accounts/virtual"
+        path = f"/v1/accounts/virtual"
         params = None
         body: dict[str, object] = {}
         body["accountRef"] = account_ref
@@ -240,7 +241,7 @@ class AsyncVirtualAccounts:
             expired: Whether the virtual account is expired or not
             resourceAcquired: Whether the virtual account is in use or not
         """
-        path = "/v1/accounts/virtual/list"
+        path = f"/v1/accounts/virtual/list"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -267,7 +268,7 @@ class AsyncVirtualAccounts:
         validate_body("post", "/v1/accounts/virtual/list", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    async def update_a_virtual_account(self, identifier: str, *, new_account_ref: object | None = None, account_name: object | None = None, callback_url: object | None = None, expected_amount: object | None = None, **extra: object) -> _models.UpdateAVirtualAccountResponse:
+    async def update_a_virtual_account(self, identifier: str, *, new_account_ref: object | None = None, account_name: object | None = None, expected_amount: object | None = None, **extra: object) -> _models.UpdateAVirtualAccountResponse:
         """
         Update a virtual account
 
@@ -276,8 +277,10 @@ class AsyncVirtualAccounts:
         Body fields:
             newAccountRef: The new accountReference you want to issue to the Virtual account. This will be the value advised in webhook post update
             accountName: Account holder's name you want to update to
-            callbackUrl: Callback url you want to update to
-            expectedAmount: If passed, the virtual account will only accept payments for this amount. Be careful as once being set this Virtual account can never take any amount again, thou you can always update the expected amount
+            expectedAmount: If provided, the virtual account will only accept payments that exactly match the specified amount.
+
+Once expectedAmount is set, the virtual account will no longer accept arbitrary payment amounts.
+You can, however, update the expectedAmount value at any time to change the accepted amount.
         """
         path = f"/v1/accounts/virtual/{identifier}"
         params = None
@@ -286,8 +289,6 @@ class AsyncVirtualAccounts:
             body["newAccountRef"] = new_account_ref
         if account_name is not None:
             body["accountName"] = account_name
-        if callback_url is not None:
-            body["callbackUrl"] = callback_url
         if expected_amount is not None:
             body["expectedAmount"] = expected_amount
         body.update(extra)

@@ -2,7 +2,7 @@
 
 Unofficial Python SDK for the [Nomba](https://developer.nomba.com) payments API, built with [`uv`](https://docs.astral.sh/uv/) and [`httpx`](https://www.python-httpx.org/).
 
-Covers **every endpoint** in Nomba's official [OpenAPI spec](https://developer.nomba.com/nomba-api-reference/openapi.json) — 86 methods across 14 resource groups, generated directly from the spec so field names and required/optional parameters match Nomba's docs exactly.
+Covers **every endpoint** in Nomba's official [OpenAPI spec](https://developer.nomba.com/nomba-api-reference/openapi.json) — 94 methods across 14 resource groups, generated directly from the spec so field names and required/optional parameters match Nomba's docs exactly. (OAuth token issue/refresh/revoke are handled automatically by the client, so they're not exposed as resource methods.)
 
 ## Install
 
@@ -89,7 +89,7 @@ Each group is available on both `Nomba` and `AsyncNomba` (async methods are awai
 | `betting`            | `fetch_betting_providers`, `name_lookup_for_betting`, `pay_for_betting_via_parent_account` |
 | `direct_debits`      | `create_direct_debit_mandate`, `debit_a_mandate`, `check_direct_debit_status`, `list_direct_debit_mandates` |
 | `global_collections` | `fetch_drc_inflow_providers`, `initiate_mobile_money_inflow`, `fetch_mobile_money_transaction` |
-| `global_payout`      | `fetch_exchange_rates`, `convert_money`, `authorize_transfer`, `authorize_exchange`, `fetch_transaction` |
+| `global_payout`      | `fetch_exchange_rates`, `convert_money`, `authorize_transfer`, `authorize_exchange`, `fetch_transaction`, `fetch_global_payout_accounts`, `fetch_global_payout_account`, `fetch_global_payout_accounts_sandbox`, `fetch_global_payout_account_sandbox` |
 
 Every method's docstring lists its required and optional body fields straight from Nomba's schema — check `help(nomba.transfers.perform_bank_account_transfer_the_parent_account)` or your editor's signature hints.
 

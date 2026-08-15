@@ -6297,11 +6297,15 @@
                     },
                     "description": {
                       "type": "string",
-                      "example": "Success",
+                      "example": "SUCCESS",
                       "description": "Response description"
                     },
                     "data": {
-                      "$ref": "#/components/schemas/BanksListResults"
+                      "type": "array",
+                      "description": "List of all supported banks",
+                      "items": {
+                        "$ref": "#/components/schemas/Banks"
+                      }
                     }
                   },
                   "required": [
@@ -10347,6 +10351,13 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/DataVendingRequest"
+              },
+              "example": {
+                "productId": "mtn47",
+                "phoneNumber": "08055441122",
+                "network": "GLO",
+                "merchantTxRef": "3bvwhibh38220dsjakTwvb",
+                "senderName": "John Doe"
               }
             }
           },
@@ -10511,6 +10522,13 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/DataVendingRequest"
+              },
+              "example": {
+                "productId": "mtn47",
+                "phoneNumber": "08055441122",
+                "network": "GLO",
+                "merchantTxRef": "3bvwhibh38220dsjakTwvb",
+                "senderName": "John Doe"
               }
             }
           },
@@ -13238,7 +13256,6 @@
                   "receiverName",
                   "sourceCountryIsoCode",
                   "destinationCountryIsoCode",
-                  "authCode",
                   "paymentMethod",
                   "accountType"
                 ],
@@ -13266,11 +13283,6 @@
                   "destinationCountryIsoCode": {
                     "type": "string",
                     "example": "CD"
-                  },
-                  "authCode": {
-                    "type": "string",
-                    "format": "password",
-                    "example": "2580"
                   },
                   "paymentMethod": {
                     "type": "string",
@@ -13578,8 +13590,7 @@
                   "senderName",
                   "receiverName",
                   "sourceCountryIsoCode",
-                  "destinationCountryIsoCode",
-                  "authCode"
+                  "destinationCountryIsoCode"
                 ],
                 "properties": {
                   "amount": {
@@ -13609,11 +13620,6 @@
                   "destinationCountryIsoCode": {
                     "type": "string",
                     "example": "CD"
-                  },
-                  "authCode": {
-                    "type": "string",
-                    "format": "password",
-                    "example": "5555"
                   },
                   "narration": {
                     "type": "string",
@@ -13715,8 +13721,7 @@
                   "amount",
                   "currency",
                   "destinationCurrency",
-                  "transactionType",
-                  "sourceCountryIsoCode"
+                  "transactionType"
                 ],
                 "properties": {
                   "amount": {
@@ -13736,10 +13741,6 @@
                   "transactionType": {
                     "type": "string",
                     "example": "EXCHANGE"
-                  },
-                  "sourceCountryIsoCode": {
-                    "type": "string",
-                    "example": "NG"
                   }
                 }
               }
@@ -14255,6 +14256,488 @@
                             "type": "string",
                             "example": "Access Bank"
                           }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/global-payout/accounts": {
+      "get": {
+        "description": "Retrieve all of your currency wallets and their balances (e.g. CAD, USD) under your parent accountId. Use this to check a non-NGN balance instead of the NGN-only parent account endpoint.",
+        "operationId": "Fetch Global Payout Accounts",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Accounts retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Successful"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Legacy envelope flag. Global Payout endpoints leave it false even on success - read code instead, where 00 means success.",
+                      "example": false
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "accountId": {
+                            "type": "string",
+                            "description": "The wallet id. Pass this value to GET /v1/global-payout/accounts/{accountId} to fetch this account on its own.",
+                            "example": "66bc8c0e054dfe06b69a840a"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "CbG"
+                          },
+                          "currency": {
+                            "type": "string",
+                            "example": "CDF"
+                          },
+                          "balance": {
+                            "type": "number",
+                            "nullable": true,
+                            "description": "Everything the wallet holds, liens included. Null when the balance could not be read - see status.",
+                            "example": 2770399.5999999996
+                          },
+                          "availableBalance": {
+                            "type": "number",
+                            "nullable": true,
+                            "description": "The balance less anything held under lien: what can actually be paid out. Null when the balance could not be read - see status.",
+                            "example": 2770399.5999999996
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": ["ACTIVE", "UNAVAILABLE"],
+                            "description": "ACTIVE when the balances are good. UNAVAILABLE means you hold the account but its balance could not be read on this request, and both balance fields are null - the account still exists, so retry rather than treating it as closed.",
+                            "example": "ACTIVE"
+                          },
+                          "operationRegion": {
+                            "type": "string",
+                            "example": "CD"
+                          }
+                        }
+                      },
+                      "example": [
+                        {
+                          "accountId": "66bc8c0e054dfe06b69a840a",
+                          "name": "CbG",
+                          "currency": "CDF",
+                          "balance": 2770399.5999999996,
+                          "availableBalance": 2770399.5999999996,
+                          "status": "ACTIVE",
+                          "operationRegion": "CD"
+                        },
+                        {
+                          "accountId": "66bc8c0ec4973095742cb042",
+                          "name": "CbG",
+                          "currency": "USD",
+                          "balance": 148000.0,
+                          "availableBalance": 148000.0,
+                          "status": "ACTIVE",
+                          "operationRegion": "CD"
+                        },
+                        {
+                          "accountId": "69e0ec026c2db9fc97911281",
+                          "name": "CbG",
+                          "currency": "USDT",
+                          "balance": 0,
+                          "availableBalance": 0,
+                          "status": "ACTIVE",
+                          "operationRegion": "CD"
+                        },
+                        {
+                          "accountId": "69e0ec1223ebafe76aac5651",
+                          "name": "CbG",
+                          "currency": "USDC",
+                          "balance": 0,
+                          "availableBalance": 0,
+                          "status": "ACTIVE",
+                          "operationRegion": "CD"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/global-payout/accounts/{accountId}": {
+      "get": {
+        "description": "Retrieve the details and balance of a single Global Payout account by its account ID.",
+        "operationId": "Fetch Global Payout Account",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "description": "The wallet id, exactly as returned in the accountId field by GET /v1/global-payout/accounts. This is not a currency code - passing one returns 404.",
+            "schema": {
+              "type": "string",
+              "example": "66bc8c0e054dfe06b69a840a"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Successful"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Legacy envelope flag. Global Payout endpoints leave it false even on success - read code instead, where 00 means success.",
+                      "example": false
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accountId": {
+                          "type": "string",
+                          "description": "The wallet id. Pass this value to GET /v1/global-payout/accounts/{accountId} to fetch this account on its own.",
+                          "example": "66bc8c0e054dfe06b69a840a"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "CbG"
+                        },
+                        "currency": {
+                          "type": "string",
+                          "example": "CDF"
+                        },
+                        "balance": {
+                          "type": "number",
+                          "nullable": true,
+                          "description": "Everything the wallet holds, liens included. Null when the balance could not be read - see status.",
+                          "example": 2770399.5999999996
+                        },
+                        "availableBalance": {
+                          "type": "number",
+                          "nullable": true,
+                          "description": "The balance less anything held under lien: what can actually be paid out. Null when the balance could not be read - see status.",
+                          "example": 2770399.5999999996
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": ["ACTIVE", "UNAVAILABLE"],
+                          "description": "ACTIVE when the balances are good. UNAVAILABLE means you hold the account but its balance could not be read on this request, and both balance fields are null - the account still exists, so retry rather than treating it as closed.",
+                          "example": "ACTIVE"
+                        },
+                        "operationRegion": {
+                          "type": "string",
+                          "example": "CD"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No account with that id belongs to the authenticated business. Returned when the id is not one of your wallets - including when a currency code such as CAD is sent instead of a wallet id. It is not returned when the balance simply could not be read: that case comes back 200 with status UNAVAILABLE.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "404"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "No account found for 66bc8c0e054dfe06b69a840a"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sandbox/global-payout/accounts": {
+      "get": {
+        "description": "Sandbox version of Fetch Global Payout Accounts. Returns canned multi-currency account data for use in testing.",
+        "operationId": "Fetch Global Payout Accounts (Sandbox)",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Accounts retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Legacy envelope flag. Global Payout endpoints leave it false even on success - read code instead, where 00 means success.",
+                      "example": false
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "accountId": {
+                            "type": "string",
+                            "example": "sandbox-acc-cad-001"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Sandbox CAD Account"
+                          },
+                          "currency": {
+                            "type": "string",
+                            "example": "CAD"
+                          },
+                          "balance": {
+                            "type": "number",
+                            "nullable": true,
+                            "description": "Everything the wallet holds, liens included. Null when the balance could not be read - see status.",
+                            "example": 1250.5
+                          },
+                          "availableBalance": {
+                            "type": "number",
+                            "nullable": true,
+                            "description": "The balance less anything held under lien: what can actually be paid out. Null when the balance could not be read - see status.",
+                            "example": 1000.5
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": ["ACTIVE", "UNAVAILABLE"],
+                            "description": "ACTIVE when the balances are good. UNAVAILABLE means you hold the account but its balance could not be read on this request, and both balance fields are null.",
+                            "example": "ACTIVE"
+                          },
+                          "operationRegion": {
+                            "type": "string",
+                            "example": "GLOBAL"
+                          }
+                        }
+                      },
+                      "example": [
+                        {
+                          "accountId": "sandbox-acc-ngn-001",
+                          "name": "Sandbox Main Account",
+                          "currency": "NGN",
+                          "balance": 500000.00,
+                          "availableBalance": 500000.00,
+                          "status": "ACTIVE",
+                          "operationRegion": "NG"
+                        },
+                        {
+                          "accountId": "sandbox-acc-cad-001",
+                          "name": "Sandbox CAD Account",
+                          "currency": "CAD",
+                          "balance": 1250.50,
+                          "availableBalance": 1000.50,
+                          "status": "ACTIVE",
+                          "operationRegion": "GLOBAL"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sandbox/global-payout/accounts/{accountId}": {
+      "get": {
+        "description": "Sandbox version of Fetch Global Payout Account. Returns canned account details and balance for the given account ID, for use in testing.",
+        "operationId": "Fetch Global Payout Account (Sandbox)",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "description": "The wallet id, exactly as returned in the accountId field by GET /v1/sandbox/global-payout/accounts. Any value is accepted in sandbox and is echoed back in the response.",
+            "schema": {
+              "type": "string",
+              "example": "sandbox-acc-cad-001"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Legacy envelope flag. Global Payout endpoints leave it false even on success - read code instead, where 00 means success.",
+                      "example": false
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accountId": {
+                          "type": "string",
+                          "example": "sandbox-acc-cad-001"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Sandbox CAD Account"
+                        },
+                        "currency": {
+                          "type": "string",
+                          "example": "CAD"
+                        },
+                        "balance": {
+                          "type": "number",
+                          "nullable": true,
+                          "description": "Everything the wallet holds, liens included. Null when the balance could not be read - see status.",
+                          "example": 1250.5
+                        },
+                        "availableBalance": {
+                          "type": "number",
+                          "nullable": true,
+                          "description": "The balance less anything held under lien: what can actually be paid out. Null when the balance could not be read - see status.",
+                          "example": 1000.5
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": ["ACTIVE", "UNAVAILABLE"],
+                          "description": "ACTIVE when the balances are good. UNAVAILABLE means you hold the account but its balance could not be read on this request, and both balance fields are null.",
+                          "example": "ACTIVE"
+                        },
+                        "operationRegion": {
+                          "type": "string",
+                          "example": "GLOBAL"
                         }
                       }
                     }
@@ -14869,11 +15352,16 @@
       "DataVendingRequest": {
         "type": "object",
         "properties": {
+          "productId": {
+            "type": "string",
+            "description": "The unique identifier of the data plan to purchase — returned as `productId` by the Fetch Data Plans endpoint. Required for all new integrations: it resolves to an exact plan and amount, removing any ambiguity when multiple plans on the same network share the same price.",
+            "example": "mtn47"
+          },
           "amount": {
             "type": "number",
             "format": "double",
-            "description": "The data amount to be vended",
-            "example": 200
+            "description": "**Deprecated — do not use.** `amount` is a legacy-only field with no guarantee of correctness: multiple plans can share the same price, so it cannot reliably identify the bundle you want. Use `productId` — the only supported way to select a plan.",
+            "deprecated": true
           },
           "phoneNumber": {
             "type": "string",
@@ -14906,7 +15394,7 @@
           }
         },
         "required": [
-          "amount",
+          "productId",
           "phoneNumber",
           "network",
           "merchantTxRef"
@@ -14918,8 +15406,18 @@
           "amount": {
             "type": "number",
             "format": "double",
-            "description": "The airtime amount to be purchased",
+            "description": "The amount charged for this data purchase.",
             "example": 200
+          },
+          "productId": {
+            "type": "string",
+            "description": "The identifier of the data plan that was vended.",
+            "example": "mtn47"
+          },
+          "plan": {
+            "type": "string",
+            "description": "A human-readable description of the exact data bundle that was vended (size and validity).",
+            "example": "3.5GB Daily Plan"
           },
           "timeCreated": {
             "type": "string",
@@ -16206,19 +16704,18 @@
           "name": {
             "type": "string",
             "description": "The bank's name.",
-            "example": "Guaranty Trust Bank"
-          }
-        }
-      },
-      "BanksListResults": {
-        "type": "object",
-        "properties": {
-          "results": {
-            "type": "array",
-            "description": "Contains result of all banks fetched",
-            "items": {
-              "$ref": "#/components/schemas/Banks"
-            }
+            "example": "GTBank"
+          },
+          "nipCode": {
+            "type": "string",
+            "nullable": true,
+            "description": "The bank's NIP institution code. May be null.",
+            "example": null
+          },
+          "logo": {
+            "type": "string",
+            "description": "URL of the bank's logo image. An empty string when no logo is available.",
+            "example": "https://firebasestorage.googleapis.com/v0/b/business-banking-93cc1.appspot.com/o/bankLogos%2FGroup%209.png?alt=media&token=98bde9e8-1862-495d-9046-bd3d96465970"
           }
         }
       },
@@ -16610,15 +17107,9 @@
             "maxLength": 64,
             "example": "Daniel Scorsese"
           },
-          "callbackUrl": {
-            "type": "string",
-            "description": "Callback url you want to update to",
-            "format": "url",
-            "example": "https://webhook.site/98ef100f-5adc-4434-800a-0808h60bd8d7"
-          },
           "expectedAmount": {
             "type": "string",
-            "description": "If passed, the virtual account will only accept payments for this amount. Be careful as once being set this Virtual account can never take any amount again, thou you can always update the expected amount",
+            "description": "If provided, the virtual account will only accept payments that exactly match the specified amount.\n\nOnce expectedAmount is set, the virtual account will no longer accept arbitrary payment amounts.\nYou can, however, update the expectedAmount value at any time to change the accepted amount.",
             "example": "100.0"
           }
         }
@@ -17945,6 +18436,11 @@
           "plan": {
             "type": "string",
             "example": "40GB -> 30Days (N15,000)"
+          },
+          "productId": {
+            "type": "string",
+            "description": "The unique identifier for this data plan. Pass this value as `productId` when purchasing to select this exact bundle.",
+            "example": "mtn47"
           }
         }
       },

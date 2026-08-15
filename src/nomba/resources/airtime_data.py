@@ -2,6 +2,7 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
+from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -39,7 +40,7 @@ class AirtimeData:
  This is an idempotency key and must be unique per transaction.
             senderName: A name to describe the sender of the airtime
         """
-        path = "/v1/bill/topup"
+        path = f"/v1/bill/topup"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -80,52 +81,58 @@ class AirtimeData:
         validate_body("post", "/v1/bill/topup/{subAccountId}", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    def vend_data_bundles_via_parent_account(self, amount, phone_number, network, merchant_tx_ref, *, sender_name: object | None = None, **extra: object) -> _models.VendDataBundlesViaParentAccountResponse:
+    def vend_data_bundles_via_parent_account(self, product_id, phone_number, network, merchant_tx_ref, *, amount: object | None = None, sender_name: object | None = None, **extra: object) -> _models.VendDataBundlesViaParentAccountResponse:
         """
         Vend data bundles via parent account
 
         You can use this endpoint to vend data via parent account
 
         Body fields:
-            amount (required): The data amount to be vended
+            productId (required): The unique identifier of the data plan to purchase — returned as `productId` by the Fetch Data Plans endpoint. Required for all new integrations: it resolves to an exact plan and amount, removing any ambiguity when multiple plans on the same network share the same price.
             phoneNumber (required): Recipient phone number
             network (required): Recipient network (telco). It can also come as lowercased values e.g. glo, mtn etc.
             merchantTxRef (required): Merchant Transaction Identifier reference (Unique to merchant)
+            amount: **Deprecated — do not use.** `amount` is a legacy-only field with no guarantee of correctness: multiple plans can share the same price, so it cannot reliably identify the bundle you want. Use `productId` — the only supported way to select a plan.
             senderName: A name to describe the sender of the data
         """
-        path = "/v1/bill/data"
+        path = f"/v1/bill/data"
         params = None
         body: dict[str, object] = {}
-        body["amount"] = amount
+        body["productId"] = product_id
         body["phoneNumber"] = phone_number
         body["network"] = network
         body["merchantTxRef"] = merchant_tx_ref
+        if amount is not None:
+            body["amount"] = amount
         if sender_name is not None:
             body["senderName"] = sender_name
         body.update(extra)
         validate_body("post", "/v1/bill/data", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    def vend_data_bundles_via_specific_or_sub_account(self, sub_account_id: str, amount, phone_number, network, merchant_tx_ref, *, sender_name: object | None = None, **extra: object) -> _models.VendDataBundlesViaSpecificOrSubAccountResponse:
+    def vend_data_bundles_via_specific_or_sub_account(self, sub_account_id: str, product_id, phone_number, network, merchant_tx_ref, *, amount: object | None = None, sender_name: object | None = None, **extra: object) -> _models.VendDataBundlesViaSpecificOrSubAccountResponse:
         """
         Vend data bundles via a sub account
 
         You can use this endpoint to vend data via a sub account
 
         Body fields:
-            amount (required): The data amount to be vended
+            productId (required): The unique identifier of the data plan to purchase — returned as `productId` by the Fetch Data Plans endpoint. Required for all new integrations: it resolves to an exact plan and amount, removing any ambiguity when multiple plans on the same network share the same price.
             phoneNumber (required): Recipient phone number
             network (required): Recipient network (telco). It can also come as lowercased values e.g. glo, mtn etc.
             merchantTxRef (required): Merchant Transaction Identifier reference (Unique to merchant)
+            amount: **Deprecated — do not use.** `amount` is a legacy-only field with no guarantee of correctness: multiple plans can share the same price, so it cannot reliably identify the bundle you want. Use `productId` — the only supported way to select a plan.
             senderName: A name to describe the sender of the data
         """
         path = f"/v1/bill/data/{sub_account_id}"
         params = None
         body: dict[str, object] = {}
-        body["amount"] = amount
+        body["productId"] = product_id
         body["phoneNumber"] = phone_number
         body["network"] = network
         body["merchantTxRef"] = merchant_tx_ref
+        if amount is not None:
+            body["amount"] = amount
         if sender_name is not None:
             body["senderName"] = sender_name
         body.update(extra)
@@ -165,7 +172,7 @@ class AsyncAirtimeData:
  This is an idempotency key and must be unique per transaction.
             senderName: A name to describe the sender of the airtime
         """
-        path = "/v1/bill/topup"
+        path = f"/v1/bill/topup"
         params = None
         body: dict[str, object] = {}
         body["amount"] = amount
@@ -206,52 +213,58 @@ class AsyncAirtimeData:
         validate_body("post", "/v1/bill/topup/{subAccountId}", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    async def vend_data_bundles_via_parent_account(self, amount, phone_number, network, merchant_tx_ref, *, sender_name: object | None = None, **extra: object) -> _models.VendDataBundlesViaParentAccountResponse:
+    async def vend_data_bundles_via_parent_account(self, product_id, phone_number, network, merchant_tx_ref, *, amount: object | None = None, sender_name: object | None = None, **extra: object) -> _models.VendDataBundlesViaParentAccountResponse:
         """
         Vend data bundles via parent account
 
         You can use this endpoint to vend data via parent account
 
         Body fields:
-            amount (required): The data amount to be vended
+            productId (required): The unique identifier of the data plan to purchase — returned as `productId` by the Fetch Data Plans endpoint. Required for all new integrations: it resolves to an exact plan and amount, removing any ambiguity when multiple plans on the same network share the same price.
             phoneNumber (required): Recipient phone number
             network (required): Recipient network (telco). It can also come as lowercased values e.g. glo, mtn etc.
             merchantTxRef (required): Merchant Transaction Identifier reference (Unique to merchant)
+            amount: **Deprecated — do not use.** `amount` is a legacy-only field with no guarantee of correctness: multiple plans can share the same price, so it cannot reliably identify the bundle you want. Use `productId` — the only supported way to select a plan.
             senderName: A name to describe the sender of the data
         """
-        path = "/v1/bill/data"
+        path = f"/v1/bill/data"
         params = None
         body: dict[str, object] = {}
-        body["amount"] = amount
+        body["productId"] = product_id
         body["phoneNumber"] = phone_number
         body["network"] = network
         body["merchantTxRef"] = merchant_tx_ref
+        if amount is not None:
+            body["amount"] = amount
         if sender_name is not None:
             body["senderName"] = sender_name
         body.update(extra)
         validate_body("post", "/v1/bill/data", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    async def vend_data_bundles_via_specific_or_sub_account(self, sub_account_id: str, amount, phone_number, network, merchant_tx_ref, *, sender_name: object | None = None, **extra: object) -> _models.VendDataBundlesViaSpecificOrSubAccountResponse:
+    async def vend_data_bundles_via_specific_or_sub_account(self, sub_account_id: str, product_id, phone_number, network, merchant_tx_ref, *, amount: object | None = None, sender_name: object | None = None, **extra: object) -> _models.VendDataBundlesViaSpecificOrSubAccountResponse:
         """
         Vend data bundles via a sub account
 
         You can use this endpoint to vend data via a sub account
 
         Body fields:
-            amount (required): The data amount to be vended
+            productId (required): The unique identifier of the data plan to purchase — returned as `productId` by the Fetch Data Plans endpoint. Required for all new integrations: it resolves to an exact plan and amount, removing any ambiguity when multiple plans on the same network share the same price.
             phoneNumber (required): Recipient phone number
             network (required): Recipient network (telco). It can also come as lowercased values e.g. glo, mtn etc.
             merchantTxRef (required): Merchant Transaction Identifier reference (Unique to merchant)
+            amount: **Deprecated — do not use.** `amount` is a legacy-only field with no guarantee of correctness: multiple plans can share the same price, so it cannot reliably identify the bundle you want. Use `productId` — the only supported way to select a plan.
             senderName: A name to describe the sender of the data
         """
         path = f"/v1/bill/data/{sub_account_id}"
         params = None
         body: dict[str, object] = {}
-        body["amount"] = amount
+        body["productId"] = product_id
         body["phoneNumber"] = phone_number
         body["network"] = network
         body["merchantTxRef"] = merchant_tx_ref
+        if amount is not None:
+            body["amount"] = amount
         if sender_name is not None:
             body["senderName"] = sender_name
         body.update(extra)

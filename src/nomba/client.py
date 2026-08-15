@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 from .http import AsyncNombaClient, NombaClient
 from .resources import (
     Accounts,
@@ -94,6 +96,10 @@ class Nomba:
     def close(self) -> None:
         self.client.close()
 
+    def revoke_token(self) -> dict[str, Any]:
+        """Revoke the active access token. See ``NombaClient.revoke_token``."""
+        return self.client.revoke_token()
+
     def card_payment(self, order_reference: str) -> "CardPaymentFlow":
         """Start a guided card-payment flow for an existing checkout order.
         See `nomba.flows.CardPaymentFlow` for the full step-by-step API."""
@@ -163,6 +169,10 @@ class AsyncNomba:
 
     async def close(self) -> None:
         await self.client.close()
+
+    async def revoke_token(self) -> dict[str, Any]:
+        """Revoke the active access token. See ``AsyncNombaClient.revoke_token``."""
+        return await self.client.revoke_token()
 
     def card_payment(self, order_reference: str) -> "AsyncCardPaymentFlow":
         """Start a guided async card-payment flow for an existing checkout
