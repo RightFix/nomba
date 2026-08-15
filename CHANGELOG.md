@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.3.0] - 2026-08-15
 
 ### Added
 - Added the 4 missing Global Payout accounts endpoints to match the official Nomba API spec:
