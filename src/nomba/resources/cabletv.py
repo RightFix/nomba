@@ -2,6 +2,7 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
+from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -20,7 +21,7 @@ class CableTv:
 
         This endpoint is for fetching customer information data
         """
-        path = "/v1/bill/cabletv/lookup"
+        path = f"/v1/bill/cabletv/lookup"
         params: dict[str, object] = {}
         if customer_id is not None:
             params["customerId"] = customer_id
@@ -41,7 +42,7 @@ class CableTv:
             amount: 
             customerId: 
         """
-        path = "/v1/bill/cabletv"
+        path = f"/v1/bill/cabletv"
         params = None
         body: dict[str, object] = {}
         if cable_tv_type is not None:
@@ -102,7 +103,7 @@ class AsyncCableTv:
 
         This endpoint is for fetching customer information data
         """
-        path = "/v1/bill/cabletv/lookup"
+        path = f"/v1/bill/cabletv/lookup"
         params: dict[str, object] = {}
         if customer_id is not None:
             params["customerId"] = customer_id
@@ -123,7 +124,7 @@ class AsyncCableTv:
             amount: 
             customerId: 
         """
-        path = "/v1/bill/cabletv"
+        path = f"/v1/bill/cabletv"
         params = None
         body: dict[str, object] = {}
         if cable_tv_type is not None:

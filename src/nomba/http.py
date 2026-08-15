@@ -17,14 +17,16 @@ SANDBOX_BASE_URL = "https://sandbox.nomba.com"
 RETRYABLE_STATUS_CODES = {429, 500, 502, 503, 504}
 
 
-def _compute_backoff(attempt: int, retry_after: str | None, backoff_factor: float) -> float:
+def _compute_backoff(
+    attempt: int, retry_after: str | None, backoff_factor: float
+) -> float:
     if retry_after:
         try:
             return float(retry_after)
         except ValueError:
             pass
     # exponential backoff with jitter: backoff_factor * 2^attempt, +/- 20%
-    base = backoff_factor * (2 ** attempt)
+    base = backoff_factor * (2**attempt)
     jitter = base * random.uniform(-0.2, 0.2)
     return max(0.0, base + jitter)
 
@@ -69,13 +71,16 @@ class NombaClient:
         self._token_expires_at: float = 0.0
         self._token_lock = threading.Lock()
 
-        self._http = httpx.Client(base_url=self.base_url, timeout=timeout, verify= not sandbox)
+        self._http = httpx.Client(
+            base_url=self.base_url, timeout=timeout, verify=not sandbox
+        )
 
         if sandbox:
             import warnings
+
             warnings.warn(
                 "Sandbox mode enabled: SSL verification disabled. Do not use in production.",
-                UserWarning
+                UserWarning,
             )
 
     # -- auth -----------------------------------------------------------
@@ -96,7 +101,7 @@ class NombaClient:
             )
         except httpx.HTTPError as exc:
             raise NombaAuthError(f"Failed to reach Nomba auth endpoint: {exc}") from exc
-        
+
         if response.status_code >= 400:
             raise NombaAuthError(
                 "Failed to obtain access token",
@@ -133,6 +138,42 @@ class NombaClient:
     def _invalidate_token(self) -> None:
         with self._token_lock:
             self._access_token = None
+
+    def revoke_token(self) -> dict[str, Any]:
+        """Revoke the currently cached access token via the Nomba API.
+
+        Calls ``POST /v1/auth/token/revoke`` with the client id and the active
+        access token, then drops the cached token so subsequent requests fetch a
+        fresh one. Mirrors the "Revoke an access_token" endpoint in Nomba's docs.
+        """
+        token = self._ensure_token()
+        try:
+            response = self._http.post(
+                "/v1/auth/token/revoke",
+                headers={
+                    "Content-Type": "application/json",
+                    "accountId": self.account_id,
+                },
+                json={"clientId": self.client_id, "access_token": token},
+            )
+        except httpx.HTTPError as exc:
+            raise NombaAPIError(f"Failed to revoke token: {exc}") from exc
+
+        self._invalidate_token()
+        body = _safe_json(response)
+        if response.status_code >= 400:
+            message = "Failed to revoke access token"
+            code = None
+            if isinstance(body, dict):
+                message = body.get("description", message)
+                code = body.get("code")
+            raise NombaAPIError(
+                message,
+                status_code=response.status_code,
+                code=code,
+                response_body=body,
+            )
+        return body if isinstance(body, dict) else {"data": body}
 
     # -- request helpers --------------------------------------------------
 
@@ -176,7 +217,10 @@ class NombaClient:
                 _retry_on_auth_failure=False,
             )
 
-        if response.status_code in RETRYABLE_STATUS_CODES and _attempt < self.max_retries:
+        if (
+            response.status_code in RETRYABLE_STATUS_CODES
+            and _attempt < self.max_retries
+        ):
             delay = _compute_backoff(
                 _attempt, response.headers.get("Retry-After"), self.backoff_factor
             )
@@ -276,13 +320,16 @@ class AsyncNombaClient:
         self._token_expires_at: float = 0.0
         self._token_lock = asyncio.Lock()
 
-        self._http = httpx.AsyncClient(base_url=self.base_url, timeout=timeout, verify= not sandbox )
+        self._http = httpx.AsyncClient(
+            base_url=self.base_url, timeout=timeout, verify=not sandbox
+        )
 
         if sandbox:
             import warnings
+
             warnings.warn(
                 "Sandbox mode enabled: SSL verification disabled. Do not use in production.",
-                UserWarning
+                UserWarning,
             )
 
     # -- auth -----------------------------------------------------------
@@ -337,6 +384,42 @@ class AsyncNombaClient:
         async with self._token_lock:
             self._access_token = None
 
+    async def revoke_token(self) -> dict[str, Any]:
+        """Revoke the currently cached access token via the Nomba API.
+
+        Async counterpart of :meth:`NombaClient.revoke_token`. Calls
+        ``POST /v1/auth/token/revoke`` with the client id and the active access
+        token, then drops the cached token.
+        """
+        token = await self._ensure_token()
+        try:
+            response = await self._http.post(
+                "/v1/auth/token/revoke",
+                headers={
+                    "Content-Type": "application/json",
+                    "accountId": self.account_id,
+                },
+                json={"clientId": self.client_id, "access_token": token},
+            )
+        except httpx.HTTPError as exc:
+            raise NombaAPIError(f"Failed to revoke token: {exc}") from exc
+
+        await self._invalidate_token()
+        body = _safe_json(response)
+        if response.status_code >= 400:
+            message = "Failed to revoke access token"
+            code = None
+            if isinstance(body, dict):
+                message = body.get("description", message)
+                code = body.get("code")
+            raise NombaAPIError(
+                message,
+                status_code=response.status_code,
+                code=code,
+                response_body=body,
+            )
+        return body if isinstance(body, dict) else {"data": body}
+
     # -- request helpers --------------------------------------------------
 
     async def request(
@@ -378,7 +461,10 @@ class AsyncNombaClient:
                 _retry_on_auth_failure=False,
             )
 
-        if response.status_code in RETRYABLE_STATUS_CODES and _attempt < self.max_retries:
+        if (
+            response.status_code in RETRYABLE_STATUS_CODES
+            and _attempt < self.max_retries
+        ):
             delay = _compute_backoff(
                 _attempt, response.headers.get("Retry-After"), self.backoff_factor
             )

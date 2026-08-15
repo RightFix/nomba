@@ -384,13 +384,10 @@ class CancelCheckoutTransactionResponse(TypedDict, total=False):
     description: str
     data: CancelCheckoutTransactionData
 
-class FetchBankCodesAndNamesData(TypedDict, total=False):
-    results: list[dict[str, Any]]
-
 class FetchBankCodesAndNamesResponse(TypedDict, total=False):
     code: str
     description: str
-    data: FetchBankCodesAndNamesData
+    data: dict[str, Any]
 
 class PerformBankAccountLookupData(TypedDict, total=False):
     accountNumber: str
@@ -675,6 +672,7 @@ class ConfirmATransactionSStatusBySessionIdResponse(TypedDict, total=False):
 class FetchDataPlansAvailableOnATelcoNetworkProviderData(TypedDict, total=False):
     amount: int
     plan: str
+    productId: str
 
 class FetchDataPlansAvailableOnATelcoNetworkProviderResponse(TypedDict, total=False):
     code: str
@@ -707,6 +705,8 @@ class MakeAirtimePurchasesViaSpecificOrSubAccountResponse(TypedDict, total=False
 
 class VendDataBundlesViaParentAccountData(TypedDict, total=False):
     amount: float
+    productId: str
+    plan: str
     timeCreated: str
     type: str
     meta: dict[str, Any]
@@ -719,6 +719,8 @@ class VendDataBundlesViaParentAccountResponse(TypedDict, total=False):
 
 class VendDataBundlesViaSpecificOrSubAccountData(TypedDict, total=False):
     amount: float
+    productId: str
+    plan: str
     timeCreated: str
     type: str
     meta: dict[str, Any]
@@ -989,6 +991,44 @@ class ListInstitutionProvidersResponse(TypedDict, total=False):
     code: str
     description: str
     data: dict[str, Any]
+
+class FetchGlobalPayoutAccountsResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: dict[str, Any]
+
+class FetchGlobalPayoutAccountData(TypedDict, total=False):
+    accountId: str
+    name: str
+    currency: str
+    balance: float
+    availableBalance: float
+    status: str
+    operationRegion: str
+
+class FetchGlobalPayoutAccountResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: FetchGlobalPayoutAccountData
+
+class FetchGlobalPayoutAccountsSandboxResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: dict[str, Any]
+
+class FetchGlobalPayoutAccountSandboxData(TypedDict, total=False):
+    accountId: str
+    name: str
+    currency: str
+    balance: float
+    availableBalance: float
+    status: str
+    operationRegion: str
+
+class FetchGlobalPayoutAccountSandboxResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: FetchGlobalPayoutAccountSandboxData
 
 class InitiateMobileMoneyInflowData(TypedDict, total=False):
     transactionReference: str

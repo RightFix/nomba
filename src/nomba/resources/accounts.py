@@ -2,6 +2,7 @@
 # regenerate via scripts/generate_resources.py instead.
 from __future__ import annotations
 
+from typing import Any
 
 from ..http import AsyncNombaClient, NombaClient
 from ..validation import validate_body
@@ -14,15 +15,13 @@ class Accounts:
     def __init__(self, client: NombaClient) -> None:
         self._client = client
 
-    def list_all_accounts(
-        self, *, limit: str | None = None, cursor: str | None = None, **extra: object
-    ) -> _models.ListAllAccountsResponse:
+    def list_all_accounts(self, *, limit: str | None = None, cursor: str | None = None, **extra: object) -> _models.ListAllAccountsResponse:
         """
         List all sub accounts
 
         You can use this endpoints to fetch all the accounts tied to a business. Accounts are sorted by date, with the most recently-created account appearing first.
         """
-        path = "/v1/accounts"
+        path = f"/v1/accounts"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -30,20 +29,7 @@ class Accounts:
             params["cursor"] = cursor
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
-    def create_a_sub_account(
-        self,
-        account_ref,
-        phone_number,
-        email,
-        bvn,
-        pin,
-        account_name,
-        currency,
-        *,
-        callback_url: object | None = None,
-        expiry_date: object | None = None,
-        **extra: object,
-    ) -> _models.CreateASubAccountResponse:
+    def create_a_sub_account(self, account_ref, phone_number, email, bvn, pin, account_name, currency, *, callback_url: object | None = None, expiry_date: object | None = None, **extra: object) -> _models.CreateASubAccountResponse:
         """
         Create a sub account
 
@@ -60,7 +46,7 @@ class Accounts:
             callbackUrl: Callback url
             expiryDate: Expiry date
         """
-        path = "/v1/accounts"
+        path = f"/v1/accounts"
         params = None
         body: dict[str, object] = {}
         body["accountRef"] = account_ref
@@ -78,19 +64,13 @@ class Accounts:
         validate_body("post", "/v1/accounts", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    def fetch_account_details(
-        self,
-        *,
-        account_id: str | None = None,
-        account_ref: str | None = None,
-        **extra: object,
-    ) -> _models.FetchAccountDetailsResponse:
+    def fetch_account_details(self, *, account_id: str | None = None, account_ref: str | None = None, **extra: object) -> _models.FetchAccountDetailsResponse:
         """
         Fetch sub account details
 
         You can use this endpoint to get details of a sub account.
         """
-        path = "/v1/accounts/sub-account-details"
+        path = f"/v1/accounts/sub-account-details"
         params: dict[str, object] = {}
         if account_id is not None:
             params["accountId"] = account_id
@@ -98,21 +78,17 @@ class Accounts:
             params["accountRef"] = account_ref
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
-    def fetch_parent_account_details(
-        self, **extra: object
-    ) -> _models.FetchParentAccountDetailsResponse:
+    def fetch_parent_account_details(self, **extra: object) -> _models.FetchParentAccountDetailsResponse:
         """
         Fetch parent account details
 
         You can use this endpoint to get details of the parent account.
         """
-        path = "/v1/accounts/parent"
+        path = f"/v1/accounts/parent"
         params = None
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
-    def fetch_account_balance(
-        self, sub_account_id: str, **extra: object
-    ) -> _models.FetchAccountBalanceResponse:
+    def fetch_account_balance(self, sub_account_id: str, **extra: object) -> _models.FetchAccountBalanceResponse:
         """
         Fetch sub account balance
 
@@ -122,21 +98,17 @@ class Accounts:
         params = None
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
-    def fetch_parent_account_balance(
-        self, **extra: object
-    ) -> _models.FetchParentAccountBalanceResponse:
+    def fetch_parent_account_balance(self, **extra: object) -> _models.FetchParentAccountBalanceResponse:
         """
         Fetch parent account balance
 
         You can use this endpoint to get the balance of the parent account.
         """
-        path = "/v1/accounts/balance"
+        path = f"/v1/accounts/balance"
         params = None
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
-    def suspend_an_account(
-        self, sub_account_id: str, **extra: object
-    ) -> _models.SuspendAnAccountResponse:
+    def suspend_an_account(self, sub_account_id: str, **extra: object) -> _models.SuspendAnAccountResponse:
         """
         Suspend a sub account
 
@@ -146,9 +118,7 @@ class Accounts:
         params = None
         return self._client.put(path, params=params)  # type: ignore[return-value]
 
-    def reactivate_a_sub_account(
-        self, sub_account_id: str, **extra: object
-    ) -> _models.ReactivateASubAccountResponse:
+    def reactivate_a_sub_account(self, sub_account_id: str, **extra: object) -> _models.ReactivateASubAccountResponse:
         """
         Reactivate a sub account
 
@@ -158,18 +128,7 @@ class Accounts:
         params = None
         return self._client.put(path, params=params)  # type: ignore[return-value]
 
-    def fetch_terminals_assigned_to_an_account(
-        self,
-        sub_account_id: str,
-        *,
-        limit: str | None = None,
-        cursor: str | None = None,
-        terminal_id: str | None = None,
-        serial_number: str | None = None,
-        terminal_label: str | None = None,
-        merchant_name: str | None = None,
-        **extra: object,
-    ) -> _models.FetchTerminalsAssignedToAnAccountResponse:
+    def fetch_terminals_assigned_to_an_account(self, sub_account_id: str, *, limit: str | None = None, cursor: str | None = None, terminal_id: str | None = None, serial_number: str | None = None, terminal_label: str | None = None, merchant_name: str | None = None, **extra: object) -> _models.FetchTerminalsAssignedToAnAccountResponse:
         """
         Fetch terminals assigned to a sub account
 
@@ -191,23 +150,13 @@ class Accounts:
             params["merchantName"] = merchant_name
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
-    def fetch_terminals_assigned_to_the_parent_account(
-        self,
-        *,
-        limit: str | None = None,
-        cursor: str | None = None,
-        terminal_id: str | None = None,
-        serial_number: str | None = None,
-        terminal_label: str | None = None,
-        merchant_name: str | None = None,
-        **extra: object,
-    ) -> _models.FetchTerminalsAssignedToTheParentAccountResponse:
+    def fetch_terminals_assigned_to_the_parent_account(self, *, limit: str | None = None, cursor: str | None = None, terminal_id: str | None = None, serial_number: str | None = None, terminal_label: str | None = None, merchant_name: str | None = None, **extra: object) -> _models.FetchTerminalsAssignedToTheParentAccountResponse:
         """
         Fetch terminals assigned to the parent account
 
         You can use this endpoint to fetch terminals linked to the parent account.
         """
-        path = "/v1/accounts/terminals"
+        path = f"/v1/accounts/terminals"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -223,24 +172,13 @@ class Accounts:
             params["merchantName"] = merchant_name
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
-    def fetch_terminals_assigned_to_a_sub_account(
-        self,
-        sub_account_id: str,
-        *,
-        limit: str | None = None,
-        cursor: str | None = None,
-        terminal_id: str | None = None,
-        serial_number: str | None = None,
-        terminal_label: str | None = None,
-        merchant_name: str | None = None,
-        **extra: object,
-    ) -> _models.FetchTerminalsAssignedToASubAccountResponse:
+    def fetch_terminals_assigned_to_a_sub_account(self, account_id: str, *, limit: str | None = None, cursor: str | None = None, terminal_id: str | None = None, serial_number: str | None = None, terminal_label: str | None = None, merchant_name: str | None = None, **extra: object) -> _models.FetchTerminalsAssignedToASubAccountResponse:
         """
         Fetch terminals assigned to a sub account
 
         You can use this endpoint to fetch terminals linked to a sub account.
         """
-        path = f"/v1/accounts/{sub_account_id}/terminals"
+        path = f"/v1/accounts/{account_id}/terminals"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -256,9 +194,7 @@ class Accounts:
             params["merchantName"] = merchant_name
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
-    def update_access_to_account(
-        self, sub_account_id: str, grant_type, client_id, role, **extra: object
-    ) -> _models.UpdateAccessToAccountResponse:
+    def update_access_to_account(self, sub_account_id: str, grant_type, client_id, role, **extra: object) -> _models.UpdateAccessToAccountResponse:
         """
         Update access to account
 
@@ -280,21 +216,20 @@ class Accounts:
         return self._client.put(path, json=body, params=params)  # type: ignore[return-value]
 
 
+
 class AsyncAccounts:
     """Async resource methods for the Accounts group."""
 
     def __init__(self, client: AsyncNombaClient) -> None:
         self._client = client
 
-    async def list_all_accounts(
-        self, *, limit: str | None = None, cursor: str | None = None, **extra: object
-    ) -> _models.ListAllAccountsResponse:
+    async def list_all_accounts(self, *, limit: str | None = None, cursor: str | None = None, **extra: object) -> _models.ListAllAccountsResponse:
         """
         List all sub accounts
 
         You can use this endpoints to fetch all the accounts tied to a business. Accounts are sorted by date, with the most recently-created account appearing first.
         """
-        path = "/v1/accounts"
+        path = f"/v1/accounts"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -302,20 +237,7 @@ class AsyncAccounts:
             params["cursor"] = cursor
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
-    async def create_a_sub_account(
-        self,
-        account_ref,
-        phone_number,
-        email,
-        bvn,
-        pin,
-        account_name,
-        currency,
-        *,
-        callback_url: object | None = None,
-        expiry_date: object | None = None,
-        **extra: object,
-    ) -> _models.CreateASubAccountResponse:
+    async def create_a_sub_account(self, account_ref, phone_number, email, bvn, pin, account_name, currency, *, callback_url: object | None = None, expiry_date: object | None = None, **extra: object) -> _models.CreateASubAccountResponse:
         """
         Create a sub account
 
@@ -332,7 +254,7 @@ class AsyncAccounts:
             callbackUrl: Callback url
             expiryDate: Expiry date
         """
-        path = "/v1/accounts"
+        path = f"/v1/accounts"
         params = None
         body: dict[str, object] = {}
         body["accountRef"] = account_ref
@@ -350,19 +272,13 @@ class AsyncAccounts:
         validate_body("post", "/v1/accounts", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    async def fetch_account_details(
-        self,
-        *,
-        account_id: str | None = None,
-        account_ref: str | None = None,
-        **extra: object,
-    ) -> _models.FetchAccountDetailsResponse:
+    async def fetch_account_details(self, *, account_id: str | None = None, account_ref: str | None = None, **extra: object) -> _models.FetchAccountDetailsResponse:
         """
         Fetch sub account details
 
         You can use this endpoint to get details of a sub account.
         """
-        path = "/v1/accounts/sub-account-details"
+        path = f"/v1/accounts/sub-account-details"
         params: dict[str, object] = {}
         if account_id is not None:
             params["accountId"] = account_id
@@ -370,21 +286,17 @@ class AsyncAccounts:
             params["accountRef"] = account_ref
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
-    async def fetch_parent_account_details(
-        self, **extra: object
-    ) -> _models.FetchParentAccountDetailsResponse:
+    async def fetch_parent_account_details(self, **extra: object) -> _models.FetchParentAccountDetailsResponse:
         """
         Fetch parent account details
 
         You can use this endpoint to get details of the parent account.
         """
-        path = "/v1/accounts/parent"
+        path = f"/v1/accounts/parent"
         params = None
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
-    async def fetch_account_balance(
-        self, sub_account_id: str, **extra: object
-    ) -> _models.FetchAccountBalanceResponse:
+    async def fetch_account_balance(self, sub_account_id: str, **extra: object) -> _models.FetchAccountBalanceResponse:
         """
         Fetch sub account balance
 
@@ -394,21 +306,17 @@ class AsyncAccounts:
         params = None
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
-    async def fetch_parent_account_balance(
-        self, **extra: object
-    ) -> _models.FetchParentAccountBalanceResponse:
+    async def fetch_parent_account_balance(self, **extra: object) -> _models.FetchParentAccountBalanceResponse:
         """
         Fetch parent account balance
 
         You can use this endpoint to get the balance of the parent account.
         """
-        path = "/v1/accounts/balance"
+        path = f"/v1/accounts/balance"
         params = None
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
-    async def suspend_an_account(
-        self, sub_account_id: str, **extra: object
-    ) -> _models.SuspendAnAccountResponse:
+    async def suspend_an_account(self, sub_account_id: str, **extra: object) -> _models.SuspendAnAccountResponse:
         """
         Suspend a sub account
 
@@ -418,9 +326,7 @@ class AsyncAccounts:
         params = None
         return await self._client.put(path, params=params)  # type: ignore[return-value]
 
-    async def reactivate_a_sub_account(
-        self, sub_account_id: str, **extra: object
-    ) -> _models.ReactivateASubAccountResponse:
+    async def reactivate_a_sub_account(self, sub_account_id: str, **extra: object) -> _models.ReactivateASubAccountResponse:
         """
         Reactivate a sub account
 
@@ -430,18 +336,7 @@ class AsyncAccounts:
         params = None
         return await self._client.put(path, params=params)  # type: ignore[return-value]
 
-    async def fetch_terminals_assigned_to_an_account(
-        self,
-        sub_account_id: str,
-        *,
-        limit: str | None = None,
-        cursor: str | None = None,
-        terminal_id: str | None = None,
-        serial_number: str | None = None,
-        terminal_label: str | None = None,
-        merchant_name: str | None = None,
-        **extra: object,
-    ) -> _models.FetchTerminalsAssignedToAnAccountResponse:
+    async def fetch_terminals_assigned_to_an_account(self, sub_account_id: str, *, limit: str | None = None, cursor: str | None = None, terminal_id: str | None = None, serial_number: str | None = None, terminal_label: str | None = None, merchant_name: str | None = None, **extra: object) -> _models.FetchTerminalsAssignedToAnAccountResponse:
         """
         Fetch terminals assigned to a sub account
 
@@ -463,23 +358,13 @@ class AsyncAccounts:
             params["merchantName"] = merchant_name
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
-    async def fetch_terminals_assigned_to_the_parent_account(
-        self,
-        *,
-        limit: str | None = None,
-        cursor: str | None = None,
-        terminal_id: str | None = None,
-        serial_number: str | None = None,
-        terminal_label: str | None = None,
-        merchant_name: str | None = None,
-        **extra: object,
-    ) -> _models.FetchTerminalsAssignedToTheParentAccountResponse:
+    async def fetch_terminals_assigned_to_the_parent_account(self, *, limit: str | None = None, cursor: str | None = None, terminal_id: str | None = None, serial_number: str | None = None, terminal_label: str | None = None, merchant_name: str | None = None, **extra: object) -> _models.FetchTerminalsAssignedToTheParentAccountResponse:
         """
         Fetch terminals assigned to the parent account
 
         You can use this endpoint to fetch terminals linked to the parent account.
         """
-        path = "/v1/accounts/terminals"
+        path = f"/v1/accounts/terminals"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -495,24 +380,13 @@ class AsyncAccounts:
             params["merchantName"] = merchant_name
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
-    async def fetch_terminals_assigned_to_a_sub_account(
-        self,
-        sub_account_id: str,
-        *,
-        limit: str | None = None,
-        cursor: str | None = None,
-        terminal_id: str | None = None,
-        serial_number: str | None = None,
-        terminal_label: str | None = None,
-        merchant_name: str | None = None,
-        **extra: object,
-    ) -> _models.FetchTerminalsAssignedToASubAccountResponse:
+    async def fetch_terminals_assigned_to_a_sub_account(self, account_id: str, *, limit: str | None = None, cursor: str | None = None, terminal_id: str | None = None, serial_number: str | None = None, terminal_label: str | None = None, merchant_name: str | None = None, **extra: object) -> _models.FetchTerminalsAssignedToASubAccountResponse:
         """
         Fetch terminals assigned to a sub account
 
         You can use this endpoint to fetch terminals linked to a sub account.
         """
-        path = f"/v1/accounts/{sub_account_id}/terminals"
+        path = f"/v1/accounts/{account_id}/terminals"
         params: dict[str, object] = {}
         if limit is not None:
             params["limit"] = limit
@@ -528,9 +402,7 @@ class AsyncAccounts:
             params["merchantName"] = merchant_name
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
-    async def update_access_to_account(
-        self, sub_account_id: str, grant_type, client_id, role, **extra: object
-    ) -> _models.UpdateAccessToAccountResponse:
+    async def update_access_to_account(self, sub_account_id: str, grant_type, client_id, role, **extra: object) -> _models.UpdateAccessToAccountResponse:
         """
         Update access to account
 
@@ -550,3 +422,4 @@ class AsyncAccounts:
         body.update(extra)
         validate_body("put", "/v1/accounts/{subAccountId}/access", body)
         return await self._client.put(path, json=body, params=params)  # type: ignore[return-value]
+
