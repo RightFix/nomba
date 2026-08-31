@@ -1,5 +1,7 @@
 # nomba
 
+[![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](LICENSE)
+
 Unofficial Python SDK for the [Nomba](https://developer.nomba.com) payments API, built with [`uv`](https://docs.astral.sh/uv/) and [`httpx`](https://www.python-httpx.org/).
 
 Covers **every endpoint** in Nomba's official [OpenAPI spec](https://developer.nomba.com/nomba-api-reference/openapi.json) — 94 methods across 14 resource groups, generated directly from the spec so field names and required/optional parameters match Nomba's docs exactly. (OAuth token issue/refresh/revoke are handled automatically by the client, so they're not exposed as resource methods.)
