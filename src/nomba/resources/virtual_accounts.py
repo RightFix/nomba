@@ -15,7 +15,7 @@ class VirtualAccounts:
     def __init__(self, client: NombaClient) -> None:
         self._client = client
 
-    def create_virtual_account(self, account_ref, account_name, *, bvn: object | None = None, expiry_date: object | None = None, expected_amount: object | None = None, **extra: object) -> _models.CreateVirtualAccountResponse:
+    def create_virtual_account(self, account_ref, account_name, *, bvn: object | None = None, nin: object | None = None, expiry_date: object | None = None, expected_amount: object | None = None, restrict_inflow_to_account_name: object | None = None, **extra: object) -> _models.CreateVirtualAccountResponse:
         """
         Create virtual account
 
@@ -25,8 +25,11 @@ class VirtualAccounts:
             accountRef (required): Account reference
             accountName (required): Account holder's name
             bvn: Account holder's BVN. Optional.
-            expiryDate: Account expiry date. Optional. ⚠️Be careful with this.
+            nin: Account holder's National Identification Number (NIN). Optional.
+ Must be exactly 11 digits. Can be sent on its own or alongside `bvn`. If neither is sent, the BVN on the parent business account is used.
+            expiryDate: Account expiry date in UTC. Optional. ⚠️Be careful with this.
             expectedAmount: Amount the account can receive. Optional.
+            restrictInflowToAccountName: When set to true, Nomba will reject any inflow to the virtual account whose sender name does not match the virtual account name. The order of names does not matter—for example, a VA name of 'John Doe Naomi' would match sender names like 'Doe John Naomi' or 'Naomi Doe John', since different banks may arrange names differently. A `payment_failed` webhook event is sent to notify the merchant that the inflow was rejected. The rejected inflow is reversed back to the sender according to the sending bank's policy. Optional.
         """
         path = f"/v1/accounts/virtual"
         params = None
@@ -35,15 +38,19 @@ class VirtualAccounts:
         body["accountName"] = account_name
         if bvn is not None:
             body["bvn"] = bvn
+        if nin is not None:
+            body["nin"] = nin
         if expiry_date is not None:
             body["expiryDate"] = expiry_date
         if expected_amount is not None:
             body["expectedAmount"] = expected_amount
+        if restrict_inflow_to_account_name is not None:
+            body["restrictInflowToAccountName"] = restrict_inflow_to_account_name
         body.update(extra)
         validate_body("post", "/v1/accounts/virtual", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    def create_virtual_account_for_a_sub_account(self, sub_account_id: str, account_ref, account_name, *, bvn: object | None = None, expiry_date: object | None = None, expected_amount: object | None = None, **extra: object) -> _models.CreateVirtualAccountForASubAccountResponse:
+    def create_virtual_account_for_a_sub_account(self, sub_account_id: str, account_ref, account_name, *, bvn: object | None = None, nin: object | None = None, expiry_date: object | None = None, expected_amount: object | None = None, restrict_inflow_to_account_name: object | None = None, **extra: object) -> _models.CreateVirtualAccountForASubAccountResponse:
         """
         Create virtual account for a sub account
 
@@ -53,8 +60,11 @@ class VirtualAccounts:
             accountRef (required): Account reference
             accountName (required): Account holder's name
             bvn: Account holder's BVN. Optional.
-            expiryDate: Account expiry date. Optional. ⚠️Be careful with this.
+            nin: Account holder's National Identification Number (NIN). Optional.
+ Must be exactly 11 digits. Can be sent on its own or alongside `bvn`. If neither is sent, the BVN on the parent business account is used.
+            expiryDate: Account expiry date in UTC. Optional. ⚠️Be careful with this.
             expectedAmount: Amount the account can receive. Optional.
+            restrictInflowToAccountName: When set to true, Nomba will reject any inflow to the virtual account whose sender name does not match the virtual account name. The order of names does not matter—for example, a VA name of 'John Doe Naomi' would match sender names like 'Doe John Naomi' or 'Naomi Doe John', since different banks may arrange names differently. A `payment_failed` webhook event is sent to notify the merchant that the inflow was rejected. The rejected inflow is reversed back to the sender according to the sending bank's policy. Optional.
         """
         path = f"/v1/accounts/virtual/{sub_account_id}"
         params = None
@@ -63,10 +73,14 @@ class VirtualAccounts:
         body["accountName"] = account_name
         if bvn is not None:
             body["bvn"] = bvn
+        if nin is not None:
+            body["nin"] = nin
         if expiry_date is not None:
             body["expiryDate"] = expiry_date
         if expected_amount is not None:
             body["expectedAmount"] = expected_amount
+        if restrict_inflow_to_account_name is not None:
+            body["restrictInflowToAccountName"] = restrict_inflow_to_account_name
         body.update(extra)
         validate_body("post", "/v1/accounts/virtual/{subAccountId}", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
@@ -169,7 +183,7 @@ class AsyncVirtualAccounts:
     def __init__(self, client: AsyncNombaClient) -> None:
         self._client = client
 
-    async def create_virtual_account(self, account_ref, account_name, *, bvn: object | None = None, expiry_date: object | None = None, expected_amount: object | None = None, **extra: object) -> _models.CreateVirtualAccountResponse:
+    async def create_virtual_account(self, account_ref, account_name, *, bvn: object | None = None, nin: object | None = None, expiry_date: object | None = None, expected_amount: object | None = None, restrict_inflow_to_account_name: object | None = None, **extra: object) -> _models.CreateVirtualAccountResponse:
         """
         Create virtual account
 
@@ -179,8 +193,11 @@ class AsyncVirtualAccounts:
             accountRef (required): Account reference
             accountName (required): Account holder's name
             bvn: Account holder's BVN. Optional.
-            expiryDate: Account expiry date. Optional. ⚠️Be careful with this.
+            nin: Account holder's National Identification Number (NIN). Optional.
+ Must be exactly 11 digits. Can be sent on its own or alongside `bvn`. If neither is sent, the BVN on the parent business account is used.
+            expiryDate: Account expiry date in UTC. Optional. ⚠️Be careful with this.
             expectedAmount: Amount the account can receive. Optional.
+            restrictInflowToAccountName: When set to true, Nomba will reject any inflow to the virtual account whose sender name does not match the virtual account name. The order of names does not matter—for example, a VA name of 'John Doe Naomi' would match sender names like 'Doe John Naomi' or 'Naomi Doe John', since different banks may arrange names differently. A `payment_failed` webhook event is sent to notify the merchant that the inflow was rejected. The rejected inflow is reversed back to the sender according to the sending bank's policy. Optional.
         """
         path = f"/v1/accounts/virtual"
         params = None
@@ -189,15 +206,19 @@ class AsyncVirtualAccounts:
         body["accountName"] = account_name
         if bvn is not None:
             body["bvn"] = bvn
+        if nin is not None:
+            body["nin"] = nin
         if expiry_date is not None:
             body["expiryDate"] = expiry_date
         if expected_amount is not None:
             body["expectedAmount"] = expected_amount
+        if restrict_inflow_to_account_name is not None:
+            body["restrictInflowToAccountName"] = restrict_inflow_to_account_name
         body.update(extra)
         validate_body("post", "/v1/accounts/virtual", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    async def create_virtual_account_for_a_sub_account(self, sub_account_id: str, account_ref, account_name, *, bvn: object | None = None, expiry_date: object | None = None, expected_amount: object | None = None, **extra: object) -> _models.CreateVirtualAccountForASubAccountResponse:
+    async def create_virtual_account_for_a_sub_account(self, sub_account_id: str, account_ref, account_name, *, bvn: object | None = None, nin: object | None = None, expiry_date: object | None = None, expected_amount: object | None = None, restrict_inflow_to_account_name: object | None = None, **extra: object) -> _models.CreateVirtualAccountForASubAccountResponse:
         """
         Create virtual account for a sub account
 
@@ -207,8 +228,11 @@ class AsyncVirtualAccounts:
             accountRef (required): Account reference
             accountName (required): Account holder's name
             bvn: Account holder's BVN. Optional.
-            expiryDate: Account expiry date. Optional. ⚠️Be careful with this.
+            nin: Account holder's National Identification Number (NIN). Optional.
+ Must be exactly 11 digits. Can be sent on its own or alongside `bvn`. If neither is sent, the BVN on the parent business account is used.
+            expiryDate: Account expiry date in UTC. Optional. ⚠️Be careful with this.
             expectedAmount: Amount the account can receive. Optional.
+            restrictInflowToAccountName: When set to true, Nomba will reject any inflow to the virtual account whose sender name does not match the virtual account name. The order of names does not matter—for example, a VA name of 'John Doe Naomi' would match sender names like 'Doe John Naomi' or 'Naomi Doe John', since different banks may arrange names differently. A `payment_failed` webhook event is sent to notify the merchant that the inflow was rejected. The rejected inflow is reversed back to the sender according to the sending bank's policy. Optional.
         """
         path = f"/v1/accounts/virtual/{sub_account_id}"
         params = None
@@ -217,10 +241,14 @@ class AsyncVirtualAccounts:
         body["accountName"] = account_name
         if bvn is not None:
             body["bvn"] = bvn
+        if nin is not None:
+            body["nin"] = nin
         if expiry_date is not None:
             body["expiryDate"] = expiry_date
         if expected_amount is not None:
             body["expectedAmount"] = expected_amount
+        if restrict_inflow_to_account_name is not None:
+            body["restrictInflowToAccountName"] = restrict_inflow_to_account_name
         body.update(extra)
         validate_body("post", "/v1/accounts/virtual/{subAccountId}", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]

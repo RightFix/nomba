@@ -1,10 +1,10 @@
 [project]
 name = "nomba-python"
-version = "0.3.0"
+version = "0.4.0"
 description = "Unofficial Python SDK for the Nomba payments API"
 readme = "README.md"
 requires-python = ">=3.9"
-license = "AGPL-3.0"
+license = "AGPL-3.0-only"
 license-files = ["LICENSE"]
 authors = [
     { name = "Righteousness" },
@@ -19,6 +19,10 @@ classifiers = [
 ]
 dependencies = [
     "httpx>=0.28.1",
+]
+
+[dependency-groups]
+dev = [
     "pytest>=8.4.2",
     "twine>=6.2.0",
 ]
@@ -32,5 +36,5 @@ Repository = "https://github.com/RightFix/nomba"
 module-name = "nomba"
 
 [build-system]
-requires = ["uv_build>=0.11.7,<0.12.0"]
+requires = ["uv_build>=0.11.7"]
 build-backend = "uv_build"

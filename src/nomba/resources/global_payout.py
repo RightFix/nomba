@@ -15,7 +15,7 @@ class GlobalPayout:
     def __init__(self, client: NombaClient) -> None:
         self._client = client
 
-    def authorize_transfer(self, amount, source_currency, destination_currency, receiver_name, source_country_iso_code, destination_country_iso_code, payment_method, account_type, *, account_number: object | None = None, institution_code: object | None = None, institution_name: object | None = None, bank_account_type: object | None = None, purpose_of_payment: object | None = None, narration: object | None = None, locked_exchange_rate_id: object | None = None, bank_address: object | None = None, bank_city: object | None = None, bank_state: object | None = None, bank_zip_code: object | None = None, beneficiary: object | None = None, **extra: object) -> _models.AuthorizeTransferResponse:
+    def authorize_transfer(self, amount, source_currency, destination_currency, receiver_name, source_country_iso_code, destination_country_iso_code, payment_method, account_type, *, account_number: object | None = None, institution_code: object | None = None, institution_name: object | None = None, bank_account_type: object | None = None, purpose_of_payment: object | None = None, narration: object | None = None, locked_exchange_rate_id: object | None = None, idempotency_key: object | None = None, bank_address: object | None = None, bank_city: object | None = None, bank_state: object | None = None, bank_zip_code: object | None = None, beneficiary: object | None = None, **extra: object) -> _models.AuthorizeTransferResponse:
         """
 
         Initiate and authorize a cross-border transfer. Manages the complete transfer lifecycle from initiation to final authorization. Supports BANK, MobileMoney, INTERAC, FASTER_PAYMENTS, SEPA, ACH, and WIRE payment methods.
@@ -36,6 +36,7 @@ class GlobalPayout:
             purposeOfPayment: Reason for the transfer. Required for ACH, WIRE, and SEPA. Select one of the values returned in purposeOfPayments from Fetch Payment Methods; do not send arbitrary text.
             narration: 
             lockedExchangeRateId: Optional locked exchange rate ID from Convert Money. Use this when you want to lock the exchange rate and destination amount before authorizing.
+            idempotencyKey: Optional. Your own unique key for this request. Send the same key when retrying and the original transaction is returned instead of a second one being created. A key stays tied to its transaction permanently — use a new key for a new attempt.
             bankAddress: Bank street address. Required for United States WIRE.
             bankCity: Bank city. Required for United States WIRE.
             bankState: Bank state. Required for United States WIRE.
@@ -67,6 +68,8 @@ class GlobalPayout:
             body["narration"] = narration
         if locked_exchange_rate_id is not None:
             body["lockedExchangeRateId"] = locked_exchange_rate_id
+        if idempotency_key is not None:
+            body["idempotencyKey"] = idempotency_key
         if bank_address is not None:
             body["bankAddress"] = bank_address
         if bank_city is not None:
@@ -81,7 +84,7 @@ class GlobalPayout:
         validate_body("post", "/v1/global-payout/transfer/authorize", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    def authorize_exchange(self, amount, source_currency, destination_currency, sender_name, receiver_name, source_country_iso_code, destination_country_iso_code, *, narration: object | None = None, locked_exchange_rate_id: object | None = None, **extra: object) -> _models.AuthorizeExchangeResponse:
+    def authorize_exchange(self, amount, source_currency, destination_currency, sender_name, receiver_name, source_country_iso_code, destination_country_iso_code, *, narration: object | None = None, locked_exchange_rate_id: object | None = None, idempotency_key: object | None = None, **extra: object) -> _models.AuthorizeExchangeResponse:
         """
 
         Transfer funds between your own accounts in different currencies.
@@ -96,6 +99,7 @@ class GlobalPayout:
             destinationCountryIsoCode (required): 
             narration: 
             lockedExchangeRateId: The exchangeRateId from a prior Fetch Exchange Rates call. When provided, the exchange is fulfilled at that exact rate.
+            idempotencyKey: Optional. Your own unique key for this request. Send the same key when retrying and the original transaction is returned instead of a second one being created. A key stays tied to its transaction permanently — use a new key for a new attempt.
         """
         path = f"/v1/global-payout/exchange/authorize"
         params = None
@@ -111,6 +115,8 @@ class GlobalPayout:
             body["narration"] = narration
         if locked_exchange_rate_id is not None:
             body["lockedExchangeRateId"] = locked_exchange_rate_id
+        if idempotency_key is not None:
+            body["idempotencyKey"] = idempotency_key
         body.update(extra)
         validate_body("post", "/v1/global-payout/exchange/authorize", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
@@ -161,13 +167,17 @@ class GlobalPayout:
         params = None
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
-    def fetch_payment_methods(self, *, code: str | None = None, name: str | None = None, **extra: object) -> _models.FetchPaymentMethodsResponse:
+    def fetch_payment_methods(self, *, destination_country_iso_code: str | None = None, destination_currency: str | None = None, code: str | None = None, name: str | None = None, **extra: object) -> _models.FetchPaymentMethodsResponse:
         """
 
         Returns all supported payment methods and their method-specific requirements. Filter by code or name to retrieve a specific method.
         """
         path = f"/v1/global-payout/payment-methods"
         params: dict[str, object] = {}
+        if destination_country_iso_code is not None:
+            params["destinationCountryIsoCode"] = destination_country_iso_code
+        if destination_currency is not None:
+            params["destinationCurrency"] = destination_currency
         if code is not None:
             params["code"] = code
         if name is not None:
@@ -231,7 +241,7 @@ class AsyncGlobalPayout:
     def __init__(self, client: AsyncNombaClient) -> None:
         self._client = client
 
-    async def authorize_transfer(self, amount, source_currency, destination_currency, receiver_name, source_country_iso_code, destination_country_iso_code, payment_method, account_type, *, account_number: object | None = None, institution_code: object | None = None, institution_name: object | None = None, bank_account_type: object | None = None, purpose_of_payment: object | None = None, narration: object | None = None, locked_exchange_rate_id: object | None = None, bank_address: object | None = None, bank_city: object | None = None, bank_state: object | None = None, bank_zip_code: object | None = None, beneficiary: object | None = None, **extra: object) -> _models.AuthorizeTransferResponse:
+    async def authorize_transfer(self, amount, source_currency, destination_currency, receiver_name, source_country_iso_code, destination_country_iso_code, payment_method, account_type, *, account_number: object | None = None, institution_code: object | None = None, institution_name: object | None = None, bank_account_type: object | None = None, purpose_of_payment: object | None = None, narration: object | None = None, locked_exchange_rate_id: object | None = None, idempotency_key: object | None = None, bank_address: object | None = None, bank_city: object | None = None, bank_state: object | None = None, bank_zip_code: object | None = None, beneficiary: object | None = None, **extra: object) -> _models.AuthorizeTransferResponse:
         """
 
         Initiate and authorize a cross-border transfer. Manages the complete transfer lifecycle from initiation to final authorization. Supports BANK, MobileMoney, INTERAC, FASTER_PAYMENTS, SEPA, ACH, and WIRE payment methods.
@@ -252,6 +262,7 @@ class AsyncGlobalPayout:
             purposeOfPayment: Reason for the transfer. Required for ACH, WIRE, and SEPA. Select one of the values returned in purposeOfPayments from Fetch Payment Methods; do not send arbitrary text.
             narration: 
             lockedExchangeRateId: Optional locked exchange rate ID from Convert Money. Use this when you want to lock the exchange rate and destination amount before authorizing.
+            idempotencyKey: Optional. Your own unique key for this request. Send the same key when retrying and the original transaction is returned instead of a second one being created. A key stays tied to its transaction permanently — use a new key for a new attempt.
             bankAddress: Bank street address. Required for United States WIRE.
             bankCity: Bank city. Required for United States WIRE.
             bankState: Bank state. Required for United States WIRE.
@@ -283,6 +294,8 @@ class AsyncGlobalPayout:
             body["narration"] = narration
         if locked_exchange_rate_id is not None:
             body["lockedExchangeRateId"] = locked_exchange_rate_id
+        if idempotency_key is not None:
+            body["idempotencyKey"] = idempotency_key
         if bank_address is not None:
             body["bankAddress"] = bank_address
         if bank_city is not None:
@@ -297,7 +310,7 @@ class AsyncGlobalPayout:
         validate_body("post", "/v1/global-payout/transfer/authorize", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    async def authorize_exchange(self, amount, source_currency, destination_currency, sender_name, receiver_name, source_country_iso_code, destination_country_iso_code, *, narration: object | None = None, locked_exchange_rate_id: object | None = None, **extra: object) -> _models.AuthorizeExchangeResponse:
+    async def authorize_exchange(self, amount, source_currency, destination_currency, sender_name, receiver_name, source_country_iso_code, destination_country_iso_code, *, narration: object | None = None, locked_exchange_rate_id: object | None = None, idempotency_key: object | None = None, **extra: object) -> _models.AuthorizeExchangeResponse:
         """
 
         Transfer funds between your own accounts in different currencies.
@@ -312,6 +325,7 @@ class AsyncGlobalPayout:
             destinationCountryIsoCode (required): 
             narration: 
             lockedExchangeRateId: The exchangeRateId from a prior Fetch Exchange Rates call. When provided, the exchange is fulfilled at that exact rate.
+            idempotencyKey: Optional. Your own unique key for this request. Send the same key when retrying and the original transaction is returned instead of a second one being created. A key stays tied to its transaction permanently — use a new key for a new attempt.
         """
         path = f"/v1/global-payout/exchange/authorize"
         params = None
@@ -327,6 +341,8 @@ class AsyncGlobalPayout:
             body["narration"] = narration
         if locked_exchange_rate_id is not None:
             body["lockedExchangeRateId"] = locked_exchange_rate_id
+        if idempotency_key is not None:
+            body["idempotencyKey"] = idempotency_key
         body.update(extra)
         validate_body("post", "/v1/global-payout/exchange/authorize", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
@@ -377,13 +393,17 @@ class AsyncGlobalPayout:
         params = None
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
-    async def fetch_payment_methods(self, *, code: str | None = None, name: str | None = None, **extra: object) -> _models.FetchPaymentMethodsResponse:
+    async def fetch_payment_methods(self, *, destination_country_iso_code: str | None = None, destination_currency: str | None = None, code: str | None = None, name: str | None = None, **extra: object) -> _models.FetchPaymentMethodsResponse:
         """
 
         Returns all supported payment methods and their method-specific requirements. Filter by code or name to retrieve a specific method.
         """
         path = f"/v1/global-payout/payment-methods"
         params: dict[str, object] = {}
+        if destination_country_iso_code is not None:
+            params["destinationCountryIsoCode"] = destination_country_iso_code
+        if destination_currency is not None:
+            params["destinationCurrency"] = destination_currency
         if code is not None:
             params["code"] = code
         if name is not None:

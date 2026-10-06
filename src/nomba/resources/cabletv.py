@@ -33,7 +33,7 @@ class CableTv:
         """
         CableTv subscription via parent account
 
-        You can use this endpoint to make cable tv subscription via parent account
+        **Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/cabletv` instead.
 
         Body fields:
             cableTvType: 
@@ -59,11 +59,41 @@ class CableTv:
         validate_body("post", "/v1/bill/cabletv", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
+    def cable_tv_subscription_via_parent_account_v2(self, *, cable_tv_type: object | None = None, merchant_tx_ref: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, **extra: object) -> _models.CableTvSubscriptionViaParentAccountV2Response:
+        """
+        CableTv subscription via parent account
+
+        You can use this endpoint to make cable tv subscription via parent account
+
+        Body fields:
+            cableTvType: 
+            merchantTxRef: This is an idempotency key and must be unique per transaction.
+            payerName: 
+            amount: 
+            customerId: 
+        """
+        path = f"/v2/bill/cabletv"
+        params = None
+        body: dict[str, object] = {}
+        if cable_tv_type is not None:
+            body["cableTvType"] = cable_tv_type
+        if merchant_tx_ref is not None:
+            body["merchantTxRef"] = merchant_tx_ref
+        if payer_name is not None:
+            body["payerName"] = payer_name
+        if amount is not None:
+            body["amount"] = amount
+        if customer_id is not None:
+            body["customerId"] = customer_id
+        body.update(extra)
+        validate_body("post", "/v2/bill/cabletv", body)
+        return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
+
     def cable_tv_subscription_via_a_sub_account(self, sub_account_id: str, *, cable_tv_type: object | None = None, merchant_tx_ref: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, **extra: object) -> _models.CableTvSubscriptionViaASubAccountResponse:
         """
         CableTv subscription via a sub account
 
-        You can use this endpoint to make cable tv subscription via a sub account
+        **Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/cabletv/{subAccountId}` instead.
 
         Body fields:
             cableTvType: 
@@ -87,6 +117,36 @@ class CableTv:
             body["customerId"] = customer_id
         body.update(extra)
         validate_body("post", "/v1/bill/cabletv/{subAccountId}", body)
+        return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
+
+    def cable_tv_subscription_via_a_sub_account_v2(self, sub_account_id: str, *, cable_tv_type: object | None = None, merchant_tx_ref: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, **extra: object) -> _models.CableTvSubscriptionViaASubAccountV2Response:
+        """
+        CableTv subscription via sub account
+
+        You can use this endpoint to make cable tv subscription via a sub account
+
+        Body fields:
+            cableTvType: 
+            merchantTxRef: This is an idempotency key and must be unique per transaction.
+            payerName: 
+            amount: 
+            customerId: 
+        """
+        path = f"/v2/bill/cabletv/{sub_account_id}"
+        params = None
+        body: dict[str, object] = {}
+        if cable_tv_type is not None:
+            body["cableTvType"] = cable_tv_type
+        if merchant_tx_ref is not None:
+            body["merchantTxRef"] = merchant_tx_ref
+        if payer_name is not None:
+            body["payerName"] = payer_name
+        if amount is not None:
+            body["amount"] = amount
+        if customer_id is not None:
+            body["customerId"] = customer_id
+        body.update(extra)
+        validate_body("post", "/v2/bill/cabletv/{subAccountId}", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
 
@@ -115,7 +175,7 @@ class AsyncCableTv:
         """
         CableTv subscription via parent account
 
-        You can use this endpoint to make cable tv subscription via parent account
+        **Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/cabletv` instead.
 
         Body fields:
             cableTvType: 
@@ -141,11 +201,41 @@ class AsyncCableTv:
         validate_body("post", "/v1/bill/cabletv", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
+    async def cable_tv_subscription_via_parent_account_v2(self, *, cable_tv_type: object | None = None, merchant_tx_ref: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, **extra: object) -> _models.CableTvSubscriptionViaParentAccountV2Response:
+        """
+        CableTv subscription via parent account
+
+        You can use this endpoint to make cable tv subscription via parent account
+
+        Body fields:
+            cableTvType: 
+            merchantTxRef: This is an idempotency key and must be unique per transaction.
+            payerName: 
+            amount: 
+            customerId: 
+        """
+        path = f"/v2/bill/cabletv"
+        params = None
+        body: dict[str, object] = {}
+        if cable_tv_type is not None:
+            body["cableTvType"] = cable_tv_type
+        if merchant_tx_ref is not None:
+            body["merchantTxRef"] = merchant_tx_ref
+        if payer_name is not None:
+            body["payerName"] = payer_name
+        if amount is not None:
+            body["amount"] = amount
+        if customer_id is not None:
+            body["customerId"] = customer_id
+        body.update(extra)
+        validate_body("post", "/v2/bill/cabletv", body)
+        return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
+
     async def cable_tv_subscription_via_a_sub_account(self, sub_account_id: str, *, cable_tv_type: object | None = None, merchant_tx_ref: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, **extra: object) -> _models.CableTvSubscriptionViaASubAccountResponse:
         """
         CableTv subscription via a sub account
 
-        You can use this endpoint to make cable tv subscription via a sub account
+        **Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/cabletv/{subAccountId}` instead.
 
         Body fields:
             cableTvType: 
@@ -169,5 +259,35 @@ class AsyncCableTv:
             body["customerId"] = customer_id
         body.update(extra)
         validate_body("post", "/v1/bill/cabletv/{subAccountId}", body)
+        return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
+
+    async def cable_tv_subscription_via_a_sub_account_v2(self, sub_account_id: str, *, cable_tv_type: object | None = None, merchant_tx_ref: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, **extra: object) -> _models.CableTvSubscriptionViaASubAccountV2Response:
+        """
+        CableTv subscription via sub account
+
+        You can use this endpoint to make cable tv subscription via a sub account
+
+        Body fields:
+            cableTvType: 
+            merchantTxRef: This is an idempotency key and must be unique per transaction.
+            payerName: 
+            amount: 
+            customerId: 
+        """
+        path = f"/v2/bill/cabletv/{sub_account_id}"
+        params = None
+        body: dict[str, object] = {}
+        if cable_tv_type is not None:
+            body["cableTvType"] = cable_tv_type
+        if merchant_tx_ref is not None:
+            body["merchantTxRef"] = merchant_tx_ref
+        if payer_name is not None:
+            body["payerName"] = payer_name
+        if amount is not None:
+            body["amount"] = amount
+        if customer_id is not None:
+            body["customerId"] = customer_id
+        body.update(extra)
+        validate_body("post", "/v2/bill/cabletv/{subAccountId}", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 

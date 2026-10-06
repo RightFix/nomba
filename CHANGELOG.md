@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2026-10-06
+
+### Added
+- Synced with the live Nomba OpenAPI spec (90 → 100 paths, 94 → 104
+  non-auth operations): added the 10 new `/v2/bill/...` vend endpoints as
+  `*_v2` methods (sync + async) in `airtime_data` (+4), `betting` (+2),
+  `cabletv` (+2), `electricity` (+2).
+- Nomba marks the v1 bill-vend endpoints as deprecated in favour of the v2
+  twins — both are kept; prefer `*_v2` for new integrations.
+- Also picked up additive upstream spec drift in `global_payout`:
+  optional `idempotencyKey` on `authorize_transfer`/`authorize_exchange`,
+  and optional `destinationCountryIsoCode`/`destinationCurrency` filters on
+  `fetch_payment_methods`. All optional, backwards-compatible.
+
+### Fixed
+- Hardened `scripts/generate_resources.py` against the recurring upstream
+  spec bug where a path declares a `{param}` placeholder but omits it from
+  the operation's parameters (still present for
+  `POST /v1/terminals/payment-request/{terminalId}`): missing path params
+  are now injected so regeneration no longer emits an undefined variable.
+- Fixed packaging metadata so `uv run`/`uv build` work: `license`
+  `AGPL-3.0` → `AGPL-3.0-only` (deprecated SPDX identifier) and relaxed
+  `uv_build` upper bound; `__init__.__version__` `0.2.0` → `0.4.0` to match
+  `pyproject.toml`.
+
+### Changed
+- Moved `pytest`/`twine` from runtime `dependencies` to the `dev`
+  dependency group; runtime now only requires `httpx`.
+- `test.py` no longer contains hardcoded credentials — reads from
+  environment variables.
+
 ## [0.3.0] - 2026-08-15
 
 ### Added

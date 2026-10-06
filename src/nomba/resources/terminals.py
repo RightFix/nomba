@@ -15,14 +15,7 @@ class Terminals:
     def __init__(self, client: NombaClient) -> None:
         self._client = client
 
-    def assign_a_terminal_to_an_account(
-        self,
-        sub_account_id: str,
-        serial_number,
-        *,
-        terminal_label: object | None = None,
-        **extra: object,
-    ) -> _models.AssignATerminalToAnAccountResponse:
+    def assign_a_terminal_to_an_account(self, sub_account_id: str, serial_number, *, terminal_label: object | None = None, **extra: object) -> _models.AssignATerminalToAnAccountResponse:
         """
         Assign a terminal to a sub account
 
@@ -42,9 +35,7 @@ class Terminals:
         validate_body("post", "/v1/terminals/assign/{subAccountId}", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    def assign_a_terminal_to_the_parent_account(
-        self, serial_number, *, terminal_label: object | None = None, **extra: object
-    ) -> _models.AssignATerminalToTheParentAccountResponse:
+    def assign_a_terminal_to_the_parent_account(self, serial_number, *, terminal_label: object | None = None, **extra: object) -> _models.AssignATerminalToTheParentAccountResponse:
         """
         Assign a terminal to the parent account
 
@@ -64,14 +55,7 @@ class Terminals:
         validate_body("post", "/v1/terminals/assign", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    def un_assign_terminal_from_an_account(
-        self,
-        sub_account_id: str,
-        serial_number,
-        *,
-        terminal_label: object | None = None,
-        **extra: object,
-    ) -> _models.UnAssignTerminalFromAnAccountResponse:
+    def un_assign_terminal_from_an_account(self, sub_account_id: str, serial_number, *, terminal_label: object | None = None, **extra: object) -> _models.UnAssignTerminalFromAnAccountResponse:
         """
         Un-assign terminal from a sub account
 
@@ -91,9 +75,7 @@ class Terminals:
         validate_body("post", "/v1/terminals/unassign/{subAccountId}", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    def un_assign_a_terminal_from_the_parent_account(
-        self, serial_number, *, terminal_label: object | None = None, **extra: object
-    ) -> _models.UnAssignATerminalFromTheParentAccountResponse:
+    def un_assign_a_terminal_from_the_parent_account(self, serial_number, *, terminal_label: object | None = None, **extra: object) -> _models.UnAssignATerminalFromTheParentAccountResponse:
         """
         Un-assign a terminal from the parent account
 
@@ -113,16 +95,13 @@ class Terminals:
         validate_body("post", "/v1/terminals/unassign", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    def send_payment_request_to_terminal(
-        self, terminal_id: str, merchant_tx_ref, amount, currency, **extra: object
-    ) -> _models.SendPaymentRequestToTerminalResponse:
+    def send_payment_request_to_terminal(self, terminal_id: str, merchant_tx_ref, amount, currency, **extra: object) -> _models.SendPaymentRequestToTerminalResponse:
         """
         Send payment request to terminal
 
         You can use this endpoint to trigger a payment request on a nomba terminal
 
         Body fields:
-            terminalId (required): The id of the terminal to send the payment request to.
             merchantTxRef (required): The unique identifier for the order associated with the payment.
             amount (required): The total amount to be charged on the terminal, in the smallest currency unit (e.g., cents, kobo).
             currency (required): Currency code based on the ISO4217 standard
@@ -136,6 +115,7 @@ class Terminals:
         body.update(extra)
         validate_body("post", "/v1/terminals/payment-request/{terminalId}", body)
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
+
 
 
 class AsyncTerminals:
@@ -144,14 +124,7 @@ class AsyncTerminals:
     def __init__(self, client: AsyncNombaClient) -> None:
         self._client = client
 
-    async def assign_a_terminal_to_an_account(
-        self,
-        sub_account_id: str,
-        serial_number,
-        *,
-        terminal_label: object | None = None,
-        **extra: object,
-    ) -> _models.AssignATerminalToAnAccountResponse:
+    async def assign_a_terminal_to_an_account(self, sub_account_id: str, serial_number, *, terminal_label: object | None = None, **extra: object) -> _models.AssignATerminalToAnAccountResponse:
         """
         Assign a terminal to a sub account
 
@@ -171,9 +144,7 @@ class AsyncTerminals:
         validate_body("post", "/v1/terminals/assign/{subAccountId}", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    async def assign_a_terminal_to_the_parent_account(
-        self, serial_number, *, terminal_label: object | None = None, **extra: object
-    ) -> _models.AssignATerminalToTheParentAccountResponse:
+    async def assign_a_terminal_to_the_parent_account(self, serial_number, *, terminal_label: object | None = None, **extra: object) -> _models.AssignATerminalToTheParentAccountResponse:
         """
         Assign a terminal to the parent account
 
@@ -193,14 +164,7 @@ class AsyncTerminals:
         validate_body("post", "/v1/terminals/assign", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    async def un_assign_terminal_from_an_account(
-        self,
-        sub_account_id: str,
-        serial_number,
-        *,
-        terminal_label: object | None = None,
-        **extra: object,
-    ) -> _models.UnAssignTerminalFromAnAccountResponse:
+    async def un_assign_terminal_from_an_account(self, sub_account_id: str, serial_number, *, terminal_label: object | None = None, **extra: object) -> _models.UnAssignTerminalFromAnAccountResponse:
         """
         Un-assign terminal from a sub account
 
@@ -220,9 +184,7 @@ class AsyncTerminals:
         validate_body("post", "/v1/terminals/unassign/{subAccountId}", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    async def un_assign_a_terminal_from_the_parent_account(
-        self, serial_number, *, terminal_label: object | None = None, **extra: object
-    ) -> _models.UnAssignATerminalFromTheParentAccountResponse:
+    async def un_assign_a_terminal_from_the_parent_account(self, serial_number, *, terminal_label: object | None = None, **extra: object) -> _models.UnAssignATerminalFromTheParentAccountResponse:
         """
         Un-assign a terminal from the parent account
 
@@ -242,16 +204,13 @@ class AsyncTerminals:
         validate_body("post", "/v1/terminals/unassign", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
-    async def send_payment_request_to_terminal(
-        self, terminal_id: str, merchant_tx_ref, amount, currency, **extra: object
-    ) -> _models.SendPaymentRequestToTerminalResponse:
+    async def send_payment_request_to_terminal(self, terminal_id: str, merchant_tx_ref, amount, currency, **extra: object) -> _models.SendPaymentRequestToTerminalResponse:
         """
         Send payment request to terminal
 
         You can use this endpoint to trigger a payment request on a nomba terminal
 
         Body fields:
-            terminalId (required): The id of the terminal to send the payment request to.
             merchantTxRef (required): The unique identifier for the order associated with the payment.
             amount (required): The total amount to be charged on the terminal, in the smallest currency unit (e.g., cents, kobo).
             currency (required): Currency code based on the ISO4217 standard
@@ -265,3 +224,4 @@ class AsyncTerminals:
         body.update(extra)
         validate_body("post", "/v1/terminals/payment-request/{terminalId}", body)
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
+

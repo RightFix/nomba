@@ -4,7 +4,7 @@
 
 Unofficial Python SDK for the [Nomba](https://developer.nomba.com) payments API, built with [`uv`](https://docs.astral.sh/uv/) and [`httpx`](https://www.python-httpx.org/).
 
-Covers **every endpoint** in Nomba's official [OpenAPI spec](https://developer.nomba.com/nomba-api-reference/openapi.json) — 94 methods across 14 resource groups, generated directly from the spec so field names and required/optional parameters match Nomba's docs exactly. (OAuth token issue/refresh/revoke are handled automatically by the client, so they're not exposed as resource methods.)
+Covers **every endpoint** in Nomba's official [OpenAPI spec](https://developer.nomba.com/nomba-api-reference/openapi.json) — 104 methods across 14 resource groups, generated directly from the spec so field names and required/optional parameters match Nomba's docs exactly. (OAuth token issue/refresh/revoke are handled automatically by the client, so they're not exposed as resource methods.)
 
 ## Install
 
@@ -85,10 +85,10 @@ Each group is available on both `Nomba` and `AsyncNomba` (async methods are awai
 | `transfers`          | `perform_bank_account_lookup`, `perform_bank_account_transfer_the_parent_account`, `perform_wallet_transfer_from_a_sub_account` |
 | `terminals`          | `assign_a_terminal_to_the_parent_account`, `un_assign_terminal_from_an_account` |
 | `transactions`       | `fetch_transactions_on_the_parent_account`, `filter_account_transactions`, `confirm_a_transaction_s_status_by_session_id` |
-| `airtime_data`       | `make_airtime_purchases_via_parent_account`, `vend_data_bundles_via_parent_account`, `fetch_data_plans_available_on_a_telco_network_provider` |
-| `cabletv`            | `cabletv_lookup`, `cable_tv_subscription_via_parent_account` |
-| `electricity`        | `fetch_electricity_providers`, `electricity_customer_lookup`, `vend_electricity_via_parent_account` |
-| `betting`            | `fetch_betting_providers`, `name_lookup_for_betting`, `pay_for_betting_via_parent_account` |
+| `airtime_data`       | `make_airtime_purchases_via_parent_account`, `vend_data_bundles_via_parent_account`, `make_airtime_purchases_via_parent_account_v2`, `vend_data_bundles_via_parent_account_v2` |
+| `cabletv`            | `cabletv_lookup`, `cable_tv_subscription_via_parent_account`, `cable_tv_subscription_via_parent_account_v2` |
+| `electricity`        | `fetch_electricity_providers`, `electricity_customer_lookup`, `vend_electricity_via_parent_account`, `vend_electricity_via_parent_account_v2` |
+| `betting`            | `fetch_betting_providers`, `name_lookup_for_betting`, `pay_for_betting_via_parent_account`, `vend_betting_via_parent_account_v2` |
 | `direct_debits`      | `create_direct_debit_mandate`, `debit_a_mandate`, `check_direct_debit_status`, `list_direct_debit_mandates` |
 | `global_collections` | `fetch_drc_inflow_providers`, `initiate_mobile_money_inflow`, `fetch_mobile_money_transaction` |
 | `global_payout`      | `fetch_exchange_rates`, `convert_money`, `authorize_transfer`, `authorize_exchange`, `fetch_transaction`, `fetch_global_payout_accounts`, `fetch_global_payout_account`, `fetch_global_payout_accounts_sandbox`, `fetch_global_payout_account_sandbox` |
@@ -288,10 +288,16 @@ uv run python -m pytest   # once tests are added
 
 ## Status
 
-Generated from Nomba's official OpenAPI spec (v1.0.0) — all 86 documented
+Generated from Nomba's official OpenAPI spec (v1.0.0) — all 104 documented
 endpoints across Accounts, Virtual Accounts, Online Checkout, Charge,
 Transfers, Terminals, Transactions, Airtime/Data, CableTV, Electricity,
 Betting, Direct Debits, Global Collections, and Global Payout.
+
+Note: Nomba now marks the v1 bill-vend endpoints (`POST /v1/bill/topup`,
+`/v1/bill/data`, `/v1/bill/electricity`, `/v1/bill/cabletv`,
+`/v1/bill/betting` + sub-account variants) as deprecated in favour of their
+`/v2/bill/...` twins (exposed here as `*_v2` methods). Both versions are
+included; prefer the `*_v2` methods for new integrations.
 
 Also includes: typed responses, cursor pagination helpers, a guided
 card-payment flow, locked/retrying HTTP clients, local nested-body

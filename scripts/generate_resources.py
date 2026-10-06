@@ -100,7 +100,7 @@ def build_operation(spec, path, verb, op):
 
     path_params = []
     query_params = []
-    for p in op.get("parameters", []):
+    for p in op.get("parameters", []) or []:
         if p["name"].lower() == "accountid" and p["in"] == "header":
             continue  # handled automatically by the client
         entry = {
@@ -113,6 +113,24 @@ def build_operation(spec, path, verb, op):
             path_params.append(entry)
         elif p["in"] == "query":
             query_params.append(entry)
+
+    # Work around spec bug: some paths declare a `{param}` placeholder but omit
+    # it from the operation's parameters (e.g. terminalId in
+    # POST /v1/terminals/payment-request/{terminalId}). Without this the
+    # generated f-string references an undefined variable.
+    declared = set(re.findall(r"\{([^}]+)\}", path.split("?", 1)[0]))
+    known = {p["name"] for p in path_params}
+    for placeholder in declared:
+        if placeholder not in known:
+            path_params.insert(
+                0,
+                {
+                    "name": placeholder,
+                    "py_name": safe_param_name(placeholder),
+                    "required": True,
+                    "description": "",
+                },
+            )
 
     body_required: list[str] = []
     body_optional: list[str] = []

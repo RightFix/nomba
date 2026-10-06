@@ -138,6 +138,7 @@ class CreateVirtualAccountData(TypedDict, total=False):
     accountHolderId: str
     accountRef: str
     bvn: str
+    identifierType: str
     accountName: str
     bankName: str
     bankAccountNumber: str
@@ -145,6 +146,7 @@ class CreateVirtualAccountData(TypedDict, total=False):
     currency: str
     callbackUrl: str
     expired: bool
+    restrictInflowToAccountName: bool
 
 class CreateVirtualAccountResponse(TypedDict, total=False):
     code: str
@@ -156,6 +158,7 @@ class CreateVirtualAccountForASubAccountData(TypedDict, total=False):
     accountHolderId: str
     accountRef: str
     bvn: str
+    identifierType: str
     accountName: str
     bankName: str
     bankAccountNumber: str
@@ -163,6 +166,7 @@ class CreateVirtualAccountForASubAccountData(TypedDict, total=False):
     currency: str
     callbackUrl: str
     expired: bool
+    restrictInflowToAccountName: bool
 
 class CreateVirtualAccountForASubAccountResponse(TypedDict, total=False):
     code: str
@@ -685,11 +689,30 @@ class MakeAirtimePurchasesViaParentAccountData(TypedDict, total=False):
     type: str
     meta: dict[str, Any]
     status: str
+    id: str
 
 class MakeAirtimePurchasesViaParentAccountResponse(TypedDict, total=False):
     code: str
     description: str
     data: MakeAirtimePurchasesViaParentAccountData
+
+class MakeAirtimePurchasesViaParentAccountV2Data(TypedDict, total=False):
+    id: str
+    status: str
+    type: str
+    amount: float
+    source: str
+    sourceUserId: str
+    customerBillerId: str
+    productId: str
+    meta: dict[str, Any]
+    userId: str
+    timeCreated: str
+
+class MakeAirtimePurchasesViaParentAccountV2Response(TypedDict, total=False):
+    code: str
+    description: str
+    data: MakeAirtimePurchasesViaParentAccountV2Data
 
 class MakeAirtimePurchasesViaSpecificOrSubAccountData(TypedDict, total=False):
     amount: float
@@ -697,11 +720,30 @@ class MakeAirtimePurchasesViaSpecificOrSubAccountData(TypedDict, total=False):
     type: str
     meta: dict[str, Any]
     status: str
+    id: str
 
 class MakeAirtimePurchasesViaSpecificOrSubAccountResponse(TypedDict, total=False):
     code: str
     description: str
     data: MakeAirtimePurchasesViaSpecificOrSubAccountData
+
+class MakeAirtimePurchasesViaSpecificOrSubAccountV2Data(TypedDict, total=False):
+    id: str
+    status: str
+    type: str
+    amount: float
+    source: str
+    sourceUserId: str
+    customerBillerId: str
+    productId: str
+    meta: dict[str, Any]
+    userId: str
+    timeCreated: str
+
+class MakeAirtimePurchasesViaSpecificOrSubAccountV2Response(TypedDict, total=False):
+    code: str
+    description: str
+    data: MakeAirtimePurchasesViaSpecificOrSubAccountV2Data
 
 class VendDataBundlesViaParentAccountData(TypedDict, total=False):
     amount: float
@@ -711,11 +753,30 @@ class VendDataBundlesViaParentAccountData(TypedDict, total=False):
     type: str
     meta: dict[str, Any]
     status: str
+    id: str
 
 class VendDataBundlesViaParentAccountResponse(TypedDict, total=False):
     code: str
     description: str
     data: VendDataBundlesViaParentAccountData
+
+class VendDataBundlesViaParentAccountV2Data(TypedDict, total=False):
+    id: str
+    status: str
+    type: str
+    amount: float
+    source: str
+    sourceUserId: str
+    customerBillerId: str
+    productId: str
+    meta: dict[str, Any]
+    userId: str
+    timeCreated: str
+
+class VendDataBundlesViaParentAccountV2Response(TypedDict, total=False):
+    code: str
+    description: str
+    data: VendDataBundlesViaParentAccountV2Data
 
 class VendDataBundlesViaSpecificOrSubAccountData(TypedDict, total=False):
     amount: float
@@ -725,11 +786,30 @@ class VendDataBundlesViaSpecificOrSubAccountData(TypedDict, total=False):
     type: str
     meta: dict[str, Any]
     status: str
+    id: str
 
 class VendDataBundlesViaSpecificOrSubAccountResponse(TypedDict, total=False):
     code: str
     description: str
     data: VendDataBundlesViaSpecificOrSubAccountData
+
+class VendDataBundlesViaSpecificOrSubAccountV2Data(TypedDict, total=False):
+    id: str
+    status: str
+    type: str
+    amount: float
+    source: str
+    sourceUserId: str
+    customerBillerId: str
+    productId: str
+    meta: dict[str, Any]
+    userId: str
+    timeCreated: str
+
+class VendDataBundlesViaSpecificOrSubAccountV2Response(TypedDict, total=False):
+    code: str
+    description: str
+    data: VendDataBundlesViaSpecificOrSubAccountV2Data
 
 class CabletvLookupResponse(TypedDict, total=False):
     code: str
@@ -750,6 +830,24 @@ class CableTvSubscriptionViaParentAccountResponse(TypedDict, total=False):
     description: str
     data: CableTvSubscriptionViaParentAccountData
 
+class CableTvSubscriptionViaParentAccountV2Data(TypedDict, total=False):
+    id: str
+    status: str
+    type: str
+    amount: float
+    source: str
+    sourceUserId: str
+    customerBillerId: str
+    productId: str
+    meta: dict[str, Any]
+    userId: str
+    timeCreated: str
+
+class CableTvSubscriptionViaParentAccountV2Response(TypedDict, total=False):
+    code: str
+    description: str
+    data: CableTvSubscriptionViaParentAccountV2Data
+
 class CableTvSubscriptionViaASubAccountData(TypedDict, total=False):
     amount: float
     timeCreated: str
@@ -763,6 +861,24 @@ class CableTvSubscriptionViaASubAccountResponse(TypedDict, total=False):
     code: str
     description: str
     data: CableTvSubscriptionViaASubAccountData
+
+class CableTvSubscriptionViaASubAccountV2Data(TypedDict, total=False):
+    id: str
+    status: str
+    type: str
+    amount: float
+    source: str
+    sourceUserId: str
+    customerBillerId: str
+    productId: str
+    meta: dict[str, Any]
+    userId: str
+    timeCreated: str
+
+class CableTvSubscriptionViaASubAccountV2Response(TypedDict, total=False):
+    code: str
+    description: str
+    data: CableTvSubscriptionViaASubAccountV2Data
 
 class FetchElectricityProvidersData(TypedDict, total=False):
     id: str
@@ -792,6 +908,24 @@ class VendElectricityViaParentAccountResponse(TypedDict, total=False):
     description: str
     data: VendElectricityViaParentAccountData
 
+class VendElectricityViaParentAccountV2Data(TypedDict, total=False):
+    id: str
+    status: str
+    type: str
+    amount: float
+    source: str
+    sourceUserId: str
+    customerBillerId: str
+    productId: str
+    meta: dict[str, Any]
+    userId: str
+    timeCreated: str
+
+class VendElectricityViaParentAccountV2Response(TypedDict, total=False):
+    code: str
+    description: str
+    data: VendElectricityViaParentAccountV2Data
+
 class VendElectricityViaASubAccountData(TypedDict, total=False):
     amount: float
     timeCreated: str
@@ -805,6 +939,24 @@ class VendElectricityViaASubAccountResponse(TypedDict, total=False):
     code: str
     description: str
     data: VendElectricityViaASubAccountData
+
+class VendElectricityViaASubAccountV2Data(TypedDict, total=False):
+    id: str
+    status: str
+    type: str
+    amount: float
+    source: str
+    sourceUserId: str
+    customerBillerId: str
+    productId: str
+    meta: dict[str, Any]
+    userId: str
+    timeCreated: str
+
+class VendElectricityViaASubAccountV2Response(TypedDict, total=False):
+    code: str
+    description: str
+    data: VendElectricityViaASubAccountV2Data
 
 class FetchBettingProvidersResponse(TypedDict, total=False):
     code: str
@@ -830,6 +982,24 @@ class VendBettingViaParentAccountResponse(TypedDict, total=False):
     description: str
     data: VendBettingViaParentAccountData
 
+class VendBettingViaParentAccountV2Data(TypedDict, total=False):
+    id: str
+    status: str
+    type: str
+    amount: float
+    source: str
+    sourceUserId: str
+    customerBillerId: str
+    productId: str
+    meta: dict[str, Any]
+    userId: str
+    timeCreated: str
+
+class VendBettingViaParentAccountV2Response(TypedDict, total=False):
+    code: str
+    description: str
+    data: VendBettingViaParentAccountV2Data
+
 class VendBettingViaASubAccountData(TypedDict, total=False):
     amount: float
     timeCreated: str
@@ -843,6 +1013,24 @@ class VendBettingViaASubAccountResponse(TypedDict, total=False):
     code: str
     description: str
     data: VendBettingViaASubAccountData
+
+class VendBettingViaASubAccountV2Data(TypedDict, total=False):
+    id: str
+    status: str
+    type: str
+    amount: float
+    source: str
+    sourceUserId: str
+    customerBillerId: str
+    productId: str
+    meta: dict[str, Any]
+    userId: str
+    timeCreated: str
+
+class VendBettingViaASubAccountV2Response(TypedDict, total=False):
+    code: str
+    description: str
+    data: VendBettingViaASubAccountV2Data
 
 class GetMandatesByFiltersData(TypedDict, total=False):
     items: dict[str, Any]
@@ -923,6 +1111,8 @@ class AuthorizeTransferData(TypedDict, total=False):
     status: str
     coreStatus: str
     type: str
+    idempotencyKey: str
+    idempotentReplay: bool
     prettyStatus: str
     meta: dict[str, Any]
 
@@ -937,6 +1127,8 @@ class AuthorizeExchangeData(TypedDict, total=False):
     status: str
     coreStatus: str
     type: str
+    idempotencyKey: str
+    idempotentReplay: bool
 
 class AuthorizeExchangeResponse(TypedDict, total=False):
     code: str
@@ -976,6 +1168,7 @@ class FetchGlobalPayoutTransactionData(TypedDict, total=False):
     coreStatus: str
     type: str
     createdAt: str
+    idempotencyKey: str
 
 class FetchGlobalPayoutTransactionResponse(TypedDict, total=False):
     code: str
@@ -1048,6 +1241,9 @@ class FetchCollectionTransactionData(TypedDict, total=False):
     status: str
     amount: float
     currency: str
+    vendor: str
+    gatewayMessage: str
+    gatewayCode: str
 
 class FetchCollectionTransactionResponse(TypedDict, total=False):
     code: str
