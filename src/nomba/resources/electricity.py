@@ -27,11 +27,11 @@ class Electricity:
 
     def electricity_customer_lookup(self, *, disco: str | None = None, customer_id: str | None = None, **extra: object) -> _models.ElectricityCustomerLookupResponse:
         """
-        Fetch customer information from an electricity provider
+        Fetch customer information from an electricity provider (v2)
 
-        This endpoint is for fetching customer information data from an electricity vending provider
+        This endpoint is for fetching the customer's name and address from an electricity vending provider. Use it to confirm the customer's details before vending electricity.
         """
-        path = f"/v1/bill/electricity/lookup"
+        path = f"/v2/bill/electricity/lookup"
         params: dict[str, object] = {}
         if disco is not None:
             params["disco"] = disco
@@ -40,39 +40,6 @@ class Electricity:
         return self._client.get(path, params=params)  # type: ignore[return-value]
 
     def vend_electricity_via_parent_account(self, *, disco: object | None = None, merchant_tx_ref: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, meter_type: object | None = None, **extra: object) -> _models.VendElectricityViaParentAccountResponse:
-        """
-        Vend electricity via parent account
-
-        **Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/electricity` instead.
-
-        Body fields:
-            disco: 
-            merchantTxRef: This is an idempotency key and must be unique per transaction.
-            payerName: 
-            amount: 
-            customerId: 
-            meterType: 
-        """
-        path = f"/v1/bill/electricity"
-        params = None
-        body: dict[str, object] = {}
-        if disco is not None:
-            body["disco"] = disco
-        if merchant_tx_ref is not None:
-            body["merchantTxRef"] = merchant_tx_ref
-        if payer_name is not None:
-            body["payerName"] = payer_name
-        if amount is not None:
-            body["amount"] = amount
-        if customer_id is not None:
-            body["customerId"] = customer_id
-        if meter_type is not None:
-            body["meterType"] = meter_type
-        body.update(extra)
-        validate_body("post", "/v1/bill/electricity", body)
-        return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
-
-    def vend_electricity_via_parent_account_v2(self, *, disco: object | None = None, merchant_tx_ref: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, meter_type: object | None = None, **extra: object) -> _models.VendElectricityViaParentAccountV2Response:
         """
         Vend electricity via parent account
 
@@ -106,39 +73,6 @@ class Electricity:
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
     def vend_electricity_via_a_sub_account(self, sub_account_id: str, *, disco: object | None = None, merchant_tx_ref: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, meter_type: object | None = None, **extra: object) -> _models.VendElectricityViaASubAccountResponse:
-        """
-        Vend electricity via a specific account
-
-        **Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/electricity/{subAccountId}` instead.
-
-        Body fields:
-            disco: 
-            merchantTxRef: This is an idempotency key and must be unique per transaction.
-            payerName: 
-            amount: 
-            customerId: 
-            meterType: 
-        """
-        path = f"/v1/bill/electricity/{sub_account_id}"
-        params = None
-        body: dict[str, object] = {}
-        if disco is not None:
-            body["disco"] = disco
-        if merchant_tx_ref is not None:
-            body["merchantTxRef"] = merchant_tx_ref
-        if payer_name is not None:
-            body["payerName"] = payer_name
-        if amount is not None:
-            body["amount"] = amount
-        if customer_id is not None:
-            body["customerId"] = customer_id
-        if meter_type is not None:
-            body["meterType"] = meter_type
-        body.update(extra)
-        validate_body("post", "/v1/bill/electricity/{subAccountId}", body)
-        return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
-
-    def vend_electricity_via_a_sub_account_v2(self, sub_account_id: str, *, disco: object | None = None, merchant_tx_ref: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, meter_type: object | None = None, **extra: object) -> _models.VendElectricityViaASubAccountV2Response:
         """
         Vend electricity via sub account
 
@@ -191,11 +125,11 @@ class AsyncElectricity:
 
     async def electricity_customer_lookup(self, *, disco: str | None = None, customer_id: str | None = None, **extra: object) -> _models.ElectricityCustomerLookupResponse:
         """
-        Fetch customer information from an electricity provider
+        Fetch customer information from an electricity provider (v2)
 
-        This endpoint is for fetching customer information data from an electricity vending provider
+        This endpoint is for fetching the customer's name and address from an electricity vending provider. Use it to confirm the customer's details before vending electricity.
         """
-        path = f"/v1/bill/electricity/lookup"
+        path = f"/v2/bill/electricity/lookup"
         params: dict[str, object] = {}
         if disco is not None:
             params["disco"] = disco
@@ -204,39 +138,6 @@ class AsyncElectricity:
         return await self._client.get(path, params=params)  # type: ignore[return-value]
 
     async def vend_electricity_via_parent_account(self, *, disco: object | None = None, merchant_tx_ref: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, meter_type: object | None = None, **extra: object) -> _models.VendElectricityViaParentAccountResponse:
-        """
-        Vend electricity via parent account
-
-        **Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/electricity` instead.
-
-        Body fields:
-            disco: 
-            merchantTxRef: This is an idempotency key and must be unique per transaction.
-            payerName: 
-            amount: 
-            customerId: 
-            meterType: 
-        """
-        path = f"/v1/bill/electricity"
-        params = None
-        body: dict[str, object] = {}
-        if disco is not None:
-            body["disco"] = disco
-        if merchant_tx_ref is not None:
-            body["merchantTxRef"] = merchant_tx_ref
-        if payer_name is not None:
-            body["payerName"] = payer_name
-        if amount is not None:
-            body["amount"] = amount
-        if customer_id is not None:
-            body["customerId"] = customer_id
-        if meter_type is not None:
-            body["meterType"] = meter_type
-        body.update(extra)
-        validate_body("post", "/v1/bill/electricity", body)
-        return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
-
-    async def vend_electricity_via_parent_account_v2(self, *, disco: object | None = None, merchant_tx_ref: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, meter_type: object | None = None, **extra: object) -> _models.VendElectricityViaParentAccountV2Response:
         """
         Vend electricity via parent account
 
@@ -270,39 +171,6 @@ class AsyncElectricity:
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
     async def vend_electricity_via_a_sub_account(self, sub_account_id: str, *, disco: object | None = None, merchant_tx_ref: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, meter_type: object | None = None, **extra: object) -> _models.VendElectricityViaASubAccountResponse:
-        """
-        Vend electricity via a specific account
-
-        **Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/electricity/{subAccountId}` instead.
-
-        Body fields:
-            disco: 
-            merchantTxRef: This is an idempotency key and must be unique per transaction.
-            payerName: 
-            amount: 
-            customerId: 
-            meterType: 
-        """
-        path = f"/v1/bill/electricity/{sub_account_id}"
-        params = None
-        body: dict[str, object] = {}
-        if disco is not None:
-            body["disco"] = disco
-        if merchant_tx_ref is not None:
-            body["merchantTxRef"] = merchant_tx_ref
-        if payer_name is not None:
-            body["payerName"] = payer_name
-        if amount is not None:
-            body["amount"] = amount
-        if customer_id is not None:
-            body["customerId"] = customer_id
-        if meter_type is not None:
-            body["meterType"] = meter_type
-        body.update(extra)
-        validate_body("post", "/v1/bill/electricity/{subAccountId}", body)
-        return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
-
-    async def vend_electricity_via_a_sub_account_v2(self, sub_account_id: str, *, disco: object | None = None, merchant_tx_ref: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, meter_type: object | None = None, **extra: object) -> _models.VendElectricityViaASubAccountV2Response:
         """
         Vend electricity via sub account
 

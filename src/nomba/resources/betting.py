@@ -43,39 +43,6 @@ class Betting:
         """
         Vend betting via parent account
 
-        **Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/betting` instead.
-
-        Body fields:
-            bettingProvider: 
-            merchantTxRef: This is an idempotency key and must be unique per transaction.
-            phoneNumber: 
-            payerName: 
-            amount: 
-            customerId: 
-        """
-        path = f"/v1/bill/betting"
-        params = None
-        body: dict[str, object] = {}
-        if betting_provider is not None:
-            body["bettingProvider"] = betting_provider
-        if merchant_tx_ref is not None:
-            body["merchantTxRef"] = merchant_tx_ref
-        if phone_number is not None:
-            body["phoneNumber"] = phone_number
-        if payer_name is not None:
-            body["payerName"] = payer_name
-        if amount is not None:
-            body["amount"] = amount
-        if customer_id is not None:
-            body["customerId"] = customer_id
-        body.update(extra)
-        validate_body("post", "/v1/bill/betting", body)
-        return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
-
-    def vend_betting_via_parent_account_v2(self, *, betting_provider: object | None = None, merchant_tx_ref: object | None = None, phone_number: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, **extra: object) -> _models.VendBettingViaParentAccountV2Response:
-        """
-        Vend betting via parent account
-
         You can use this endpoint to vend betting via parent account
 
         Body fields:
@@ -106,39 +73,6 @@ class Betting:
         return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
     def vend_betting_via_a_sub_account(self, sub_account_id: str, *, betting_provider: object | None = None, merchant_tx_ref: object | None = None, phone_number: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, **extra: object) -> _models.VendBettingViaASubAccountResponse:
-        """
-        Vend betting via a specific account
-
-        **Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/betting/{subAccountId}` instead.
-
-        Body fields:
-            bettingProvider: 
-            merchantTxRef: This is an idempotency key and must be unique per transaction.
-            phoneNumber: 
-            payerName: 
-            amount: 
-            customerId: 
-        """
-        path = f"/v1/bill/betting/{sub_account_id}"
-        params = None
-        body: dict[str, object] = {}
-        if betting_provider is not None:
-            body["bettingProvider"] = betting_provider
-        if merchant_tx_ref is not None:
-            body["merchantTxRef"] = merchant_tx_ref
-        if phone_number is not None:
-            body["phoneNumber"] = phone_number
-        if payer_name is not None:
-            body["payerName"] = payer_name
-        if amount is not None:
-            body["amount"] = amount
-        if customer_id is not None:
-            body["customerId"] = customer_id
-        body.update(extra)
-        validate_body("post", "/v1/bill/betting/{subAccountId}", body)
-        return self._client.post(path, json=body, params=params)  # type: ignore[return-value]
-
-    def vend_betting_via_a_sub_account_v2(self, sub_account_id: str, *, betting_provider: object | None = None, merchant_tx_ref: object | None = None, phone_number: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, **extra: object) -> _models.VendBettingViaASubAccountV2Response:
         """
         Vend betting via sub account
 
@@ -207,39 +141,6 @@ class AsyncBetting:
         """
         Vend betting via parent account
 
-        **Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/betting` instead.
-
-        Body fields:
-            bettingProvider: 
-            merchantTxRef: This is an idempotency key and must be unique per transaction.
-            phoneNumber: 
-            payerName: 
-            amount: 
-            customerId: 
-        """
-        path = f"/v1/bill/betting"
-        params = None
-        body: dict[str, object] = {}
-        if betting_provider is not None:
-            body["bettingProvider"] = betting_provider
-        if merchant_tx_ref is not None:
-            body["merchantTxRef"] = merchant_tx_ref
-        if phone_number is not None:
-            body["phoneNumber"] = phone_number
-        if payer_name is not None:
-            body["payerName"] = payer_name
-        if amount is not None:
-            body["amount"] = amount
-        if customer_id is not None:
-            body["customerId"] = customer_id
-        body.update(extra)
-        validate_body("post", "/v1/bill/betting", body)
-        return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
-
-    async def vend_betting_via_parent_account_v2(self, *, betting_provider: object | None = None, merchant_tx_ref: object | None = None, phone_number: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, **extra: object) -> _models.VendBettingViaParentAccountV2Response:
-        """
-        Vend betting via parent account
-
         You can use this endpoint to vend betting via parent account
 
         Body fields:
@@ -270,39 +171,6 @@ class AsyncBetting:
         return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
 
     async def vend_betting_via_a_sub_account(self, sub_account_id: str, *, betting_provider: object | None = None, merchant_tx_ref: object | None = None, phone_number: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, **extra: object) -> _models.VendBettingViaASubAccountResponse:
-        """
-        Vend betting via a specific account
-
-        **Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/betting/{subAccountId}` instead.
-
-        Body fields:
-            bettingProvider: 
-            merchantTxRef: This is an idempotency key and must be unique per transaction.
-            phoneNumber: 
-            payerName: 
-            amount: 
-            customerId: 
-        """
-        path = f"/v1/bill/betting/{sub_account_id}"
-        params = None
-        body: dict[str, object] = {}
-        if betting_provider is not None:
-            body["bettingProvider"] = betting_provider
-        if merchant_tx_ref is not None:
-            body["merchantTxRef"] = merchant_tx_ref
-        if phone_number is not None:
-            body["phoneNumber"] = phone_number
-        if payer_name is not None:
-            body["payerName"] = payer_name
-        if amount is not None:
-            body["amount"] = amount
-        if customer_id is not None:
-            body["customerId"] = customer_id
-        body.update(extra)
-        validate_body("post", "/v1/bill/betting/{subAccountId}", body)
-        return await self._client.post(path, json=body, params=params)  # type: ignore[return-value]
-
-    async def vend_betting_via_a_sub_account_v2(self, sub_account_id: str, *, betting_provider: object | None = None, merchant_tx_ref: object | None = None, phone_number: object | None = None, payer_name: object | None = None, amount: object | None = None, customer_id: object | None = None, **extra: object) -> _models.VendBettingViaASubAccountV2Response:
         """
         Vend betting via sub account
 

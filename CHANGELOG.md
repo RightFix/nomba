@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2026-10-15
+
+### Removed — BREAKING
+- Removed all 11 endpoints Nomba flags `deprecated` (no longer usable
+  upstream): the v1 bill-vend calls (`make_airtime_purchases_*`,
+  `vend_data_bundles_*`, `vend_electricity_*`,
+  `cable_tv_subscription_*`, `vend_betting_*` against `/v1/bill/...`) and
+  the v1 `electricity_customer_lookup` (`GET /v1/bill/electricity/lookup`).
+- The v2 replacements take the plain method names (no `*_v2` suffix):
+  `make_airtime_purchases_via_parent_account` → `POST /v2/bill/topup`,
+  `vend_data_bundles_*` → `/v2/bill/data*`,
+  `vend_electricity_*` → `/v2/bill/electricity*`,
+  `cable_tv_subscription_*` → `/v2/bill/cabletv*`,
+  `vend_betting_*` → `/v2/bill/betting*`,
+  `electricity_customer_lookup` → `GET /v2/bill/electricity/lookup`.
+  Same signatures, new paths. Response models renamed to match
+  (`...V2Response` → `...Response`).
+
+### Added
+- New `cabletv.fetch_cable_tv_plans` (`GET /v1/bill/cableTvProduct`,
+  required `cable_tv_type`: dstv/gotv/startimes/showmax).
+- Generator now skips `deprecated: true` operations automatically and maps
+  the new `Cable & Bill Payments` tag to the `cabletv` module.
+
 ## [0.4.0] - 2026-10-06
 
 ### Added

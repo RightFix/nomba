@@ -20,6 +20,7 @@ TAG_TO_MODULE = {
     "Transactions": "transactions",
     "Airtime and Data Vending": "airtime_data",
     "CableTV Subscription": "cabletv",
+    "Cable & Bill Payments": "cabletv",
     "Electricity Vending": "electricity",
     "Direct Debits": "direct_debits",
     "Global Collections": "global_collections",
@@ -36,6 +37,7 @@ TAG_TO_CLASS = {
     "Transactions": "Transactions",
     "Airtime and Data Vending": "AirtimeData",
     "CableTV Subscription": "CableTv",
+    "Cable & Bill Payments": "CableTv",
     "Electricity Vending": "Electricity",
     "Direct Debits": "DirectDebits",
     "Global Collections": "GlobalCollections",
@@ -88,6 +90,10 @@ def infer_tag_from_path(path: str) -> str | None:
 
 
 def build_operation(spec, path, verb, op):
+    # Deprecated endpoints are no longer usable upstream — exclude them from
+    # the SDK entirely instead of generating dead methods.
+    if op.get("deprecated") is True:
+        return None
     tag = op.get("tags", [None])[0]
     if tag is None:
         tag = infer_tag_from_path(path)
@@ -96,6 +102,11 @@ def build_operation(spec, path, verb, op):
         return None
 
     op_id = op.get("operationId") or op.get("summary") or f"{verb}_{path}"
+    # Nomba's v2 replacements carry a trailing " v2" / "_V2" (e.g. "Vend data
+    # bundles via parent account v2", "ELECTRICITY_CUSTOMER_LOOKUP_V2"). The
+    # deprecated v1 originals are skipped above, so the base name is free —
+    # use it for a stable public name instead of a `_v2` suffix.
+    op_id = re.sub(r"[\s_]+v2$", "", op_id, flags=re.IGNORECASE)
     method_name = snake(op_id)
 
     path_params = []
@@ -407,6 +418,12 @@ def main():
             built = build_operation(spec, path, verb, op)
             if built is None:
                 continue
+            if any(o["method_name"] == built["method_name"] for o in by_module[built["module"]]):
+                raise SystemExit(
+                    f"duplicate method name {built['method_name']!r} in module "
+                    f"{built['module']!r} ({verb.upper()} {path}) — refusing to "
+                    "overwrite. Disambiguate the operationId mapping."
+                )
             by_module[built["module"]].append(built)
             class_by_module[built["module"]] = built["class_tag"]
             if built["model_class"] and built["model_class"] not in seen_model_classes:
