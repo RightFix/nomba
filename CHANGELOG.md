@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.1] - 2026-11-23
+
+### Added
+- **Virtual accounts:** `simulate_inflow` (`POST /v1/accounts/virtual/{identifier}/simulate-inflow`, sandbox only) and `callback_url`/`mode` (`SIMULATED`|`LIVE`) on virtual-account create methods.
+- Bundled OpenAPI spec synced to live Nomba docs (103 paths, 116 schemas).
+
+### Fixed
+- Tokenized card models aligned to live spec (`tokenExpiryDate`, updated charge/update/delete/list response shapes).
+
 ## [0.5.0] - 2026-10-15
 
 ### Removed — BREAKING

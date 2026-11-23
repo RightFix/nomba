@@ -147,6 +147,7 @@ class CreateVirtualAccountData(TypedDict, total=False):
     callbackUrl: str
     expired: bool
     restrictInflowToAccountName: bool
+    mode: str
 
 class CreateVirtualAccountResponse(TypedDict, total=False):
     code: str
@@ -167,6 +168,7 @@ class CreateVirtualAccountForASubAccountData(TypedDict, total=False):
     callbackUrl: str
     expired: bool
     restrictInflowToAccountName: bool
+    mode: str
 
 class CreateVirtualAccountForASubAccountResponse(TypedDict, total=False):
     code: str
@@ -189,6 +191,21 @@ class UpdateAVirtualAccountResponse(TypedDict, total=False):
     code: str
     description: str
     data: UpdateAVirtualAccountData
+
+class SimulateInflowData(TypedDict, total=False):
+    status: str
+    responseCode: str
+    reason: str
+    transactionRef: str
+    sessionId: str
+    accountNumber: str
+    accountRef: str
+    amount: str
+
+class SimulateInflowResponse(TypedDict, total=False):
+    code: str
+    description: str
+    data: SimulateInflowData
 
 class FetchAVirtualAccountData(TypedDict, total=False):
     createdAt: str
@@ -225,9 +242,20 @@ class CreateAnOnlineCheckoutOrderResponse(TypedDict, total=False):
     description: str
     data: CreateAnOnlineCheckoutOrderData
 
+class TokenizedCardData(TypedDict, total=False):
+    tokenKey: str
+    customerEmail: str
+    cardType: str
+    cardPan: str
+    tokenExpiryDate: str
+
 class ChargeCustomerWithTokenizedCardDataData(TypedDict, total=False):
     status: bool
     message: str
+    orderId: str
+    orderReference: str
+    otpRequired: bool
+    transactionId: str
 
 class ChargeCustomerWithTokenizedCardDataResponse(TypedDict, total=False):
     code: str
@@ -235,8 +263,9 @@ class ChargeCustomerWithTokenizedCardDataResponse(TypedDict, total=False):
     data: ChargeCustomerWithTokenizedCardDataData
 
 class ListAllTokenizedCardsForMerchantData(TypedDict, total=False):
-    nextPage: str
-    tokenizedCardDataList: list[dict[str, Any]]
+    hasNextPage: bool
+    nextPage: int
+    tokenizedCardDataList: list[TokenizedCardData]
 
 class ListAllTokenizedCardsForMerchantResponse(TypedDict, total=False):
     code: str
@@ -246,7 +275,7 @@ class ListAllTokenizedCardsForMerchantResponse(TypedDict, total=False):
 class UpdateTokenizedCardDataData(TypedDict, total=False):
     status: bool
     message: str
-    tokenizedCardData: Any
+    tokenizedCardData: TokenizedCardData
 
 class UpdateTokenizedCardDataResponse(TypedDict, total=False):
     code: str
